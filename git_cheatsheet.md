@@ -59,9 +59,6 @@ git rm FILE_NAME            # deletes FILE_NAME
 git branch -d BRANCH_NAME   # deletes the branch
 ```
 
-## uncompleted changes
-
-
 ### Remote projects
 
 on a root directory , we use command `clone` to clone a remote project localy
@@ -127,6 +124,7 @@ now we can see the output like this:
 # uid                 [ultimate] Mohamad Ali <mrht74@yahoo.com>
 # ssb   rsa3072/xxxxxxxxxxxxxxxx 2018-07-24 [E] [expires: 2020-07-23]
 ```
+
 uniqe key code is after `/` on `sec rsa3072` part which is `xxxxxxxxxxxxxxxx` here
 now we should set git secret key
 
