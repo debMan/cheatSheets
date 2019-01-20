@@ -157,3 +157,5 @@ git bosect start
 git bisect bad
 git bisect goof COCMMIT_HASH
 ```
+
+_**Note:**_ This document is completeing ongoing.
