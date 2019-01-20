@@ -50,23 +50,31 @@ git branch NEW_BRANCH       # creates NEW_BRANCH
 git checkout NEW_BRANCH     # change working branch to NEW_BRANCH
 ```
 
-commands to merge: 
-
 on master branch :
+
 ``` bash
 git checkout master
 git merge NEW_BRANCH        # merges NEW_BRANCH to master
 git rm FILE_NAME            # deletes FILE_NAME 
 git branch -d BRANCH_NAME   # deletes the branch
 ```
-## uncompleted changes
-```
-# on parent directory : cd ..
-git clone ADDR              # clone repo from server by ADDR
-# after cloning, our local project is origin/master
-# any change is ahead of origin
-# after changes and commits, we will push on origin
 
+## uncompleted changes
+
+
+### Remote projects
+
+on a root directory , we use command `clone` to clone a remote project localy
+
+``` bash
+git clone ADDR              # clone repo from server by ADDR
+```
+
+after cloning, our local project is origin/master
+any change is ahead of origin
+after changes and commits, we will push on origin
+
+``` bash
 git push origin master      # push on origin from my local master
 # if we add -u after push, on next push we don't need origin master keywords
 git pull origin master      # pull from origin on my local master
@@ -74,11 +82,17 @@ git pull origin master      # pull from origin on my local master
 # if a project has not a remote, we couldn't push or pull
 git remote add origin ADDR  # create origin on ADDR for current git repo
 git remote -v               # shows remote info
-# after adding remote we can use push or pull
-# a project could have several remotes
+```
+after adding remote we can use push or pull
+a project could have several remotes
+
+### Go deeper
+
+``` bash
 git show COMMIT_HASH        # shows details of commit with hash COMMIT_HASH
 git tag                     # shows tags of project
-git tag -a v2.0 -m "MSG"    # adds tag v2.0 with message MSG on current state of master
+git tag -a v2.0 -m "MSG"    
+# adds tag v2.0 with message MSG on current state of master
 git tag -a v1.8  COMMIT_HASH -m "MSG"
 # adds tag v1.8 on COMMIT_HASH with message MSG 
 # this is useful to add older versions
@@ -89,39 +103,59 @@ git show v1.8               # shows info about tag v1.8
 # we should push or pull tags manualy
 git push origin v1.8        # push v1.8 on origin
 git push origin --tags      # push all tags on origin
-git checkout v1.8           # checkouts v1.8 , but NOT like branches, its just a tag !!!!
+git checkout v1.8           
+# checkouts v1.8 , but NOT like branches, its just a tag !!!!
+```
+### Sign projects
 
-# we could sign our commits by gpg
+we could sign our commits by gpg
+
+``` bash
 gpg --list-keys             # list all of my keys
 gpg --gen-key               # generate a key for me
 # after create key we use this to obtain our key to use in git
 gpg --list-secret-keys --keyid-format LONG 
+```
 
+now we can see the output like this: 
+
+``` bash
 # /home/mrht74/.gnupg/pubring.kbx
 # -------------------------------
-# sec   rsa3072/AEF8207ACC3DEBCF 2018-07-24 [SC] [expires: 2020-07-23]
-#       6A258D40504BCC7281A65DC5AEF8207ACC3DEBCF
-# uid                 [ultimate] Mohamad Ali Rezaie <mrht74@yahoo.com>
-# ssb   rsa3072/739C3BEEBA0F96AC 2018-07-24 [E] [expires: 2020-07-23]
+# sec   rsa3072/xxxxxxxxxxxxxxxx 2018-07-24 [SC] [expires: 2020-07-23]
+#       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# uid                 [ultimate] Mohamad Ali <mrht74@yahoo.com>
+# ssb   rsa3072/xxxxxxxxxxxxxxxx 2018-07-24 [E] [expires: 2020-07-23]
+```
+uniqe key code is after `/` on `sec rsa3072` part which is `xxxxxxxxxxxxxxxx` here
+now we should set git secret key
 
-# uniqe key code is after / on sec rsa3072 part which is AEF8207ACC3DEBCF here
-# now we should set git secret key
-git config --global user.signingkey AEF8207ACC3DEBCF
+``` bash
+git config --global user.signingkey xxxxxxxxxxxxxxxx
 
-git tag -s v2.1 -m "this is signed tag
+git tag -s v2.1 -m "this is signed tag"
 # in this line -s signs the tag with my gpg key
 git show v2.1               # shows v2.1 tag which has pgp signed string
 git tag -v v2.1             # -v means verify this tag
 git commit -S -m "MSG"      # commit with signed gpg key
+```
 
-# blame fins writer of code and time
+### Blame
+
+blame finds writer of code and time
+
+``` bash
 git blame FILE_NAME -L4     # shows history of changes on line 4 of FILE_NAME and who changed them
 git blame FILE_NAME -L4,9   # shows last changes on line 4 to 9 of FILE_NAME and who changed them
 git blame FILE_NAME         # shows last changes on any line of FILE_NAME and who changed them
+```
 
-# bisect proccess , which finds the best commit to debug the program
+### Bisect
+
+bisect proccess , which finds the best commit to debug the program
+
+``` bash
 git bosect start
 git bisect bad
 git bisect goof COCMMIT_HASH
 ```
-
