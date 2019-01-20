@@ -39,6 +39,8 @@ git checkout -- FILE
 # revert any chages on FILE to last commit (HEAD) to solve problem
 ```
 
+### Branches
+
 **TIP:** main branch named `master` in git
 branches is important part of git
 
@@ -48,12 +50,17 @@ git branch NEW_BRANCH       # creates NEW_BRANCH
 git checkout NEW_BRANCH     # change working branch to NEW_BRANCH
 ```
 
-# on master branch : git checkout master
+commands to merge: 
+
+on master branch :
+``` bash
+git checkout master
 git merge NEW_BRANCH        # merges NEW_BRANCH to master
 git rm FILE_NAME            # deletes FILE_NAME 
-
 git branch -d BRANCH_NAME   # deletes the branch
-
+```
+## uncompleted changes
+```
 # on parent directory : cd ..
 git clone ADDR              # clone repo from server by ADDR
 # after cloning, our local project is origin/master
@@ -116,10 +123,5 @@ git blame FILE_NAME         # shows last changes on any line of FILE_NAME and wh
 git bosect start
 git bisect bad
 git bisect goof COCMMIT_HASH
+```
 
-
-
-
-
-
- 
