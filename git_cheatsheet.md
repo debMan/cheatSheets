@@ -158,6 +158,7 @@ git bisect bad
 git bisect goof COCMMIT_HASH
 ```
 
+<<<<<<< HEAD
 
 _**Note:**_ This document is completeing ongoing.
 
@@ -166,3 +167,6 @@ You can check [here](https://medium.com/@sauvik_dolui/a-few-git-tricks-tips-b680
 And a [document](https://gist.github.com/rvl/c3f156e117e22a25f242) for pushing to multiple repos.
 
 
+=======
+_**Note:**_ This document is completeing ongoing.
+>>>>>>> 9ba1c68e87168732f667bd81de26162a5b1b5781
