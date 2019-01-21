@@ -158,4 +158,8 @@ git bisect bad
 git bisect goof COCMMIT_HASH
 ```
 
+
 _**Note:**_ This document is completeing ongoing.
+
+### References:
+You can check [here](https://medium.com/@sauvik_dolui/a-few-git-tricks-tips-b680c3968a9b)
