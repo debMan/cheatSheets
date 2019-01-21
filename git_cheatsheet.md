@@ -162,4 +162,7 @@ git bisect goof COCMMIT_HASH
 _**Note:**_ This document is completeing ongoing.
 
 ### References:
-You can check [here](https://medium.com/@sauvik_dolui/a-few-git-tricks-tips-b680c3968a9b)
+You can check [here](https://medium.com/@sauvik_dolui/a-few-git-tricks-tips-b680c3968a9b) for more info about git.
+And a [document](https://gist.github.com/rvl/c3f156e117e22a25f242) for pushing to multiple repos.
+
+
