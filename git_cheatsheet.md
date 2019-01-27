@@ -1,6 +1,6 @@
 # Git Cheatsheet
 
-This is my personal **git** cheatsheet
+This is my personal **git** cheatsheet.
 
 ### Basic commands
 
