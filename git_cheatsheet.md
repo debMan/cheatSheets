@@ -105,11 +105,11 @@ git checkout v1.8
 ```
 ### Sign projects
 
-we could sign our commits by gpg
+we could sign our commits by gpg. Your GPG key must use `RSA` with a key size of `4096` bits
 
 ``` bash
-gpg --list-keys             # list all of my keys
-gpg --gen-key               # generate a key for me
+gpg --full-generate-key               # generate a key for me
+gpg --list-keys                       # list all of my keys
 # after create key we use this to obtain our key to use in git
 gpg --list-secret-keys --keyid-format LONG 
 ```
@@ -130,6 +130,11 @@ now we should set git secret key
 
 ``` bash
 git config --global user.signingkey xxxxxxxxxxxxxxxx
+git config --global commit.gpgsign true  #sign by default any repo
+
+# to add gpg key to github we should use :
+gpg --armor --export xxxxxxxxxxxxxxxx
+# then copy the output on github 
 
 git tag -s v2.1 -m "this is signed tag"
 # in this line -s signs the tag with my gpg key
