@@ -131,10 +131,14 @@ now we should set git secret key
 ``` bash
 git config --global user.signingkey xxxxxxxxxxxxxxxx
 git config --global commit.gpgsign true  #sign by default any repo
+test -r ~/.bash_profile && echo 'export GPG_TTY=$(tty)' >> ~/.bash_profile
+echo 'export GPG_TTY=$(tty)' >> ~/.profile
 
 # to add gpg key to github we should use :
 gpg --armor --export xxxxxxxxxxxxxxxx
 # then copy the output on github 
+
+
 
 git tag -s v2.1 -m "this is signed tag"
 # in this line -s signs the tag with my gpg key
