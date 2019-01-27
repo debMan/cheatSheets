@@ -42,7 +42,7 @@ git checkout -- FILE
 ### Branches
 
 **TIP:** main branch named `master` in git
-branches is important part of git
+branches is important part of git.
 
 ```bash
 git branch                  # shows all branches
