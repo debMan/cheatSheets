@@ -1,3 +1,8 @@
+#LPIC1: A simple personal handbook
+
+All of this document is temporary created and should be edited
+
+```
 shell variables
 ----------------
 export				    -> export a VAR to sub shels and sob processe
@@ -1017,6 +1022,6 @@ cmatric
 toilet
 echo "SALAM" | toilet | lolcat
 
-
 ----------------
 
+```
