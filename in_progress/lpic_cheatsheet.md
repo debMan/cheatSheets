@@ -845,23 +845,23 @@ regex
 # | means or
 # ( uses for sub pattern)
 
-grep -E                             -> grep with extended regex
-egrep                               -> grep with extended regex
-egrep ^s                            -> grep string starting with s
-egrep d$                            -> grep string ending to d
-egrep ^.$                           -> grep string any SINGLE char
-egrep ^F.$                          -> any dual char string with first char = F
-egrep ^F[0123456789]$               -> match only with F1,F2,F3,...F9,F0
-egrep "^F[0-9]$"                    -> match only with F1,F2,F3,...F9,F0
-egrep "^[FX][0-9]{4}$"              -> any string starting with F or X, with 4 numbers afer that
-egrep "^aaa$" = "^a{3}$"            -> these are equal
-egrep "^z{2,5}$"                    -> matchs to zz or zzzz or zzzz or zzzzz
-egrep "^5a*5$"                      -> matches to 55, 5a5, 5aa5, 5aaa5, ...
-egrep "^5a+5$"                      -> matches to 5a5, 5aa5, 5aaa5, 5aaaa5, ...
-egrep "^5a?5$"                      -> matches to 55 and 5a5
-egrep "^a[^0-9]*a$"                 -> matches with aa, a[anything is not char]*a
-egrep "^(ahmad|nima)$"              -> matches only to nima or ahmad
-egrep "^(s[0-9]{2}|xff)[0-9]{4}$"   -> matches with s###### or xff#### (# means a number)
+grep -E                             # grep with extended regex
+egrep                               # grep with extended regex
+egrep ^s                            # grep string starting with s
+egrep d$                            # grep string ending to d
+egrep ^.$                           # grep string any SINGLE char
+egrep ^F.$                          # any dual char string with first char = F
+egrep ^F[0123456789]$               # match only with F1,F2,F3,...F9,F0
+egrep "^F[0-9]$"                    # match only with F1,F2,F3,...F9,F0
+egrep "^[FX][0-9]{4}$"              # any string starting with F or X, with 4 numbers afer that
+egrep "^aaa$" = "^a{3}$"            # these are equal
+egrep "^z{2,5}$"                    # matchs to zz or zzzz or zzzz or zzzzz
+egrep "^5a*5$"                      # matches to 55, 5a5, 5aa5, 5aaa5, ...
+egrep "^5a+5$"                      # matches to 5a5, 5aa5, 5aaa5, 5aaaa5, ...
+egrep "^5a?5$"                      # matches to 55 and 5a5
+egrep "^a[^0-9]*a$"                 # matches with aa, a[anything is not char]*a
+egrep "^(ahmad|nima)$"              # matches only to nima or ahmad
+egrep "^(s[0-9]{2}|xff)[0-9]{4}$"   # matches with s###### or xff#### (# means a number)
 
 # in find command , it has ^ and $ by default
 # Example:
