@@ -1,4 +1,4 @@
-#LPIC1: A simple personal handbook
+# LPIC1: A simple personal handbook
 
 All of this document is temporary created and should be edited
 
