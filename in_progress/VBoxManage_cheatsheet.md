@@ -1,6 +1,6 @@
 VBoxManage: A simple personal guide
 
-_**NOTE: **_ This document is not completed
+_**NOTE:**_ This document is not completed
 ```
 VBoxManage list ostypes  
 VBoxManage list vms  
