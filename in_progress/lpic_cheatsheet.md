@@ -815,7 +815,6 @@ dmesg                               # all the messages from the kernel’s buffe
 #### impoetant logs:
 
 * `/var/log/messages` (RHEL)  -  `/var/log/syslog` (DEB) 
-
  - This log file contains generic system activity logs.
  - It is mainly used to store informational and non-critical system messages.
  - non-kernel boot errors, application-related service errors, messages logged
@@ -823,60 +822,48 @@ dmesg                               # all the messages from the kernel’s buffe
  - first log file to check on any problem
  
 * `/var/log/auth.log` (DEB)  -  `/var/log/secure` (RHEL)
-
  - authentication related events in Debian
  - failed login attempts
  - All user authentication events are logged at /var/log/secure
 
 * `/var/log/boot.log`
-
  - system initialization script, /etc/init.d/bootmisc.sh, sends all bootup messages to this log file
  - Can also be useful to determine the duration of system downtime caused by an unexpected shutdown.
  - issues related to improper shutdown, unplanned reboots or booting failures
 
 * `/var/log/dmesg` (RHEL)
-
  - Kernel ring buffer messages, Information related to hardware devices and their drivers
  - useful for dedicated server customers mostly
 
 * `/var/log/kern.log`
-
  - logged by kernel, troubleshooting kernel related errors
 
 * `/var/log/apt/history.log`
-
  - package installation and removal information 
 
 * `/var/log/apport.log`
-
  - saves information about crashes
 
 * `/var/log/installer`
-
  - created during installation
  
 * `/var/log/dist-upgrade/apt.log`
-
  - information during distribution upgrades
 
 * `/var/log/dpkg.log`
-
  - low level details of package install and remove with dpkg
 
 * `/var/log/Xorg.log`
-
  - information of the graphics driver, its failures, warnings etc
 
 * `/var/log/faillog`
 * `/var/log/cron`
 * `/var/log/yum.log`
 * `/var/log/mail.log`  -  `/var/log/maillog`
-
  - information about postfix, smtpd, MailScanner, SpamAssassain or any other
    email related services
 
 * ` /var/log/httpd/`
-
  - Apache serverlogs , main logs are: error_log and access_log.
  - All access requests received over HTTP are stored in the access_log file.
  - Logs the IP address and user ID of all clients that make connection requests
@@ -1007,11 +994,12 @@ SCORE INT
 DESCRIBE students       
 -- draw table structre
 INSERT INTO students (FN,LN,GENDER,SCORE) VALUES ('Ali','Sadeghi','M',90)
-INSERT INTO students (FN,LN,GENDER,SCORE) VALUES ('Azar','Hosseini',FM',95)
+INSERT INTO students (FN,LN,GENDER,SCORE) VALUES ('Azar','Hosseini','F',95)
 
 SELECT * FROM students 
 SELECT FN,LN FROM students;
-SELECT CONCAT( IF(GENDER='F','Ms. ','Mr. ') , FN,' ',LN) AS FULL_NAME , SCORE FROM students
+SELECT CONCAT( IF(GENDER='F','Ms. ','Mr. ') , FN,' ',LN) AS FULL_NAME , SCORE 
+FROM students
 
 UPDATE students SET SCORE=94 WHERE ID = 2
 DELETE FROM students WHERE ID = 1
@@ -1084,7 +1072,7 @@ ssh-copy-id mrht74@IP
 ``` bash
 # cat .ssh/config 			
 ```
-10. set webmin (www.webmin.com)
+10. set webmin [Click here](www.webmin.com)
 11. Set up a firewall
 12. Backup your server
 13. Set up monitoring
