@@ -179,6 +179,16 @@ underneath the bullet point, and it must be indented by at least one space
 
  For more help on tomato slicing, see Thomas Jefferson's seminal essay _Tom Ate Those_.
 ```
+#### Checklists:
+
+Also checklists are available:
+
+``` markdown
+- [x] check 1
+- [x] checl 2
+- [ ] check 3
+- [ ] check 4
+```
 
 ### Paragraphs
 
