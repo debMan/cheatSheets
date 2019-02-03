@@ -1,6 +1,10 @@
-VBoxManage list ostypes
-VBoxManage list vms
-VBoxManage list runningvms
+VBoxManage: A simple personal guide
+
+_**NOTE:**_ This document is not completed
+```
+VBoxManage list ostypes  
+VBoxManage list vms  
+VBoxManage list runningvms  
 VBoxManage startvm test
 VBoxManage controlvm test poweroff
 VBoxManage unregister test --delete
@@ -33,3 +37,4 @@ VBoxManage controlvm test  nic2 hostonly
 
 for more detailes [click here](https://www.golinuxhub.com/2017/08/how-to-configure-different-types-of.html)
 for more detailes [click here](https://technology.amis.nl/2018/07/27/virtualbox-networking-explained/#prettyPhoto)
+```
