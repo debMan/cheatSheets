@@ -1,6 +1,6 @@
 # LPIC1: A simple personal handbook
 
-All of this document is temporary created and should be edited
+_**Note:**_ All of this document is temporary created and should be edited
 
 ### shell variables
 
@@ -13,8 +13,9 @@ env VAR=value cmd 		# Run cmd with new value of VAR
 echo $?                 # returns exit status code of last command
 ```
 
-shell I/O
-----------------
+### shell I/O
+
+``` bash
 cat 				# prints a file to stdout
 cat -b              # prints non-blank numbered lines
 cut -d <seprator> -f <col NO> /etc/passwd
@@ -31,22 +32,23 @@ wc 					# print newline, word, and byte counts from std input or file (-l , -c, 
 grep -i				# find something from std input or file (-i for ignore case)
 uniq                # report or omit repeated lines
 tr                  # Translate, squeeze, and/or delete characters from standard input
-Example
-➜ sort < temp.txt | uniq -c | sort -nr
-  5 mina
-  3 ali
-  2 sara
-  2 reza
-  2 keyvan
-  1 jafar
+
+# Example
+# $ sort < temp.txt | uniq -c | sort -nr
+#  5 mina
+#  3 ali
+#  2 sara
+#  2 reza
+#  2 keyvan
+#  1 jafar
 
 sed 's/old/new/'    # it replaces first old word of each line wiith new like vim 
 sed 's/old/new/g'   # it replaces globaly
 sed -E 's/old/new/' # it support regex
-
+```
 
 ### shell 
-----------------
+
 ``` bash
 # dir starting with / called absulute and without / called relative
 # file namein linux is consist of full path (dirname + basename)
@@ -78,20 +80,22 @@ pwd                 # returns current dir
 touch               # create file or update access time of file
 gpg -c FILE         # encrypt file
 gpg FILE.gpg        # decrypt file
-ssh username@host  -p1234 
+ssh <username>@<host>  -p1234 
 scp SOURCE_FILE user@host:DEST_FILE
 ```
 
-expansion
-----------------	
+### expansion
+
+```
 *					# anything with any length
 ?					# anything with static kength in number of ? signs
 []					# anything with one of chars in []
 {}					# all of args in {}
+```
 
+### find
 
-find
-----------------
+``` bash
 find . -iname foo\* 				# find NOT case sensative starting with foo files
 find . -type d,l,f  				# find directorys , links and files
 find . -size +1k    				# size of result is > 1kB
@@ -102,10 +106,11 @@ find . -type f -inum 123456			# find files with Inode number
 #	-amin,	-cmin,	-mmin  # acces , change , modif fime bye minute
 # find . -amine -4  				# files has acces time less than 4 minutes
 # find . -regex                     # find with regex pattern
+```
 
+### partitioning
 
-partitioning
-----------------
+``` bash
 fdisk								# partitioning tool for MBR
 gdisk								# partitioning tool for GPT
 #cmds : p , l L , m ? , n , 
@@ -124,17 +129,20 @@ cat /etc/fstab						# auto mounting config file
 Example : 
 # /dev/sda4    /media/mrht74/c    auto    defaults,rw,users    0    0
 # the above line points that any user can mount
+```
 
+### user management
 
-user management
-----------------
+``` bash
 # /etc/group							# groups db
 # groupname:x:gid:users joined this group
 groupadd new
 groupdel new
 groupmod -g [gid] -n[name]
 #groupmod -go [gid] -n[name] 		# overwrite gid
-#................
+
+# ...............
+
 # /etc/passwd							# users db
 # username:x:uid:primary_gid:details:$HOME_addr:shell_name
 # we could disable user from logging in by setting shell_name to another program
@@ -155,44 +163,47 @@ userdel -r 							# delete user with its Home folder
 # /etc/shadow							# passwords db
 # username:pass:
 # pass field types:
-	user::							# user without pass
-	user:!:							# disabled account
-	user:*:							# disabled account
-	user:!_ENCRYPTED_PASS_:			# dissable account temporary  , it wil chage with usermod -L -U
-	user:djnaskdbajdshbjasdh_ENCRYPTED_PASS_djhsbajhbdajdhbajd:
-
+#	user::							# user without pass
+#	user:!:							# disabled account
+#	user:*:							# disabled account
+#	user:!_ENCRYPTED_PASS_:			# dissable account temporary  , it wil chage with usermod -L -U
+#	user:djnaskdbajdshbjasdh_ENCRYPTED_PASS_djhsbajhbdajdhbajd:
+#
 passwd user_name					# change password for username
 
 # IMPORTANT #
-└── sudo vs su direct acces , which one ? # at video 
-   └─────────────────────────────────────────────────
+#└── sudo vs su direct acces , which one ? # at video 
+#   └─────────────────────────────────────────────────
 
+```
 
-basic permission
-----------------
+### basic permission
+
+``` bash
 # a file made up from user , group , acces , file
 # access: owner+group+other             # rw-rw---x = 661
 # w acces to folder makes it possible to move and delete ist files
 # each set :
-		---	> 0
-		--x	> 1
-		-w-	> 2
-		-wx	> 3
-		r--	> 4
-		r-x	> 5
-		rw-	> 6
-		rwx	> 7
+#		---	> 0
+#		--x	> 1
+#		-w-	> 2
+#		-wx	> 3
+#		r--	> 4
+#		r-x	> 5
+#		rw-	> 6
+#		rwx	> 7
 
 chown newowner:newgroup  filename	# change file owner:group
 chgrp newgroup filename				# change file group
 chmod 777 filename					# change file access
 chmod g-w filename
 chmod [ugo][+-=][rwx] filename
-#all of 3 commands above can be used with -R switch
+# all of 3 commands above can be used with -R switch
+```
 
+### stickyBit
 
-stickyBit
-----------------
+``` bash
 # applies to folders only
 # it can prevent delete, rename or movev files in folder by useres with same group access
 # /tmp is an example with 777 access and stickybit only
@@ -200,18 +211,19 @@ stickyBit
 #			1 	# --t = SUID +  SGID + stickyBit
 chmod +t file 						# adds stickyBit to file
 
-➜  Desktop ls -l    
-drwxr-xr-x 2 mrht74 mrht74 4096 Jan 22 17:25 new 	# folder access code : 755
-➜  Desktop chmod +t new && ls -l 					# chmod 1755 new
-drwxr-xr-t 2 mrht74 mrht74 4096 Jan 22 17:25 new    $ x changed to t
-➜  Desktop chmod -x new && ls -l 					# chmod 1644 new
-drw-r--r-T 2 mrht74 mrht74 4096 Jan 22 17:25 new    # x changed to T
-➜  Desktop chmod -t new && ls -l 					# chmod 0644 new
-drw-r--r-- 2 mrht74 mrht74 4096 Jan 22 17:25 new    # T changed to -
+# ➜  Desktop ls -l    
+# drwxr-xr-x 2 mrht74 mrht74 4096 Jan 22 17:25 new 	# folder access code : 755
+# ➜  Desktop chmod +t new && ls -l 					# chmod 1755 new
+# drwxr-xr-t 2 mrht74 mrht74 4096 Jan 22 17:25 new    $ x changed to t
+# ➜  Desktop chmod -x new && ls -l 					# chmod 1644 new
+# drw-r--r-T 2 mrht74 mrht74 4096 Jan 22 17:25 new    # x changed to T
+# ➜  Desktop chmod -t new && ls -l 					# chmod 0644 new
+# drw-r--r-- 2 mrht74 mrht74 4096 Jan 22 17:25 new    # T changed to -
+```
 
+### SUID
 
-SUID
-----------------
+``` bash
 # applies to executable files
 # if it SUID set, file will execute by its owner although run by any user
 # /usr/bin/passwd is an example with (4755/-rwsr-xr-x) access
@@ -219,10 +231,11 @@ SUID
 #			4 	# s-- = SUID +  SGID + stickyBit
 # it goes on x place at ls -l , like above , nad switches between s and S if x or -
 chmod u+s filename					# adds SUID to file
+```
 
+### SGID
 
-SGID
-----------------
+``` bash
 # applies to exec files and folders
 # on exec files SGID works like SUID and set runs exec file as its group access
 # on folder if enabled, any files creates on this folder, gets group of folder (not file maker group)
@@ -230,10 +243,11 @@ SGID
 #			2 	# s-- = SUID +  SGID + stickyBit
 # it goes on x place at ls -l , like above , nad switches between s and S if x or -
 chmod g+s filename					# adds SGID to file
+```
 
+### links
 
-links
-----------------
+``` bash
 ln SOURCE DEST 						# crate link to first file inode on target
 # this is hard link not working on directorys and cross partition
 # single file with multi names (dir name + base name), takes unique Inode and disk space
@@ -244,10 +258,11 @@ ln -s SOURCE DST 	 				# crate symbolic link to first file inode on target
 # this is another file from source file , linked to source
 # this is a link from name to another name
 # -d switches make link to directories
+```
 
+### compression & archiving
 
-compression & archiving
-----------------
+``` bash
 # gzip not working on pre-comprssed files preparely, 
 gzip    filename 					# zip wiith d alg filename
 # overwrites new file to old file
@@ -263,20 +278,20 @@ xz -c oldfilename > newfile	 		# zip with b alg filename
 # long time in compression and fast time in decompression
 
 # Example:
-	➜   ls -lh
-	-rwxr-xr-x 1 mrht74 mrht74 33M Jan 23 14:35 test.so
-	➜   time gzip -c test.so > test.so.gz
-	gzip -c test.so > test.so.gz  3.51s user 0.03s system 99% cpu 3.538 total
-	➜   time bzip2 -c test.so > test.so.bz2
-	bzip2 -c test.so > test.so.bz2  6.74s user 0.03s system 99% cpu 6.774 total
-	➜   time xz -c test.so > test.so.xz  
-	ls -lh
-	xz -c test.so > test.so.xz  32.27s user 0.12s system 99% cpu 32.399 total
-	➜   ls -lh
-	-rwxr-xr-x 1 mrht74 mrht74  33M Jan 23 14:35 test.so
-	-rw-rw-r-- 1 mrht74 mrht74  11M Jan 23 14:39 test.so.bz2
-	-rw-rw-r-- 1 mrht74 mrht74  12M Jan 23 14:38 test.so.gz
-	-rw-rw-r-- 1 mrht74 mrht74 8.2M Jan 23 14:40 test.so.xz
+# ➜   ls -lh
+# -rwxr-xr-x 1 mrht74 mrht74 33M Jan 23 14:35 test.so
+# ➜   time gzip -c test.so > test.so.gz
+# gzip -c test.so > test.so.gz  3.51s user 0.03s system 99% cpu 3.538 total
+# ➜   time bzip2 -c test.so > test.so.bz2
+# bzip2 -c test.so > test.so.bz2  6.74s user 0.03s system 99% cpu 6.774 total
+# ➜   time xz -c test.so > test.so.xz  
+# ls -lh
+# xz -c test.so > test.so.xz  32.27s user 0.12s system 99% cpu 32.399 total
+# ➜   ls -lh
+# -rwxr-xr-x 1 mrht74 mrht74  33M Jan 23 14:35 test.so
+# -rw-rw-r-- 1 mrht74 mrht74  11M Jan 23 14:39 test.so.bz2
+# -rw-rw-r-- 1 mrht74 mrht74  12M Jan 23 14:38 test.so.gz
+# -rw-rw-r-- 1 mrht74 mrht74 8.2M Jan 23 14:40 test.so.xz
 
 tar -cvf  OUTPUT_TAR_FILE				# archive files to putput file
 tar -cvzf OUTPUT_TAR_FILE				# archive and compress using gzip files to putput file
@@ -294,13 +309,14 @@ rar x FILE.rar  						# extract file in current directory
 rar x tecmint.rar /des/dir				# extract file in dest directory
 rar a OUT.rar SOURCE 					# create archive from source on out
 # switches: -hp set password for names and content with prompt
-			-p set password for content with prompt
-			-rr[N] set recovery level
-			-v<size>[k|b|f]Create volumes with size=<size>*1000 [*1024, *1]
-
+#			-p set password for content with prompt
+#			-rr[N] set recovery level
+#			-v<size>[k|b|f]Create volumes with size=<size>*1000 [*1024, *1]
+```
 			
-proccess
-----------------
+### proccess
+
+``` bash
 # any proccess made of PID, PPID, Prioty, Owner (user or UID), state, pmem, pcpu, 
 ps 										# shows proccesses on current shell
 ps -e 									# shows entire system proccesses
@@ -348,10 +364,11 @@ ctrl A+D 			# deatach from a screen
 screen -r SCR_NAME  # return to screen
 nohup CMD 			# runs cmd under init ps
 # not advised to use nohup
+```
 
+### packages
 
-packages
-----------------
+``` bash
 # RedHat based packages are .rpm files and Debian based packages are .deb files
 # Alien converts this packages together
 # package naming pattern: package_name-version-release-cpu_arch
@@ -392,7 +409,6 @@ apt show PACKAGE_NAME					# shows more infor about pckage
 apt-cache depends PACKAGE_NAME			# shows dependencys of a PACKAGE_NAME
 apt-cache rdepends PACKAGE_NAME			# shows packages depends to PACKAGE_NAME
 
-
 # yum config file in /etc/yum.conf
 # yum repos are in /etc/yum.repo.d/*.repo
 
@@ -405,13 +421,14 @@ yum search KEY 							# search on yum local cache for KEY
 yum list {all,available} 				# lists {all,not-installed} packages
 yum info PACKAGE_NAME 					# shows more infor about pckage
 # IMPORTANT #
-└── yum config file edit # at video 
-   └────────────────────────────────
+# └── yum config file edit # at video 
+#    └────────────────────────────────
+```
 
+### vim skill
 
-vim skill
-----------------
-# basics
+#### basics
+```
 # by default in command mode
 # i		insert mode
 # v		visual mode
@@ -432,8 +449,10 @@ vim skill
 # :r !CMD	reads the output of the command and puts it below the cursor position
 # :syntax off	turn off syntax highlighting
 # :set nu 	show line numbers (:set nonu to hide line numbers)
+```
 
-# movement
+#### movement
+```
 # Typing a number before a motion repeats it that many times example: 2w, 3e, 
 # h,j,k,l	to move curser by char
 # w,b,e 	to move curser by word
@@ -446,8 +465,10 @@ vim skill
 # gg		jump to first line
 # ctrl + f	page down
 # ctrl + b 	page up
+```
 
-# delete text
+#### delete text
+```
 # x		        delete char under curser like Delete key
 # X		        delete char before curser like back space (shift + x)
 # dw		    delete word from curser until next word
@@ -456,33 +477,43 @@ vim skill
 # dd		    delete current line
 # Number + dd 	delete some lines from current line to down count number
 # dG 		    deletes entire lines below (d + shift+g)
+```
 
-# replace text
+#### replace text
+```
 # r + New_char	replace current char with new_char
 # cw		delete current word and go to insert mode
 # R 		switch to replace mode (shft + r), replace inserted char until esc
+```
 
-# history
+#### history
+```
 # u		undo one step (:undo)
 # U		undo total chages of current line (shift + u)
 # ctrl + r	redo one step (:redo)
+```
 
-# copy, paste
+#### copy, paste
+```
 # yy 		copy current line
 # yw		copy one word,
 # Number + yw	copy Number of words (also can press y+Number+w)
 # Number + yy	copy number of lines below curent curser
 # p 		paste after current line
 # P 		paste befor current line (shift + p)
+```
 
-# visual mode
+#### visual mode
+```
 # all movement keys also work in this mode
 # v		switch to visual mode
 # y 		copy selected text
 # d		copy and delete selected text (cut)
 # :w		after selecting press :w FILENAME to save selected part as new FILENAME
+```
 
-# search and replace
+#### search and replace
+```
 # /WORD			search forward
 # ?WORD			search backward
 # / + enter		jump to next word found (also can press n)
@@ -496,13 +527,14 @@ vim skill
 #	'is' 'incsearch'	show partial matches for a search phrase
 #	'hls' 'hlsearch'	highlight all matching phrases
 #	'no+xxx'		disables xxx option
+```
 
+### hardware and network
 
-hardware and network
----------------
-dig DOMAIN                  # get DNS info for domain
-dig -x host                 # reverse lookup host
-host google.com             # lookup DNS ip address for name
+``` bash
+dig DOMAIN              # get DNS info for domain
+dig -x host             # reverse lookup host
+host google.com         # lookup DNS ip address for name
 sudo netstat -tulpn     # view open ports in ubuntu
 sudo netstat -ntlp 		# like above
 sudo netstat -vatn      # like above
@@ -568,39 +600,42 @@ ifup eth0           # up a network interface with default config in /etc/network
 # permanent ip configs stored on /etc/network/interfaces
 # this file used on ifup eth0
 # Example:
-auto eth0       # this line must add to enable this config on boot
-iface eth0 inet static
-address 192.168.1.20/24 
-gateway 192.168.1.1
-dns-nameservers 4.2.2.4
-up CMD              # run CMD when this interface get UP
-down CMD            # run CMD when this interface come DOWN
+# auto eth0       # this line must add to enable this config on boot
+# iface eth0 inet static
+# address 192.168.1.20/24 
+# gateway 192.168.1.1
+# dns-nameservers 4.2.2.4
+# up CMD              # run CMD when this interface get UP
+# down CMD            # run CMD when this interface come DOWN
 # or we can use DHCP
-iface eth0 inet dhcp 
+i# face eth0 inet dhcp 
 
 # RedHat network script
 # permanent ip configs stored on /etc/sysconfig/network-scripts/ folder
 # there is ifcfg-* files for each interface 
 # on boot any file starting with ifcfg- in this folder loaded, names not important
 # Example:
-DEVICE=eth0
-HWADDR=00:00:00:ff:ff:ff
-TYPE=Ethernet
-UUID=xxxxxxxxxxx
-ONBOOT=yes      # equels to auto eth0 on Debian
-BOOTPROTO=dhcp
-# or we can use static
-BOOTPROTO=none
-IPADDR=192.168.4.37
-PREFIX=24   # or we can use   NETMASK=255.255.255.0
-GATEWAY=192.168.4.1
-DNS1=8.8.4.4
-DNS2=4.2.2.4
-NM_CONTROLLED=yes
+# DEVICE=eth0
+# HWADDR=00:00:00:ff:ff:ff
+# TYPE=Ethernet
+# UUID=xxxxxxxxxxx
+# ONBOOT=yes      # equels to auto eth0 on Debian
+# BOOTPROTO=dhcp
 
+#--or we can use static
 
-boot loader
-----------------
+# BOOTPROTO=none
+# IPADDR=192.168.4.37
+# PREFIX=24   # or we can use   NETMASK=255.255.255.0
+# GATEWAY=192.168.4.1
+# DNS1=8.8.4.4
+# DNS2=4.2.2.4
+# NM_CONTROLLED=yes
+```
+
+### boot loader
+
+``` 
 # Firmware -#> MBR at boot (Master Boot Record )
 # Sector 0 - first 512 bytes of Hard Disk , contains boot loader + PT + Reserved
 # 446 bytes -#> code , 64 bytes -#> PT (Partition Table) , 2 bytes -#> Reserved
@@ -645,10 +680,11 @@ linux /boot/vmlinuz* root=/dev/sda1 # load kernel and add root parameter
 linux /boot/vmlinuz* root=/dev/sda1 ro # loads kernel read only (security option)
 initrd /boot/initrd.img*            # load kernel loading dependencies like ext4,...
 boot                                # start booting
+```
 
+### linux startup
 
-linux startup
-----------------
+``` bash
 # Firmware -#> boot loader -#> kernel -#> initialization process (init)
 # initialization process programs:
 #   systemV (sysV) , system-d, ...
@@ -675,17 +711,18 @@ update-rc.d                         # manage runlevels configs
 chkconfig                           # manage runlevels configs
 chkconfig --list sshd               # shows sshd services status on each runlevel
 chkconfig --level 34 sshd off       # turn off ssh on runlevels 3 and 4
+```
 
+### graphical enviroment
 
-graphical enviroment
-----------------
+``` bash
 # X-Server : controls input and output (display, mouse, keyboard) work on TCP
 # before 2004 linux used X-free 86
 # now using X-org 
 # any graphical app connects to x-server and uses x-libs
 # we name any app connects to x-server as x-client
 # we use widget library codes and widgets connect to x11 lib 
-@ using widget has feateres : 1) coding easier, uniform applications
+# @ using widget has feateres : 1) coding easier, uniform applications
 # widgets like gtk+, Qt, Motif, Xaw, ...
 #
 # window manager is only service connected to x-server
@@ -704,10 +741,11 @@ graphical enviroment
 # we call these projects Desktop Enviroment (DE)
 # gnome, kde, unity are large and high weight
 # xfce and lxde are light weight
+```
 
+### window & desktop sharing
 
-window & desktop sharing
-----------------
+``` bash
 echo $DISPLAY                   # returns display ip and number, default is 127.0.0.1:0
 # by changing this var to another ip we can share applications windows on another machine
 export DISPLAY=192.168.1.3:0.0  # set destination system to display home system windows
@@ -716,8 +754,8 @@ export DISPLAY=192.168.1.3:0.0  # set destination system to display home system 
 # on ubuntu
 vim /etc/lightdm/lightdm.conf.d/my.conf
 # should edit like this
-[SeatDefaults]
-xserver-allow-tcp=true
+# [SeatDefaults]
+# xserver-allow-tcp=true
 # now shuld restart lightdm service
 service lightdm restart         # restart window manager to take effect accepting external windows to display
 # now we should set access control list of destination system's xserver
@@ -734,14 +772,14 @@ ssh -X user@server-ip           # ssh to server allowing xserver forwarding
 # systemctl restart sshd.service
 #
 #
-# total desktop sharing
+# --- total desktop sharing
 #
 # we can use remote desktop with XDMCP by editing display manager config
 # in ubuntuwe can edit /etc/lightdm/lightdm.conf.d/my.conf
-[SeatDefaults]
-xserver-allow-tcp=true
-[XDMCPServer]
-enable=true
+# [SeatDefaults]
+# xserver-allow-tcp=true
+# [XDMCPServer]
+# enable=true
 # now we configed server
 # now restart lightdm service #service lightdm restart
 # on RedHat based client we should install:
@@ -750,10 +788,11 @@ yum install xorg-x11-Xephyr
 apt install xserver-xephyr
 # then we could user this command
 Xephyr -ac -query 192.168.1.2 -br -reset -terminate :2
+```
 
+### logging
 
-logging
-----------------
+``` bash
 # each log has a facility
 # popular facilities: cron, kern, mail, news, syslog, local [0-7], 
 # each log has a priority
@@ -772,66 +811,83 @@ logger -p kern.emerg 'OOrjansi Residegi KON '      # can send logs for test and 
 # we should enable TCP and UDP syslog reception on rsyslog server
 
 dmesg                               # all the messages from the kernel’s buffer
+```
+#### impoetant logs:
 
-# impoetant logs : 
+* `/var/log/messages` (RHEL)  -  `/var/log/syslog` (DEB) 
 
-
- /var/log/messages (RHEL)  -   /var/log/syslog (DEB)
-
-# This log file contains generic system activity logs.
-# It is mainly used to store informational and non-critical system messages.
-# non-kernel boot errors, application-related service errors, messages logged during system startup
-# first log file to check on any problem
+ - This log file contains generic system activity logs.
+ - It is mainly used to store informational and non-critical system messages.
+ - non-kernel boot errors, application-related service errors, messages logged
+   during system startup
+ - first log file to check on any problem
  
- /var/log/auth.log (DEB)  -  /var/log/secure (RHEL)
+* `/var/log/auth.log` (DEB)  -  `/var/log/secure` (RHEL)
 
-# authentication related events in Debian
-# failed login attempts
+ - authentication related events in Debian
+ - failed login attempts
+ - All user authentication events are logged at /var/log/secure
+
+* `/var/log/boot.log`
+
+ - system initialization script, /etc/init.d/bootmisc.sh, sends all bootup messages to this log file
+ - Can also be useful to determine the duration of system downtime caused by an unexpected shutdown.
+ - issues related to improper shutdown, unplanned reboots or booting failures
+
+* `/var/log/dmesg` (RHEL)
+
+ - Kernel ring buffer messages, Information related to hardware devices and their drivers
+ - useful for dedicated server customers mostly
+
+* `/var/log/kern.log`
+
+ - logged by kernel, troubleshooting kernel related errors
+
+* `/var/log/apt/history.log`
+
+ - package installation and removal information 
+
+* `/var/log/apport.log`
+
+ - saves information about crashes
+
+* `/var/log/installer`
+
+ - created during installation
  
-# All user authentication events are logged at /var/log/secure
+* `/var/log/dist-upgrade/apt.log`
 
- /var/log/boot.log 
+ - information during distribution upgrades
 
-# system initialization script, /etc/init.d/bootmisc.sh, sends all bootup messages to this log file
-# Can also be useful to determine the duration of system downtime caused by an unexpected shutdown.
-# issues related to improper shutdown, unplanned reboots or booting failures
+* `/var/log/dpkg.log`
 
- /var/log/dmesg (RHEL)
+ - low level details of package install and remove with dpkg
 
-# Kernel ring buffer messages, Information related to hardware devices and their drivers
-# useful for dedicated server customers mostly
+* `/var/log/Xorg.log`
 
- /var/log/kern.log
+ - information of the graphics driver, its failures, warnings etc
 
-# logged by kernel, troubleshooting kernel related errors
+* `/var/log/faillog`
+* `/var/log/cron`
+* `/var/log/yum.log`
+* `/var/log/mail.log`  -  `/var/log/maillog`
 
- /var/log/apt/history.log
+ - information about postfix, smtpd, MailScanner, SpamAssassain or any other
+   email related services
 
-# package installation and removal information 
+* ` /var/log/httpd/`
 
- /var/log/apport.log                # saves information about crashes
- /var/log/installer                 # created during installation
- /var/log/dist-upgrade/apt.log      # information during distribution upgrades
- /var/log/dpkg.log                  # low level details of package install and remove with dpkg
- /var/log/Xorg.log                  # information of the graphics driver, its failures, warnings etc
+ - Apache serverlogs , main logs are: error_log and access_log.
+ - All access requests received over HTTP are stored in the access_log file.
+ - Logs the IP address and user ID of all clients that make connection requests
+   to the server.
 
- /var/log/faillog
- /var/log/cron
- /var/log/yum.log
- /var/log/mail.log  -  /var/log/maillog
-
-# information about postfix, smtpd, MailScanner, SpamAssassain or any other email related services
-
- /var/log/httpd/  # Apache serverlogs , main logs are: error_log and access_log.
-
-# All access requests received over HTTP are stored in the access_log file.
-# Logs the IP address and user ID of all clients that make connection requests to the server.
-
- /var/log/mysqld.log (RHEL)  -  /var/log/mysql.log (DEB)
+* `/var/log/mysqld.log` (RHEL)  -  `/var/log/mysql.log` (DEB)
 
 
-regex
-----------------
+### regex
+
+``` bash
 # regex engines may be different
 # we read pattern char by char
 # regex is case sensitive by default
@@ -873,10 +929,11 @@ egrep "^(s[0-9]{2}|xff)[0-9]{4}$"   # matches with s###### or xff#### (# means a
 # in find command , it has ^ and $ by default
 # Example:
 find . -regex ".*ser.*"             # it finds file named insert.py
+```
 
+### cron 
 
-cron 
-----------------
+``` bash
 # it automaticly do something
 crontab -e                          # to edit cron file
 # crontab -r                        # clears the crontab file -#> WARNING! 
@@ -905,10 +962,13 @@ crontab -e                          # to edit cron file
 # cron.daily/    cron.hourly/   cron.monthly/   cron.weekly/ 
 # which are for packages automatic jobs
 # we can not use interactive scripts on cron
+```
 
+### mysql database
 
-mysql database
-----------------
+#### mysql basics 
+
+``` bash
 # we can use mariadb-server alternative to mysql
 service mysql start         # start mysql service (start/stop/restart/status)
 mysql -u root -p            # open mysql as root and prompt for pasword
@@ -918,12 +978,19 @@ mysql_secure_installation   # some step by step prompts to secure mysql
 # we can run sql script like this:
 cat script.sql | mysql TABLE_NAME -u root -pPASS -t    # -t draws tables on stdout
 mysql TABLE_NAME -u root -pPASS -t < script.sql
+```
 
-# here are mysql shell commands
+#### some mysql shell commands
+
+``` sql
 -- this is a comment
-SHOW DATABASES;             # commands are case sensitive but we type upper case
-CREATE DATABASE test;       # DB name is case sensitive on GNU/Linux and solaris and BSD (not MS Windows)
-USE school                  # WARNING! we shouldn't place USE on sql scripts, we should send db name as mysql command parameter
+SHOW DATABASES;             
+-- commands are case sensitive but we type upper case
+CREATE DATABASE test;       
+-- DB name is case sensitive on GNU/Linux and solaris and BSD (not MS Windows)
+USE school                  
+-- WARNING! we shouldn't place USE on sql scripts, we should send db name as
+-- mysql command parameter
 SHOW TABLES
 DROP TABLE IF EXISTS students
 
@@ -937,69 +1004,32 @@ GENDER ENUM('F','M'),
 SCORE INT
 );
 
-DESCRIBE students       # draw table structre
+DESCRIBE students       
+-- draw table structre
 INSERT INTO students (FN,LN,GENDER,SCORE) VALUES ('Ali','Sadeghi','M',90)
 INSERT INTO students (FN,LN,GENDER,SCORE) VALUES ('Azar','Hosseini',FM',95)
 
-
-SELECT * FROM students
-SELECT FN,LN FROM students
+SELECT * FROM students 
+SELECT FN,LN FROM students;
 SELECT CONCAT( IF(GENDER='F','Ms. ','Mr. ') , FN,' ',LN) AS FULL_NAME , SCORE FROM students
 
 UPDATE students SET SCORE=94 WHERE ID = 2
 DELETE FROM students WHERE ID = 1
+```
 
-# mysql backup and restore
+#### mysql backup and restore
+
+``` bash
 # we can create backup of a database like this:
 mysqldump -u root -pPASS school_db > ~/Backups/school_sql_backup.sql
 
 # we can restore like this
 mysql resotre_db -u root -pPASS < ~/Backups/school_sql_backup.sql
+```
 
+### utility
 
-
-VPS
-----------------
-# after buy a vps todo:
-1. change root pass             # passwd	
-2. add new user                 # adduser mrht74
-# gpasswd -a mrht74 sudo 
-# usermod -aG sudo mrht74
-3. update and upgrade
-4. install zsh and oh my zsh, and set default on new user
-# sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-# chsh -s $(which zsh)
-5. install python3-pip and python-pip and git and htop
-6. install vim and vundle
-# git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-7. change the default SSH port
-# sudo vim /etc/ssh/sshd_config
-8. Enable 2FA (optional)
-9. Use SSH keys 
-# ssh-copy-id mrht74@IP
-# cat .ssh/config 			#
-
-# Host myVPS
-#   Hostname 89.163.141.94
-#     user mrht74
-#     Port 1366   #if you set a on-standard port uncomment this line
-#     CheckHostIP yes
-#     TCPKeepAlive yes
-
-10. set webmin (www.webmin.com)
-11. Set up a firewall
-12. Backup your server
-13. Set up monitoring
-14. Set up a mail server
-15. Install an (S)FTP server
-16. Telegram MTProto
-# https://github.com/TelegramMessenger/MTProxy
-17. start vpn server
-# https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-16-04
-# https://www.linuxbabe.com/ubuntu/openconnect-vpn-server-ocserv-ubuntu-16-04-17-10-lets-encrypt
-
-utility
-----------------
+``` bash
 sudo apt install moc
 mocp
 sudo apt install links
@@ -1008,10 +1038,11 @@ eog path/to/picture
 sudo apt install mplayer
 sudo apt install finger
 finger USER
+```
 
+### fun commands
 
-fun commands
-----------------
+``` bash
 figlet "something"					# word art "something"
 figlet `COMMAND`					# word art result of COMMAND
 echo "1234" | rev 					# reverse string
@@ -1023,7 +1054,45 @@ lolcat
 cmatric
 toilet
 echo "SALAM" | toilet | lolcat
-
-----------------
-
 ```
+
+## VPS
+
+After buy a vps todo:
+1. change root pass 
+2. add new user
+``` bash
+gpasswd -a mrht74 sudo 
+usermod -aG sudo mrht74
+```
+3. update and upgrade
+4. install python3-pip and python-pip and git and htop
+5. install vim and vundle
+``` bash
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+```
+6. change the default SSH port
+``` bash
+sudo vim /etc/ssh/sshd_config
+```
+7. Enable 2FA (optional)
+8. Use SSH keys 
+``` bash
+ssh-copy-id mrht74@IP
+```
+9. set ssh config on client
+``` bash
+# cat .ssh/config 			
+```
+10. set webmin (www.webmin.com)
+11. Set up a firewall
+12. Backup your server
+13. Set up monitoring
+14. Set up a mail server
+15. Install an (S)FTP server
+16. Telegram MTProto
+  * [Click here](https://github.com/TelegramMessenger/MTProxy)
+17. start vpn server
+  * [link 1](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-16-04)
+  * [link 2](https://www.linuxbabe.com/ubuntu/openconnect-vpn-server-ocserv-ubuntu-16-04-17-10-lets-encrypt)
+
