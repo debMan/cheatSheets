@@ -33,4 +33,13 @@ run machine again with:
 And then you should see:
 
 ```
+0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+
+  --- Done. virtual machine mymediaserver VRDE port removed ! ---
+
+Waiting for VM "mymediaserver" to power on...
+VM "mymediaserver" has been successfully started.
+
+  --- Done. virtual machine mymediaserver started headless ---
 ```
+
