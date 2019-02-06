@@ -76,6 +76,7 @@ cal                 # show calendar
 id                  # show the active user id with login and group
 who                 # show who is logged on the system
 w                   # like who with more details
+users               # list logged in users
 pwd                 # returns current dir
 touch               # create file or update access time of file
 gpg -c FILE         # encrypt file
