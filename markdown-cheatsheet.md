@@ -1,8 +1,7 @@
-# MarkDown: A simple personal cheat sheet
+# MarkDown: A simple personal cheatsheet
 
-Here is a simple markdown cheatsheet.
-
-_**Note:**_ This document is incomplete.
+_**Note:**_ This document is not completed.  
+This is my personal **markdown** cheatsheet.
 
 ## Markdown syntax 
 
@@ -201,7 +200,7 @@ this called **Hard Break** .
 to insert a new line in same paragraph, insert **double space** at the end of line  
 this called **Soft Break** .
 
-## References
+## More info:
 
 * [markdown-here](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 

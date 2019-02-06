@@ -1,8 +1,9 @@
-# LPIC1: A simple personal handbook
+# LPIC1: A simple personal cheatsheet
 
-_**Note:**_ All of this document is temporary created and should be edited
+_**Note:**_ This document is not completed.  
+This is my personal **lpic1** cheatsheet.
 
-### shell variables
+## shell variables
 
 ``` bash
 export				    # export a VAR to sub shels and sob processe
@@ -13,7 +14,7 @@ env VAR=value cmd 		# Run cmd with new value of VAR
 echo $?                 # returns exit status code of last command
 ```
 
-### shell I/O
+## shell I/O
 
 ``` bash
 cat 				# prints a file to stdout
@@ -47,7 +48,7 @@ sed 's/old/new/g'   # it replaces globaly
 sed -E 's/old/new/' # it support regex
 ```
 
-### shell 
+## shell 
 
 ``` bash
 # dir starting with / called absulute and without / called relative
@@ -85,7 +86,7 @@ ssh <username>@<host>  -p1234
 scp SOURCE_FILE user@host:DEST_FILE
 ```
 
-### expansion
+## expansion
 
 ```
 *					# anything with any length
@@ -94,7 +95,7 @@ scp SOURCE_FILE user@host:DEST_FILE
 {}					# all of args in {}
 ```
 
-### find
+## find
 
 ``` bash
 find . -iname foo\* 				# find NOT case sensative starting with foo files
@@ -109,7 +110,7 @@ find . -type f -inum 123456			# find files with Inode number
 # find . -regex                     # find with regex pattern
 ```
 
-### partitioning
+## partitioning
 
 ``` bash
 fdisk								# partitioning tool for MBR
@@ -132,7 +133,7 @@ Example :
 # the above line points that any user can mount
 ```
 
-### user management
+## user management
 
 ``` bash
 # /etc/group							# groups db
@@ -178,7 +179,7 @@ passwd user_name					# change password for username
 
 ```
 
-### basic permission
+## basic permission
 
 ``` bash
 # a file made up from user , group , acces , file
@@ -202,7 +203,7 @@ chmod [ugo][+-=][rwx] filename
 # all of 3 commands above can be used with -R switch
 ```
 
-### stickyBit
+## stickyBit
 
 ``` bash
 # applies to folders only
@@ -222,7 +223,7 @@ chmod +t file 						# adds stickyBit to file
 # drw-r--r-- 2 mrht74 mrht74 4096 Jan 22 17:25 new    # T changed to -
 ```
 
-### SUID
+## SUID
 
 ``` bash
 # applies to executable files
@@ -234,7 +235,7 @@ chmod +t file 						# adds stickyBit to file
 chmod u+s filename					# adds SUID to file
 ```
 
-### SGID
+## SGID
 
 ``` bash
 # applies to exec files and folders
@@ -246,7 +247,7 @@ chmod u+s filename					# adds SUID to file
 chmod g+s filename					# adds SGID to file
 ```
 
-### links
+## links
 
 ``` bash
 ln SOURCE DEST 						# crate link to first file inode on target
@@ -261,7 +262,7 @@ ln -s SOURCE DST 	 				# crate symbolic link to first file inode on target
 # -d switches make link to directories
 ```
 
-### compression & archiving
+## compression & archiving
 
 ``` bash
 # gzip not working on pre-comprssed files preparely, 
@@ -315,7 +316,7 @@ rar a OUT.rar SOURCE 					# create archive from source on out
 #			-v<size>[k|b|f]Create volumes with size=<size>*1000 [*1024, *1]
 ```
 			
-### proccess
+## proccess
 
 ``` bash
 # any proccess made of PID, PPID, Prioty, Owner (user or UID), state, pmem, pcpu, 
@@ -367,7 +368,7 @@ nohup CMD 			# runs cmd under init ps
 # not advised to use nohup
 ```
 
-### packages
+## packages
 
 ``` bash
 # RedHat based packages are .rpm files and Debian based packages are .deb files
@@ -426,7 +427,7 @@ yum info PACKAGE_NAME 					# shows more infor about pckage
 #    └────────────────────────────────
 ```
 
-### vim skill
+## vim skill
 
 #### basics
 ```
@@ -530,7 +531,7 @@ yum info PACKAGE_NAME 					# shows more infor about pckage
 #	'no+xxx'		disables xxx option
 ```
 
-### hardware and network
+## hardware and network
 
 ``` bash
 dig DOMAIN              # get DNS info for domain
@@ -634,7 +635,7 @@ i# face eth0 inet dhcp
 # NM_CONTROLLED=yes
 ```
 
-### boot loader
+## boot loader
 
 ``` 
 # Firmware -#> MBR at boot (Master Boot Record )
@@ -683,7 +684,7 @@ initrd /boot/initrd.img*            # load kernel loading dependencies like ext4
 boot                                # start booting
 ```
 
-### linux startup
+## linux startup
 
 ``` bash
 # Firmware -#> boot loader -#> kernel -#> initialization process (init)
@@ -714,7 +715,7 @@ chkconfig --list sshd               # shows sshd services status on each runleve
 chkconfig --level 34 sshd off       # turn off ssh on runlevels 3 and 4
 ```
 
-### graphical enviroment
+## graphical enviroment
 
 ``` bash
 # X-Server : controls input and output (display, mouse, keyboard) work on TCP
@@ -744,7 +745,7 @@ chkconfig --level 34 sshd off       # turn off ssh on runlevels 3 and 4
 # xfce and lxde are light weight
 ```
 
-### window & desktop sharing
+## window & desktop sharing
 
 ``` bash
 echo $DISPLAY                   # returns display ip and number, default is 127.0.0.1:0
@@ -791,7 +792,7 @@ apt install xserver-xephyr
 Xephyr -ac -query 192.168.1.2 -br -reset -terminate :2
 ```
 
-### logging
+## logging
 
 ``` bash
 # each log has a facility
@@ -813,7 +814,8 @@ logger -p kern.emerg 'OOrjansi Residegi KON '      # can send logs for test and 
 
 dmesg                               # all the messages from the kernel’s buffer
 ```
-#### impoetant logs:
+
+### impoetant logs:
 
 * `/var/log/messages` (RHEL)  -  `/var/log/syslog` (DEB) 
  - This log file contains generic system activity logs.
@@ -872,8 +874,7 @@ dmesg                               # all the messages from the kernel’s buffe
 
 * `/var/log/mysqld.log` (RHEL)  -  `/var/log/mysql.log` (DEB)
 
-
-### regex
+## regex
 
 ``` bash
 # regex engines may be different
@@ -919,7 +920,7 @@ egrep "^(s[0-9]{2}|xff)[0-9]{4}$"   # matches with s###### or xff#### (# means a
 find . -regex ".*ser.*"             # it finds file named insert.py
 ```
 
-### cron 
+## cron 
 
 ``` bash
 # it automaticly do something
@@ -952,9 +953,9 @@ crontab -e                          # to edit cron file
 # we can not use interactive scripts on cron
 ```
 
-### mysql database
+## mysql database
 
-#### mysql basics 
+### mysql basics 
 
 ``` bash
 # we can use mariadb-server alternative to mysql
@@ -968,7 +969,7 @@ cat script.sql | mysql TABLE_NAME -u root -pPASS -t    # -t draws tables on stdo
 mysql TABLE_NAME -u root -pPASS -t < script.sql
 ```
 
-#### some mysql shell commands
+### some mysql shell commands
 
 ``` sql
 -- this is a comment
@@ -1006,7 +1007,7 @@ UPDATE students SET SCORE=94 WHERE ID = 2
 DELETE FROM students WHERE ID = 1
 ```
 
-#### mysql backup and restore
+### mysql backup and restore
 
 ``` bash
 # we can create backup of a database like this:
@@ -1016,7 +1017,7 @@ mysqldump -u root -pPASS school_db > ~/Backups/school_sql_backup.sql
 mysql resotre_db -u root -pPASS < ~/Backups/school_sql_backup.sql
 ```
 
-### utility
+## utility
 
 ``` bash
 sudo apt install moc
@@ -1029,7 +1030,7 @@ sudo apt install finger
 finger USER
 ```
 
-### fun commands
+## fun commands
 
 ``` bash
 figlet "something"					# word art "something"
