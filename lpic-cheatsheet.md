@@ -817,60 +817,63 @@ dmesg                               # all the messages from the kernel’s buffe
 
 ### impoetant logs:
 
-* `/var/log/messages` (RHEL)  -  `/var/log/syslog` (DEB) 
- - This log file contains generic system activity logs.
- - It is mainly used to store informational and non-critical system messages.
- - non-kernel boot errors, application-related service errors, messages logged
-   during system startup
- - first log file to check on any problem
+* `/var/log/messages` (RHEL)  -  `/var/log/syslog` (DEB)
+  - This log file contains generic system activity logs.
+  - It is mainly used to store informational and non-critical system messages.
+  - non-kernel boot errors, application-related service errors, messages logged
+    during system startup
+  - first log file to check on any problem
  
 * `/var/log/auth.log` (DEB)  -  `/var/log/secure` (RHEL)
- - authentication related events in Debian
- - failed login attempts
- - All user authentication events are logged at /var/log/secure
+  - authentication related events in Debian
+  - failed login attempts
+  - All user authentication events are logged at /var/log/secure
 
 * `/var/log/boot.log`
- - system initialization script, /etc/init.d/bootmisc.sh, sends all bootup messages to this log file
- - Can also be useful to determine the duration of system downtime caused by an unexpected shutdown.
- - issues related to improper shutdown, unplanned reboots or booting failures
+  - system initialization script, /etc/init.d/bootmisc.sh, sends all bootup
+    messages to this log file
+  - Can also be useful to determine the duration of system downtime caused by 
+    an unexpected shutdown.
+  - issues related to improper shutdown, unplanned reboots or booting failures
 
 * `/var/log/dmesg` (RHEL)
- - Kernel ring buffer messages, Information related to hardware devices and their drivers
- - useful for dedicated server customers mostly
+  - Kernel ring buffer messages, Information related to hardware devices and
+    their drivers
+  - useful for dedicated server customers mostly
 
 * `/var/log/kern.log`
- - logged by kernel, troubleshooting kernel related errors
+  - logged by kernel, troubleshooting kernel related errors
 
 * `/var/log/apt/history.log`
- - package installation and removal information 
+  - package installation and removal information 
 
 * `/var/log/apport.log`
- - saves information about crashes
+  - saves information about crashes
 
 * `/var/log/installer`
- - created during installation
+  - created during installation
  
 * `/var/log/dist-upgrade/apt.log`
- - information during distribution upgrades
+  - information during distribution upgrades
 
 * `/var/log/dpkg.log`
- - low level details of package install and remove with dpkg
+  - low level details of package install and remove with dpkg
 
 * `/var/log/Xorg.log`
- - information of the graphics driver, its failures, warnings etc
+  - information of the graphics driver, its failures, warnings etc
 
 * `/var/log/faillog`
 * `/var/log/cron`
 * `/var/log/yum.log`
 * `/var/log/mail.log`  -  `/var/log/maillog`
- - information about postfix, smtpd, MailScanner, SpamAssassain or any other
-   email related services
+  - information about postfix, smtpd, MailScanner, SpamAssassain or any other
+    email related services
 
 * ` /var/log/httpd/`
- - Apache serverlogs , main logs are: error_log and access_log.
- - All access requests received over HTTP are stored in the access_log file.
- - Logs the IP address and user ID of all clients that make connection requests
-   to the server.
+  - Apache serverlogs , main logs are: error_log and access_log.
+  - All access requests received over HTTP are stored in the access_log file.
+  - Logs the IP address and user ID of all clients that make connection
+    requests to the server.
 
 * `/var/log/mysqld.log` (RHEL)  -  `/var/log/mysql.log` (DEB)
 
@@ -1045,44 +1048,4 @@ cmatric
 toilet
 echo "SALAM" | toilet | lolcat
 ```
-
-## VPS
-
-After buy a vps todo:
-1. change root pass 
-2. add new user
-``` bash
-gpasswd -a mrht74 sudo 
-usermod -aG sudo mrht74
-```
-3. update and upgrade
-4. install python3-pip and python-pip and git and htop
-5. install vim and vundle
-``` bash
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-```
-6. change the default SSH port
-``` bash
-sudo vim /etc/ssh/sshd_config
-```
-7. Enable 2FA (optional)
-8. Use SSH keys 
-``` bash
-ssh-copy-id mrht74@IP
-```
-9. set ssh config on client
-``` bash
-# cat .ssh/config 			
-```
-10. set webmin [Click here](www.webmin.com)
-11. Set up a firewall
-12. Backup your server
-13. Set up monitoring
-14. Set up a mail server
-15. Install an (S)FTP server
-16. Telegram MTProto
-  * [Click here](https://github.com/TelegramMessenger/MTProxy)
-17. start vpn server
-  * [link 1](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-16-04)
-  * [link 2](https://www.linuxbabe.com/ubuntu/openconnect-vpn-server-ocserv-ubuntu-16-04-17-10-lets-encrypt)
 

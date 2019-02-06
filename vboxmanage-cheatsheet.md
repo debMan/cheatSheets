@@ -3,6 +3,7 @@
 _**Note:**_ This document is not completed.  
 This is my personal **virtualbox command line interface** `vboxmanage`
 cheatsheet.
+
 **Tip:** the `VBoxManage` command also works.
 
 ## Setup VM:
@@ -59,7 +60,7 @@ vboxmanage snapshot "$NAME" restore "$SNAPSHOT_NAME"
 
 ## Scripts:
 
-The scripts are available at [scripts](scripts) directory.
+The scripts are available at [vboxmanage-scripts](vboxmanage-scripts) directory.
 
 ## More info:
 
