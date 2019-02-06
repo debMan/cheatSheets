@@ -58,6 +58,13 @@ vboxmanage snapshot "$NAME" list
 vboxmanage snapshot "$NAME" restore "$SNAPSHOT_NAME" 
 ```
 
+## Backups
+
+``` bash
+vboxmanage export "$NAME" --output "$PATH_TO_EXPORT.ova>"
+vboxmanage import "$NAME" "$PATH_TO_IMPORT_FILE.ova>"
+```
+
 ## Scripts:
 
 The scripts are available at [vboxmanage-scripts](vboxmanage-scripts) directory.

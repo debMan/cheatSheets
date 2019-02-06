@@ -12,10 +12,30 @@ After buy a vps:
 3. add new user
 ``` bash
 adduser mrht74
-usermod -aG sudo mrht74
-```
+usermod -aG sudo mrht74```
 3. update and upgrade
 4. disable and remove cloud services and snapd
+  - Reconfigure the cloud-init service, then deselect all the options:
+  ```bash
+  dpkg-reconfigure cloud-init
+  ```
+  - Remove cloud-init:
+  ```bash
+  apt purge cloud-init
+  ```
+  - List the services which depend on network being online:
+  ```bash
+  sudo systemctl show -p WantedBy network-online.target
+  ```
+  - disable the services and remove the open-iscsi package:
+  ```bash
+  systemctl disable <service name>
+  apt remove open-iscsi
+  ```
+  - remove snapd:
+  ``` bash
+  apt purge snapd
+  ```
 5. install python3-pip and python3 and git
 6. install vim and best config
 7. change the default SSH port
