@@ -1,6 +1,9 @@
-# Learn grep: A simple help
+# grep: A simple personal cheatsheet
 
-Here I prepared a quick cheatsheet for `grep` command on linux
+_**Note:**_ This document is not completed.  
+This is my personal `grep` command cheatsheet.
+
+## Basic commands:
 
 ``` bash
 grep -n word                    # print line numbers
@@ -42,5 +45,7 @@ egrep "^a[^0-9]*a$"                 # matches with aa, a[anything is not char]*a
 egrep "^(ahmad|nima)$"              # matches only to nima or ahmad
 egrep "^(s[0-9]{2}|xff)[0-9]{4}$"   # matches with s###### or xff#### (# means a number)
 ```
+
+## More info:
 
 For more info about regex [click here](https://www.computerhope.com/unix/regex-quickref.htm)
