@@ -64,6 +64,6 @@ The scripts are available at [vboxmanage-scripts](vboxmanage-scripts) directory.
 
 ## More info:
 
-for more detailes [click here](https://www.golinuxhub.com/2017/08/how-to-configure-different-types-of.html)
-for more detailes [click here](https://technology.amis.nl/2018/07/27/virtualbox-networking-explained/#prettyPhoto)
+For more detailes [click here](https://www.golinuxhub.com/2017/08/how-to-configure-different-types-of.html).  
+For more detailes [click here](https://technology.amis.nl/2018/07/27/virtualbox-networking-explained/#prettyPhoto).
 
