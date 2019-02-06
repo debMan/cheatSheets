@@ -37,9 +37,9 @@ vim ~/.ssh/config
 14. Set up monitoring
 15. Set up a mail server
 16. Install an (S)FTP server
-17. Telegram MTProto
+17. Telegram MTProto  
  [Click here](https://github.com/TelegramMessenger/MTProxy)
-18. start vpn server
- [link 1](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-16-04)
- [link 2](https://www.linuxbabe.com/ubuntu/openconnect-vpn-server-ocserv-ubuntu-16-04-17-10-lets-encrypt)
+18. start vpn server    
+  [link 1](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-openvpn-server-on-ubuntu-16-04)
+  [link 2](https://www.linuxbabe.com/ubuntu/openconnect-vpn-server-ocserv-ubuntu-16-04-17-10-lets-encrypt)
 
