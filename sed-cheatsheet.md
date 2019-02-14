@@ -52,7 +52,24 @@ _**Notes:**_
     `sed 's/[a-zA-Z]* /DELETED /2g' <old >new`  
 _**Notice:**_  Don't get /2 and \2 confused. The /2 is used at the end. \2 is
 used in inside the replacement field. 
-`
+* Use `/w` to write to a file:  
+    `sed -n 's/^[0-9]*[02468] /&/w even' <file `
+* When the `-n` option is used, the `p` flag will cause the modified line to be
+    printed: `sed -n 's/pattern/&/p' <file`
+* Using `/I` makes the pattern match case insensitive:  
+    `sed -n '/abc/I p' <old >new`  
+   Note that a space after the '/I' and the 'p' (print) command emphasizes that
+   the 'p' is not a modifier of the pattern matching process, but a command to
+   execute after the pattern matching. 
+* You can combine flags. Note that the `w` has to be the last flag:  
+    `sed -n 's/a/A/2pw /tmp/file' <old >new`  
+    `sed -n 's/PATTERN/&/p' file`:  Nothing is printed, except those lines with
+    PATTERN included. 
+* One method of combining multiple commands is to use a -e before each command:
+    `sed -e 's/a/A/' -e 's/b/B/' <old >new`
+* If you have a large number of sed commands, you can put them into a file and
+    use: `sed -f sedscript <old >new`
+
 ## More info:
 
 For more info about regex [click here](http://www.grymoire.com/Unix/Sed.html)
