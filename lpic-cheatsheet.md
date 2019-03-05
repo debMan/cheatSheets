@@ -824,7 +824,7 @@ dmesg                               # all the messages from the kernel’s buffe
     during system startup
   - first log file to check on any problem
  
-* `/var/log/auth.log` (DEB)  -  `/var/log/secure` (RHEL)
+* `/var/log/secure` (RHEL)  -  `/var/log/auth.log` (DEB)
   - authentication related events in Debian
   - failed login attempts
   - All user authentication events are logged at /var/log/secure
