@@ -42,34 +42,40 @@ dmesg -H -k      # shows boot process info, -H pagination, -k shows kernel log
 2. GRUB (Gradn Unified Boot loader):  
    grub has two versions: grub1 (legacy, 1999) and grub2 (2005) which suports
    UEFI.
-* **grub legacy:**  Its configurations at `/boot/menu.lst` which have global
-  and per oS configs. Main keywords of global its config is:  
-  `color`: foreground and background color  
-  `default`: default OS to load  
-  `fallback`: second OS if default fails  
-  `hiddenmenu`: don’t display the menu selection options  
-  `splashimage`: image file to use as the background for the boot menu  
-  `timeout`: amount of time to wait for a menu selection before default   
-  And for each OS we have:  
-  `title`: a simple name for OS  
-  `root`: disk and partition where the GRUB `/boot` folder partition is 
-  located with syntax like: `(hd0,0)`  
-  `kernel`: kernel image file located at `/boot` with syntax like: 
-  `(hd0,0)/boot/vmlinuz`  
-  `initrd`: initial RAM disk file, which contains drivers necessary for the 
-  kernel to interact with the system hardware.  
-  `rootnoverify`: non-Linux boot partitions, such as Windows  
-  And a sample config file is like:  
-  ```
-  default 0
-  timeout 10
-  color white/blue yellow/blue
-  title CentOS Linux
-  root (hd1,0)
-  kernel (hd1,0)/boot/vmlinuz
-  initrd /boot/initrd
-  title Windows
-  rootnoverify (hd0,0)
-  ```
+
+##### grub legacy
+
+Its configurations at `/boot/menu.lst` which have global and per OS configs. 
+Main keywords of global its config are  :  
+`color`: foreground and background color  
+`default`: default OS to load  
+`fallback`: second OS if default fails  
+`hiddenmenu`: don’t display the menu selection options  
+`splashimage`: image file to use as the background for the boot menu  
+`timeout`: amount of time to wait for a menu selection before default   
+
+And for each OS we have:  
+`title`: a simple name for OS  
+`root`: disk and partition where the GRUB `/boot` folder partition is located 
+with syntax like: `(hd0,0)`  
+`kernel`: kernel image file located at `/boot` with syntax like: 
+`(hd0,0)/boot/vmlinuz`  
+`initrd`: initial RAM disk file, which contains drivers necessary for the 
+kernel to interact with the system hardware.  
+`rootnoverify`: non-Linux boot partitions, such as Windows  
+
+And a sample config file is like:  
+
+```
+default 0
+timeout 10
+color white/blue yellow/blue
+title CentOS Linux
+root (hd1,0)
+kernel (hd1,0)/boot/vmlinuz
+initrd /boot/initrd
+title Windows
+rootnoverify (hd0,0)
+```
 
 
