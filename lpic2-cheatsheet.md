@@ -44,21 +44,21 @@ dmesg -H -k      # shows boot process info, -H pagination, -k shows kernel log
    UEFI.
   * **grub legacy:**  Its configurations at `/boot/menu.lst` which have global
       and per oS configs. Main keywords of global its config is:  
-    `color`: foreground and background color
-    `default`: default OS to load
-    `fallback`: second OS if default fails
-    `hiddenmenu`: don’t display the menu selection options
-    `splashimage`: image file to use as the background for the boot menu
+    `color`: foreground and background color  
+    `default`: default OS to load  
+    `fallback`: second OS if default fails  
+    `hiddenmenu`: don’t display the menu selection options  
+    `splashimage`: image file to use as the background for the boot menu  
     `timeout`: amount of time to wait for a menu selection before default   
 
     And for each OS we have:  
-    `title`: a simple name for OS
+    `title`: a simple name for OS  
     `root`: disk and partition where the GRUB `/boot` folder partition is 
-    located with syntax like: `(hd0,0)`
-    `kernel`: kernel image file located at `/boot` with syntax like:
-    `(hd0,0)/boot/vmlinuz`
+    located with syntax like: `(hd0,0)`  
+    `kernel`: kernel image file located at `/boot` with syntax like: 
+    `(hd0,0)/boot/vmlinuz`  
     `initrd`: initial RAM disk file, which contains drivers necessary for the 
-    kernel to interact with the system hardware.
+    kernel to interact with the system hardware.  
     `rootnoverify`: non-Linux boot partitions, such as Windows  
 
     And a sample config file is like:  
