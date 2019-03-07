@@ -42,7 +42,7 @@ dmesg -H -k      # shows boot process info, -H pagination, -k shows kernel log
 2. GRUB (Gradn Unified Boot loader):  
    grub has two versions: grub1 (legacy, 1999) and grub2 (2005) which suports
    UEFI.
-  * **grub legacy:**  Its configurations at `/boot/menu.lst` which have global
+    * **grub legacy:**  Its configurations at `/boot/menu.lst` which have global
       and per oS configs. Main keywords of global its config is:  
     `color`: foreground and background color  
     `default`: default OS to load  
