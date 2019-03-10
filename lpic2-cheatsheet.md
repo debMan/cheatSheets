@@ -17,7 +17,7 @@ dmesg -H -k      # shows boot process info, -H pagination, -k shows kernel log
 # In RHEL family, it we will have /var/log/boot.log
 ```
 
-#### Types of boot (based on IBM architecture):
+### Types of boot (based on IBM architecture):
 
 1. BIOS:  
    After POST, it reads OS info from first sector of HDD which named MBR
@@ -33,7 +33,7 @@ dmesg -H -k      # shows boot process info, -H pagination, -k shows kernel log
    as noted above, it is not used. The feature of using boot loaders like:
    having multi OS, having multi kernels, and etc.
 
-#### Bootloaders
+### Bootloaders
 
 1. LILO (Linux Loader):  
    Released at 1990's together with Linux which is
@@ -43,7 +43,7 @@ dmesg -H -k      # shows boot process info, -H pagination, -k shows kernel log
    grub has two versions: grub1 (legacy, 1999) and grub2 (2005) which suports
    UEFI.
 
-##### grub legacy
+#### GRUB legacy
 
 Its configurations at `/boot/menu.lst` which have global and per OS configs. 
 Main keywords of global its config are  :  
@@ -78,4 +78,12 @@ title Windows
 rootnoverify (hd0,0)
 ```
 
+To install grub on MBR:
 
+``` bash
+grub-instal /dev/sda 
+# or
+grub-install '(hd0)'
+```
+
+#### GRUB 2
