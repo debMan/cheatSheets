@@ -31,8 +31,8 @@ openssl req -in carrene.com.csr -text -noout
 openssl x509 -in certificate.pem -text
 
 # if yout got error unable to load certificate 
-# 12626:error:0906D06C:PEM routines:PEM_read_bio:no start line:pem_lib.c:647:Expecting: TRUSTED CERTIFICATE
-# add -noout to skip certificate plain text
+# 12626:error:0906D06C:PEM routines:PEM_read_bio:no start line:pem_lib.c:647:Expecting: 
+# TRUSTED CERTIFICATE, then add -noout to skip certificate plain text
 openssl x509 -in certificate.der -inform der -text
 
 # conevrt PEM to DER
