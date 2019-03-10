@@ -829,7 +829,7 @@ dmesg                               # all the messages from the kernel’s buffe
   - failed login attempts
   - All user authentication events are logged at /var/log/secure
 
-* `/var/log/boot.log`
+* `/var/log/boot.log` (RHEL) - `/var/log/messages` (Debian)
   - system initialization script, /etc/init.d/bootmisc.sh, sends all bootup
     messages to this log file
   - Can also be useful to determine the duration of system downtime caused by 

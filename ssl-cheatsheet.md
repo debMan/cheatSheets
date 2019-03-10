@@ -6,6 +6,15 @@ This is my personal **SSL** command cheatsheet.
 ## Basics:
 
 ``` bash
+# debug mode
+openssl s_client -connect host:443 -state -debug
+# The -state flag is responsible for displaying the end of the previous section:
+
+# connect with client certificate
+openssl s_client -connect host:443 -cert cert_and_key.pem \
+    -key cert_and_key.pem -state -debug
+# you can add -cipher ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH   -tls1 flags
+
 # fetch SSL chain of a server
 openssl s_client -connect digikala.com:443 -showcerts
 
