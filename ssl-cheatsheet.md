@@ -9,21 +9,65 @@ This is my personal **SSL** command cheatsheet.
 # fetch SSL chain of a server
 openssl s_client -connect digikala.com:443 -showcerts
 
+# Create a new CSR
+openssl req -new -sha256 -subj "/C=IR/CN=*.carrene.com" -key carrene.com.key -out carrene.com.csr
+
 # Generate a CSR from an Existing Private Key
 openssl req -key carrene.com.key -new -out carrene.com.csr
 
-# View old certificate subject
-openssl x509 -noout -subject -in old.cert
-
-# Create CSR
-openssl req -new -sha256 -subj "/C=IR/CN=*.carrene.com" -key carrene.com.key -out carrene.com.csr
-
 # Extract information from the CSR
 openssl req -in carrene.com.csr -text -noout
+
+# View old certificate subject, add -noout to skip certificate plain text
+openssl x509 -in certificate.pem -text
+
+# if yout got error unable to load certificate 
+# 12626:error:0906D06C:PEM routines:PEM_read_bio:no start line:pem_lib.c:647:Expecting: TRUSTED CERTIFICATE
+# add -noout to skip certificate plain text
+openssl x509 -in certificate.der -inform der -text
+
+# conevrt PEM to DER
+openssl x509 -in cert.crt -outform der -out cert.der
+
+# conevrt DER to PEM
+openssl x509 -in cert.crt -inform der -outform pem -out cert.pem
+
+# Export the encrypted private key and certificates from .pfx, .p12, or etc. files.
+openssl pkcs12 -in [yourfile.pfx] -out [keyfile-encrypted.key] -passin 'pass:1234' 
+
+# extract the certificate from .pfx, .p12, or etc. files.
+openssl pkcs12 -in [yourfile.pfx] -nokeys -out [certificate.crt] -passin 'pass:1234'
+
+# extract the client certificate from .pfx, .p12, or etc. files.
+openssl pkcs12 -in [yourfile.pfx] -nokeys -clcerts -out [certificate.crt] -passin 'pass:1234'
+
+# extract the CA certificate from .pfx, .p12, or etc. files.
+openssl pkcs12 -in [yourfile.pfx] -nokeys -cacerts -out [certificate.crt] -passin 'pass:1234'
+
+# Export just the encrypted private key from .pfx, .p12, or etc. files.
+openssl pkcs12 -in [yourfile.pfx] -out [keyfile-encrypted.key] -nocerts -passin 'pass:1234' 
+
+# Extract unencrypted .key directly. 
+# -nodes means OpenSSL will not encrypt the private key in a PKCS#12 file.
+openssl pkcs12 -in [yourfile.pfx] -out [keyfile-encrypted.key] -nocerts -passin 'pass:1234' -nodes 
+
+# get unencrypted RSA .key file from encrypted one.
+openssl rsa -in [keyfile-encrypted.key] -out [keyfile-decrypted.key]
+
+# convert your private key to PEM format
+openssl rsa -in [keyfile-encrypted.key] -out [keyfile-encrypted-pem.key] -outform PEM
+
+# Convert Certificate and Private Key to PKCS#12 format
+openssl pkcs12 –export –out sslcert.pfx –inkey key.pem –in sslcert.pem
+# you can also include chain certificate by passing –chain as below
+openssl pkcs12 –export –out sslcert.pfx –inkey key.pem –in sslcert.pem -chain cacert.pem
+
 ```
 ## More info:
 
 A website to extract info from CSR: [click here](https://www.sslshopper.com/csr-decoder.html)  
 
 Click [here](https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs).  
+[and here](https://www.sslshopper.com/article-most-common-openssl-commands.html)
 And [here](https://support.rackspace.com/how-to/generate-a-csr/)
+And [here](https://geekflare.com/openssl-commands-certificates/)
