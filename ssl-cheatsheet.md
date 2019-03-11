@@ -56,9 +56,8 @@ openssl pkcs12 -in [yourfile.pfx] -nokeys -cacerts -out [certificate.crt] -passi
 # Export just the encrypted private key from .pfx, .p12, or etc. files.
 openssl pkcs12 -in [yourfile.pfx] -out [keyfile-encrypted.key] -nocerts -passin 'pass:1234' 
 
-# Extract unencrypted .key directly. 
-# -nodes means OpenSSL will not encrypt the private key in a PKCS#12 file.
-openssl pkcs12 -in [yourfile.pfx] -out [keyfile-encrypted.key] -nocerts -passin 'pass:1234' -nodes 
+# to extract unencrypted .key directly, add -nodes, means OpenSSL will not 
+# encrypt the private key in a PKCS#12 file.
 
 # get unencrypted RSA .key file from encrypted one.
 openssl rsa -in [keyfile-encrypted.key] -out [keyfile-decrypted.key]
