@@ -71,6 +71,13 @@ openssl pkcs12 –export –out sslcert.pfx –inkey key.pem –in sslcert.pem
 openssl pkcs12 –export –out sslcert.pfx –inkey key.pem –in sslcert.pem -chain cacert.pem
 
 ```
+
+Also to using a strong DH group for key-exchange:
+
+``` bash
+openssl dhparam -out dhparams.pem 2048
+```
+
 ## More info:
 
 A website to extract info from CSR: [click here](https://www.sslshopper.com/csr-decoder.html)  
@@ -79,3 +86,9 @@ Click [here](https://www.digitalocean.com/community/tutorials/openssl-essentials
 [and here](https://www.sslshopper.com/article-most-common-openssl-commands.html)
 And [here](https://support.rackspace.com/how-to/generate-a-csr/)
 And [here](https://geekflare.com/openssl-commands-certificates/)
+
+Also a good configs for webservers is [here](https://cipherli.st/).  
+Also  [Guide to Deploying Diffie-Hellman for TLS](https://weakdh.org/sysadmin.html). 
+To test SSLs use [SSL Labs](https://www.ssllabs.com/).
+
+
