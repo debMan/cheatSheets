@@ -302,7 +302,7 @@ tar -xzf  INPUT_TAR -C OUTPUT_DIR 		# extract compressed archive to output dir
 # -z , -j , -J are switches for gzip, bz2 and xz for compression
 # if set  OUTPUT_DIR to / , then the files go to their default foldder
 tar  -tf  INPUT_TAR 					# list archive content
-
+tar  -uf  ARCHIVE_FILE OTHER_FILES      # update existing archive with new files 
 find /etc/apache2 | cpio -o > OUTPUT 	# creates cpio file
 cpio -di < INPUT_FILE					# extracts cpio file 
 # if input files when archiving has relative addresses , then extracting will be relative
