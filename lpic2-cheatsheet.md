@@ -131,6 +131,7 @@ command mode.
 Linux systems had problem with UEFI Secure boot. Three solutons are:
 Disable  secure boot on BIOS, Sign kernel, Use signed bootloaders (mini
 bootloaders).  
+
 Signed bootloaders are:  
 **preloader** from Linux Fundation.  
 **shim** from fedore. This bootloaders can load grub after start.  
