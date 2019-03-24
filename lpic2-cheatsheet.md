@@ -131,8 +131,9 @@ command mode.
 Linux systems had problem with UEFI Secure boot. Three solutons are:
 Disable  secure boot on BIOS, Sign kernel, Use signed bootloaders (mini
 bootloaders).  
-Signed bootloaders are *preloader* from Linux Fundation, and *shim* from
-fedore. This bootloaders can load grub after start.
+Signed bootloaders are:  
+**preloader** from Linux Fundation.  
+**shim** from fedore. This bootloaders can load grub after start.  
 
 ## Process initialization
 
@@ -140,7 +141,7 @@ After loading kernel, `init` proccess starts. Kernel searchs for `init` first
 at `/sbin/init` or `/etc/init` on failure, and `/bin/sh` as last option.  
 `init` should load further proccesses one by one or some at once, 
 
-Main initiation programms are:
+Main initiation programms are:  
 sysV  
 systemd  
 upstart  
@@ -190,15 +191,15 @@ id:3:initdefault               # it is default runlevel of system
 ```
 
 actions are:  
-boot: start at boot  
-bootwait: start and wait till finished  
-initdefault: enter this runlevel by default after boot up  
-once: run when the runlevel is entered  
-powerfail: start when powered down  
-powerwait: start when powered down and wait for it  
-respawn: start if terminated  
-sysinit: start before any other at boot  
-wait: start and wait for finish  
+`boot`: start at boot  
+`bootwait`: start and wait till finished  
+`initdefault`: enter this runlevel by default after boot up  
+`once`: run when the runlevel is entered  
+`powerfail`: start when powered down  
+`powerwait`: start when powered down and wait for it  
+`respawn`: start if terminated  
+`sysinit`: start before any other at boot  
+`wait`: start and wait for finish  
 
 Also, more files located at `/etc/init.d/rc[0-6]` which says what to be 
 happened on each level.  
