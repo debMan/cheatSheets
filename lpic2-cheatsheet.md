@@ -245,8 +245,8 @@ is not in text format, commands output shows like `less` and colored by
 default, and etc. But it's a good choice and many distributions use this.
 
 `Systemd` contains:  
-units: services or actions (name + type + config)
-targets: 
+- units: services or actions (name + type + config)  
+- targets
 
 ``` bash
 systemctl
@@ -259,8 +259,8 @@ jjournalctl                    # view systemctl logs
 ```
 
 All units stored at `/lib/systemd/system/` and also `/etc/systemd/system`
-contains more configuration for `wants` and `target`.  
-For example, `/lib/systemd/system/ssh.service` is:
+contains more configuration for `wants` and `target`. For example, 
+`/lib/systemd/system/ssh.service` is:
 ```
 [Unit]
 Description=OpenBSD Secure Shell server
@@ -396,14 +396,15 @@ Key objectives on bakup:
     - ...
 
 Suggest directorys to backup:  
-/home  
-/opt  
-root  
-/usr  
-/var  
-/etc  
+/etc: System configuration files.  
+/home: Typically, the user’s home directory.  
+/opt: Third-party application software.  
+/root: The root user’s home directory.  
+/srv: System-specific files for various services.  
+/usr: Stores binaries, documentation, source code, libraries, and so on.  
+/var: Contains log, lock, spool, mail, and temp files.  
 
-Some backup tools:
+Some backup tools:  
 `tar`: learned on lpic1  
 `mt`: work with tape  
 `rsync`: very useful  
@@ -508,7 +509,9 @@ Also, some third-party applications could help us monitoring system:
 Main purpose of kernel is connectioon to the hardware and understand high level
 
 > Applications  
-GNU | GUI  
-kernel  
-Hardware  
+
+
+> GNU | GUI  
+> kernel  
+> Hardware  
 
