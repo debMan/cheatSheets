@@ -242,9 +242,9 @@ update-rc.d -f network start 40 2 3 4 . stop 80 0 5 6
 It's very controvertial, which steps away from unix baics. Any program should
 don a special simple task, not multi task.But `systemd` is monolitic. Its log 
 is not in text format, commands output shows like `less` and colored by 
-default, and etc.  
-But it's a good choice and many distributions use this.  
-`Systemd` contains:  
+default, and etc. But it's a good choice and many distributions use this.  
+`Systemd` contains:
+
 units: services or actions (name + type + config)
 targets: 
 
