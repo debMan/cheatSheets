@@ -385,7 +385,7 @@ rpm -e PACKAGE_NAME 					# removes PACKAGE_NAME
 rpm -qf FILE_NAME 						# finds parent package of a single file
 rpm2cpio 								# converts rpm to cpio
 
-dpkg -i PACKAGE_NAME 					# install package on rpm based system
+dpkg -i PACKAGE_NAME 					# install package on debian based system
 dpkg -P PACKAGE_NAME 					# removes PACKAGE_NAME and its config files
 dpkg -r PACKAGE_NAME 					# just removes PACKAGE_NAME
 dpkg -L PACKAGE_NAME					# view all files of a PACKAGE_NAME 

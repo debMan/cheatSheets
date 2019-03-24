@@ -402,10 +402,111 @@ root
 /etc  
 
 Some backup tools:
-`tar`  
-`rsync`  
+`tar`: learned on lpic1  
+`mt`: work with tape  
+`rsync`: very useful  
 `dd`  
 `cpiio`  
 
+Some commands
 
+``` bash
+# mt  /f /dev/st0 OPERATION [count] [arg]
+# OPERATIONS: status, load, tell (says current place), eod (end of current data),
+# OPERATIONS: erase (erases whole tape), fsf4 (skip 4 files forward), bsf4 (skips 4 files backward)
+# OPERATIONS: rewind (jump to startpoint of tape), eject, offline
+
+mt -f /dev/st0 load
+mt -f /dev/st0 erase
+mt -f /dev/st0 rewind 
+tar -cf /dev/st0 /home
+mt -f /dev/st0 eject
+# some days latter
+mt -f /dev/st0 rwwind
+mt -f /dev/st0 fsf1
+tar -cf /dev/mt0 /home
+# some days later to restore first backup
+mt -f /dev/st0 load
+mt -f /dev/st0 rewind 
+mt -f /dev/st0 fsf1
+tar -xf /dev/st0 /home
+###############################
+# rsync: like cp, -a: archive (not copy existing files), -v: verbose, -h: human readable
+rsync -avh /home/mrht74/Documents /tmp/docs
+rsync -avh /home/mrht74/Documents  user@host:/var/backups
+###############################
+# dd gets input and output and writes input to output, bs: block size, count count of action
+dd if=/dev/sda of=/dev/sdb
+dd if=/home/debman/iso/ubuntu.iso of=/dev/sdb bs=4M count=10
+dd if=/dev/zero of=/dev/sdb   # to wipe your hard disk
+```
+
+### Compile from source
+
+At first, read README, TODO, and etc. Usually, we use three commands to make 
+compile from source:
+
+``` bash
+./configure                    # check prerequisits
+make                           # compile
+make install                   # install this
+```
+
+### Monitoring resources
+
+> **You can not manage something which you can not monitor**  
+
+We should monitor: CPU, memory, IO, network
+
+``` bash
+sar                            # very complete tool
+sar 10 5                       # print results each 10 seconds for 5 times
+# we can use sar, should be enabled at /etc/default/sysstat and make 
+# ENABLED="true", its service named `sysstat`
+###############
+ps -ef | grep SOMETHING
+pstree
+pmap
+free -h  
+top
+htop
+mpstat
+###############
+vmstat                         # shows vrtual buffers, virtual memories
+iostat
+iotop
+lsof
+################
+w
+who
+################
+ntop
+ip
+ifconfig
+iftop
+iptraf-ng  # or iptraf
+netstat
+netstat -nr    # show routes
+netstat -na    # show listening and nnonlistening
+netstat -lntp  # show listening ports
+ss             # stablished sockets
+tcpdump
+```
+
+Also, some third-party applications could help us monitoring system:
+* collectd
+* cacti
+* MRTG
+* Nagios
+* munin
+* RRDTool
+
+## Kernel
+
+Main purpose of kernel is connectioon to the hardware and understand high level
+
+> Applications  
+GNU | GUI  
+kernel  
+Hardware  
 
