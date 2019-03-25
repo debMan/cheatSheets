@@ -479,8 +479,9 @@ vmstat                         # shows vrtual buffers, virtual memories
 otop
 iostat
 iotop
-lsof
-fuser                           # Show which processes use the named files, sockets, or filesystems.
+lsof                            # can get a directory path as argument
+fuser                           
+# fuser Show which processes use the named files, sockets, or filesystems which gets as argument
 ################
 w
 who
@@ -662,19 +663,34 @@ mount -a                        # mounts anything on fstab
 # The lost+found directory is used for recovering files on ext2, ext3, and ext4 filesystems
 
 vim /etc/fstab                  # auto mount on boot files
-# /dev/<BLOCK-DEVICE>|UUID  /path/to/mount/point  filesystem  options  dump(backups)  fsck-check (0 for swap 1 for / and 2 for others)
-# /dev/sda1                     /                       ext4  defaults        0                       1
-# /dev/sda4                     /media/c                ntfs  defaults,       
-#                                                             ro|rw|sync,
-#                                                             user,
-#                                                             users
-#                                                             check,
-#                                                             group,
-#                                                             owner             
+# /dev/mapper|UUID|label  /mount/point    filesystem    options  dump(backup)  fsck-check (swap:0, /:1, and others:2)
+# /dev/sda1                     /               ext4    defaults        0        1
+# Label=Temp                    /home/temp      xfs     users, noauto   0        0
+# server01:/nfsshare            /tmp/share      nfs
+#                                                       ro|rw|sync,
+#                                                       user,
+#                                                       users. 
+# (llows any user authorized to use this system, not just those with super user privileges, to mount or unmount this labeled partition.)
+#                                                       check,
+#                                                       group,
+#                                                       owner
+
+# Use sync to forces the data commitment process to take place immediately. 
+# This allows you to detach removable media safely.
+sync -f  # or 
+sync --file-system
+
+umount /dev/sdc1
 ```
 
 _**Note:**_ `systemd` can handle mounts, currently controls `fstab` and can
-have seperate `*.mount` units itself at `/etc/systemd/system/*.mount`.  
+have seperate `*.mount` units itself at `/etc/systemd/system/*.mount`. For 
+example, the mount point, /home/temp/ , would have a mount unit file named 
+`home-temp.mount`.
+```
+$ cat /etc/systemd/system/home-temp.mount
+
+```
 
 ### Virtual filesystems
 
