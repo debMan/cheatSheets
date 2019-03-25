@@ -136,7 +136,7 @@ Signed bootloaders are:
 **preloader** from Linux Fundation.  
 **shim** from fedore. This bootloaders can load grub after start.  
 
-## Process initialization
+### Process initialization
 
 After loading kernel, `init` proccess starts. Kernel searchs for `init` first
 at `/sbin/init` or `/etc/init` on failure, and `/bin/sh` as last option.  
@@ -147,7 +147,7 @@ sysV
 systemd  
 upstart  
 
-### sysV
+#### sysV
 
 We have 7 runlevels.
 
@@ -237,7 +237,7 @@ update-rc.d -f network start 40 2 3 4
 update-rc.d -f network start 40 2 3 4 . stop 80 0 5 6
 ```
 
-### systemd
+#### systemd
 
 It's very controvertial, which steps away from unix baics. Any program should
 don a special simple task, not multi task.But `systemd` is monolitic. Its log 
@@ -285,7 +285,7 @@ WantedBy=multi-user.target
 Alias=sshd.service
 ```
 
-### upstart
+#### upstart
 
 `upstart` introduced on 2006 by Ubuntu and put away on 2015. Its config files
 stored at `/etc/init/name.conff`. It was not depended to runlevels, and had an
@@ -297,7 +297,7 @@ start bluetooth
 stop cups
 ```
 
-## System recovery
+### System recovery
 
 Two main type of failures:  
 Kernel failures  
@@ -417,7 +417,7 @@ Some commands
 # mt  /f /dev/st0 OPERATION [count] [arg]
 # OPERATIONS: status, load, tell (says current place), eod (end of current data),
 # OPERATIONS: erase (erases whole tape), fsf4 (skip 4 files forward), bsf4 (skips 4 files backward)
-# OPERATIONS: rewind (jump to startpoint of tape), eject, offline
+# OPERATIONS: rewind (jump to startpoint of tape), eject, offline, end (end of current file)
 
 mt -f /dev/st0 load
 mt -f /dev/st0 erase
@@ -446,8 +446,8 @@ dd if=/dev/zero of=/dev/sdb   # to wipe your hard disk
 
 ### Compile from source
 
-At first, read README, TODO, and etc. Usually, we use three commands to make 
-compile from source:
+At first, read README, TODO, INSTALL, and etc. Usually, we use three commands 
+to make compile from source:
 
 ``` bash
 ./configure                    # check prerequisits
@@ -476,14 +476,17 @@ htop
 mpstat
 ###############
 vmstat                         # shows vrtual buffers, virtual memories
+otop
 iostat
 iotop
 lsof
+fuser                           # Show which processes use the named files, sockets, or filesystems.
 ################
 w
 who
 ################
 ntop
+mtr
 ip
 ifconfig
 iftop
@@ -494,6 +497,9 @@ netstat -na    # show listening and nnonlistening
 netstat -lntp  # show listening ports
 ss             # stablished sockets
 tcpdump
+#################
+# man -k monitor
+# man -k performance
 ```
 
 Also, some third-party applications could help us monitoring system:
@@ -501,17 +507,255 @@ Also, some third-party applications could help us monitoring system:
 * cacti
 * MRTG
 * Nagios
+* Icinga
 * munin
 * RRDTool
 
-## Kernel
+## Mastering the kernel
 
 Main purpose of kernel is connectioon to the hardware and understand high level
+tools. **Drivers** are relation between hardware and kernel.  
+The kernel handles:  
+memory  
+file-ssytem  
+hardware  
+application management  
 
-> Applications  
+``` bash
+cat /proc/meminfo | less
+ipcs | less                     # show information on IPC facilities
+```
 
+The Linux system identifies hardware devices as special files, called device 
+files. There are three classifications of device files:
+* Character
+* Block
+* Network
 
-> GNU | GUI  
-> kernel  
-> Hardware  
+kernel binary filenames:  
+vmlinuz: A generic compressed kernel binary filename  
+vmlinux: An uncompressed kernel binary file, not usually used as the final boot 
+version  
+bzImage: A larger kernel binary file compressed using the GNU zip utility  
+kernel: A generic name for an uncompressed kernel binary file  
+zImage: A small kernel binary file compressed using the GNU zip utility  
+
+``` bash
+ls -lh /lib/modules             # list of kernel modules
+insmode                         # Simple program to insert a module into the Linux Kernel
+cd /usr/src/kernels             # source of kernel headers on redhat based 
+cd /usr/src/linux*              # source of kernel headers on debian based
+```
+
+The kernel versionings:  
+0.01 ... 0.95  
+1.x.y     even numbers are release prepared. like: 1.2.2, 1.2.4, 1.4.0, ...   
+2.x.y ... 2.6.x.y (2003) ...   `-rc` flag means **release candidate**  
+3.x.y -rc  
+4.x.y -rc (2015)  
+
+### Compile kernel
+
+Go to the [kernel](https://www.kernel.org/) website, download a tarball. Then: 
+
+``` bash
+cd \tmp
+wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.0.4.tar.xz
+tar -xvf linux-5.0.4.tar.xz
+mv ./linux-5.0.4 /usr/src/
+cd /usr/src
+ln -s linux-5.0.4 linux
+cd linux
+# make config                     # asks several questions
+make defconfig                  # makes .config file with default values or:
+# make menuconfig
+# make xconfig
+# make gconfig
+
+# make bzImage                  # or  
+# make vmlinuz
+make
+# Then copy kernel image to /boot, also sugested to copy System.map to /boot
+make install                    # or manualy copy vmlinuz and initrc to /boot and install drivers
+##############
+make modules                    # manual install modules
+make modules_install
+# make initial ram disk file on DEB
+mkinitramfs -o /boot/initrd.img-5.0.4-generic 5.0.4
+mkinitrd  OUTPUT_FILE VERSION               # make initial ram disk file on RHEL
+
+update-grub
+```
+
+### Maintain the kernel
+
+Main directories are:  
+`/lib/modules/<VERSION>` modules files
+`/etc/modules` on DEB family, kernel modules to load at boot time config.  
+`/etc/modules-load.d/`on RHEL family, kernel modules to load at boot time
+config.  
+`/etc/conf.modules` module configurations to customize a kernel module to 
+define unique parameters required, 
+
+We use `DKMS` to keeping modules update when new kernel installed.
+``` bash
+lsmod                           # list of modules
+modinfo                         # information about special module
+insmod  EXACT-<PATH-TO-MODULE>  # exact module address obtained from modinfo
+modprobe -v iwlwifi             # loads module (-v: verbose)
+modeprobe -r iwlwifi            # removes module
+modeprobe -n iwlwifi            # dry run (just test run, not complete run)
+modeprobe -c                    # shows current confi
+
+########
+
+lspci                           # list PCI devices, main swothces: -k,-v,-t
+lsusb                           # main switches: -t, -v, -s, -D
+
+# udev rules files stored at /etc/udev/rules.d, /lib/udev/rules.d 
+# and config file /etc/udev/udev.conf
+udevadm monitor
+cat /proc/filesystems
+# in /proc: assigned interrupt requests ( /proc/interrupts ), 
+# I/O ports ( /proc/ioports ), and direct memory access (DMA) channels ( /proc/dma ).
+# Kernel information ( /proc/sys/kernel )
+ls /proc/sys
+# sysctl: /etc/sysctl.conf, /etc/sysctl.d/*
+sysctl -a
+lsdev
+uname 
+```
+
+## Filesystem
+
+You should know journaling concept, inode concept, and some filesystems:  
+btrfs: uses COW and btrees, has RAID, snapshots, sub-volumes, checksums, ... . 
+It is future FS.  
+ext2,3,4: 3 and 4 has journaling  
+reiserFS  
+ntfs: microsoft's fs with journaling  
+vfat: microsoft's fs for flash drives  
+xfs: has journaling prepared for large files  
+zfs: has COW feature developed by Oracle
+
+### Mounting
+
+``` bash
+fdisk -l /dev/sdb
+fdisk /dev/sdb
+# m: help mennu
+# p: partition table print
+# d: delete partition
+# w: write changes to disk
+# n: new partition
+# use p for primary and eneter default or add some value, use +2G to add 2 GB
+# w: write changes
+sudo parted -l                  # show partition info
+sudo blkid                      # show block devices
+mkfs -t ext4 /dev/sdb1          # or 
+mkfs.ext4 /dev/sdb2
+mount -t FILESYSTEM-TYPE /dev/sdb1 /mnt
+cat /proc/filesystems           # some supported flesystem types
+umount /dev/sdb1 -l             # -l means do it as soon as possible
+cat /etc/fstab                  # auto mounton system startup
+mount -a                        # mounts anything on fstab
+# The lost+found directory is used for recovering files on ext2, ext3, and ext4 filesystems
+
+vim /etc/fstab                  # auto mount on boot files
+# /dev/<BLOCK-DEVICE>|UUID  /path/to/mount/point  filesystem  options  dump(backups)  fsck-check (0 for swap 1 for / and 2 for others)
+# /dev/sda1                     /                       ext4  defaults        0                       1
+# /dev/sda4                     /media/c                ntfs  defaults,       
+#                                                             ro|rw|sync,
+#                                                             user,
+#                                                             users
+#                                                             check,
+#                                                             group,
+#                                                             owner             
+```
+
+_**Note:**_ `systemd` can handle mounts, currently controls `fstab` and can
+have seperate `*.mount` units itself at `/etc/systemd/system/*.mount`.  
+
+### Virtual filesystems
+
+These directories are **memory based** filesystems, which are **not** stord on
+hard disk:  
+/dev/  
+/run/  
+/proc/  
+/sys/  
+
+On new GNU/Linux systems, devices mounted automatically on 
+`/run/media/username/<DEVICE-LABEL>`, and on older systems mounted to `/media/`
+or `/mnt/.`  
+
+``` bash
+swapon /dev/sda7    # enables swap usage
+```
+
+### BTRFS
+
+To make BTRFS we add two partitions with btrfs:
+
+``` bash
+sudo mkfs.btrfs /dev/sdc1 /dev/sdc2 -f
+mount -t btrfs /dev/sdc1 /mnt/cool-disk
+cd /mnt/cool-disk
+touch test-file 
+btrfs filesystem show
+# btrfs is a tools with many features
+
+# subvolumes
+btrfs subvolume create new_sub
+sudo btrfs subvolume get-default new_sub/  # or
+sudo btrfs subvolume get-default /mnt/cool-disk
+# now we can mount subvolume separately
+btrfs subvolume list /mnt/cool-disk
+# output: 
+# ID 259 gen 17 top level 5 path new_sub
+sudo umount /dev/sdc1 
+sudo mount -o subvol=new_sub /dev/sdc1  /tmp/test
+# by default all subvolumes mounted automatically with mounting the whole disk
+
+# snapshots
+# change directory to root of BTRFS filesystem
+cd /mnt/cool-disk
+btrfs subvolume snapshot new_sub new_sub_snapshot
+
+```
+
+### Optical filesystems
+
+Main optical filesystems are:  
+El Torito: CD Boot  
+HFS: for CD on mac, read-only on linux  
+HFS+: Advanced HFS  
+9660: iso standard for CD/DVD  
+Joliet: advanced of 9660 prepared by Microsoft  
+
+On linux systems, usually, we can mount CD/DVD from `/dev/cdrom` to a location.  
+
+### Remote filesystems
+
+- AutoFS:  
+  Handles remote filesystems, whic can be used on `fstab` and its files stored at 
+  `/etc/auto.master` which called **Master Map**.
+
+- NFS (Network FileSystem)
+- CIFS (Common Internet FileSystem)
+- SMB (Samba, windows file sharing on linux)
+- NAS (Network Attach Storage)
+- SAN (Storage Attached Network):  
+  Usually working with **ISCSI** protocol.
+
+### Encrypted filesystems
+
+``` bash
+dm-crypt
+cryptsetup
+ecryptfs
+ecryptfs-utils
+# with ecryptfs we can encrypt mounted filesystem again, like:
+mount -t ext4 /dev/sda1 /mnt
+mount -t ecryptfs  /mnt /mnt
 
