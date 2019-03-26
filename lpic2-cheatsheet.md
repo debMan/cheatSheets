@@ -481,7 +481,8 @@ iostat
 iotop
 lsof                            # can get a directory path as argument
 fuser                           
-# fuser Show which processes use the named files, sockets, or filesystems which gets as argument
+# fuser Show which processes use the named files, sockets, 
+# or filesystems which gets as argument
 ################
 w
 who
@@ -542,10 +543,10 @@ kernel: A generic name for an uncompressed kernel binary file
 zImage: A small kernel binary file compressed using the GNU zip utility  
 
 ``` bash
-ls -lh /lib/modules             # list of kernel modules
-insmode                         # Simple program to insert a module into the Linux Kernel
-cd /usr/src/kernels             # source of kernel headers on redhat based 
-cd /usr/src/linux*              # source of kernel headers on debian based
+ls -lh /lib/modules      # list of kernel modules
+insmod                   # Simple program to insert a module into the Kernel
+cd /usr/src/kernels      # source of kernel headers on redhat based 
+cd /usr/src/linux*       # source of kernel headers on debian based
 ```
 
 The kernel versionings:  
@@ -567,7 +568,7 @@ mv ./linux-5.0.4 /usr/src/
 cd /usr/src
 ln -s linux-5.0.4 linux
 cd linux
-# make config                     # asks several questions
+# make config                   # asks several questions
 make defconfig                  # makes .config file with default values or:
 # make menuconfig
 # make xconfig
@@ -577,13 +578,14 @@ make defconfig                  # makes .config file with default values or:
 # make vmlinuz
 make
 # Then copy kernel image to /boot, also sugested to copy System.map to /boot
-make install                    # or manualy copy vmlinuz and initrc to /boot and install drivers
+make install                    
+# or manualy copy vmlinuz and initrc to /boot and install drivers
 ##############
 make modules                    # manual install modules
 make modules_install
 # make initial ram disk file on DEB
 mkinitramfs -o /boot/initrd.img-5.0.4-generic 5.0.4
-mkinitrd  OUTPUT_FILE VERSION               # make initial ram disk file on RHEL
+mkinitrd  OUTPUT_FILE VERSION             # make initial ram disk file on RHEL
 
 update-grub
 ```
@@ -618,7 +620,7 @@ lsusb                           # main switches: -t, -v, -s, -D
 udevadm monitor
 cat /proc/filesystems
 # in /proc: assigned interrupt requests ( /proc/interrupts ), 
-# I/O ports ( /proc/ioports ), and direct memory access (DMA) channels ( /proc/dma ).
+# I/O ports (/proc/ioports), direct memory access (DMA) channels (/proc/dma).
 # Kernel information ( /proc/sys/kernel )
 ls /proc/sys
 # sysctl: /etc/sysctl.conf, /etc/sysctl.d/*
@@ -630,8 +632,8 @@ uname
 ## Filesystem
 
 You should know journaling concept, inode concept, and some filesystems:  
-btrfs: uses COW and btrees, has RAID, snapshots, sub-volumes, checksums, ... . 
-It is future FS.  
+btrfs: uses COW and B-tree, has RAID(0,1,10), snapshots, sub-volumes, 
+checksums, ... . It is future FS.  
 ext2,3,4: 3 and 4 has journaling  
 reiserFS  
 ntfs: microsoft's fs with journaling  
@@ -642,6 +644,18 @@ zfs: has COW feature developed by Oracle
 ### Mounting
 
 ``` bash
+# get informations
+mount                   # view mounted devices, -l -t
+mountpoint /            # check if / is a mountpoint or not. switches: -x, -d
+sudo blkid              # show block devices, main switches: -U, -L
+sudo blkid /dev/sda1a
+lsblk                           # -J -f -a -b -i -z -m -n -p -r -s -S -t
+findfs LABEL=Extra              # find a filesystem
+findfs UUID="82558d44–16af-4f2c-8670–6f54732bb31b"
+findmnt
+df
+
+# create
 fdisk -l /dev/sdb
 fdisk /dev/sdb
 # m: help mennu
@@ -652,34 +666,29 @@ fdisk /dev/sdb
 # use p for primary and eneter default or add some value, use +2G to add 2 GB
 # w: write changes
 sudo parted -l                  # show partition info
-sudo blkid                      # show block devices
 mkfs -t ext4 /dev/sdb1          # or 
 mkfs.ext4 /dev/sdb2
 mount -t FILESYSTEM-TYPE /dev/sdb1 /mnt
+# The lost+found directory is used for recovering files on ext[2-4] filesystems
 cat /proc/filesystems           # some supported flesystem types
 umount /dev/sdb1 -l             # -l means do it as soon as possible
-cat /etc/fstab                  # auto mounton system startup
+cat /etc/fstab                  # auto mount on system startup
+
+# /dev/mapper|UUID|label  /mount/point    filesystem    options  dump(backup)  fsck-check (disable:0, /:1, and others:2)
+# /dev/sda1                     /               ext4    defaults        0    1
+# Label=Temp                    /home/temp      xfs     users, noauto   0    0
+# server01:/nfsshare            /tmp/share      nfs     defaults        0    0
+
+# Also other options are: ro, rw, sync, user, users. check, group, owner
+# (users option allows any user authorized to use this system, not just those 
+# with super user privileges, to mount or unmount this labeled partition.)
+
 mount -a                        # mounts anything on fstab
-# The lost+found directory is used for recovering files on ext2, ext3, and ext4 filesystems
-
-vim /etc/fstab                  # auto mount on boot files
-# /dev/mapper|UUID|label  /mount/point    filesystem    options  dump(backup)  fsck-check (swap:0, /:1, and others:2)
-# /dev/sda1                     /               ext4    defaults        0        1
-# Label=Temp                    /home/temp      xfs     users, noauto   0        0
-# server01:/nfsshare            /tmp/share      nfs
-#                                                       ro|rw|sync,
-#                                                       user,
-#                                                       users. 
-# (llows any user authorized to use this system, not just those with super user privileges, to mount or unmount this labeled partition.)
-#                                                       check,
-#                                                       group,
-#                                                       owner
-
 # Use sync to forces the data commitment process to take place immediately. 
-# This allows you to detach removable media safely.
+# This allows you to detach removable media safely. Before umount use:
 sync -f  # or 
 sync --file-system
-
+# Then:
 umount /dev/sdc1
 ```
 
@@ -687,19 +696,53 @@ _**Note:**_ `systemd` can handle mounts, currently controls `fstab` and can
 have seperate `*.mount` units itself at `/etc/systemd/system/*.mount`. For 
 example, the mount point, /home/temp/ , would have a mount unit file named 
 `home-temp.mount`.
-```
+``` 
 $ cat /etc/systemd/system/home-temp.mount
 
+[Unit]
+Description=Test Mount Units
+[Mount]
+What=/dev/sdo1
+Where=/home/temp
+Type=ext4
+Options=defaults
+SloppyOptions=on
+# ignores any mount options not supported by a particular filesystem type. 
+# off by default 
+
+TimeOutSec=4
+# returns failed operation after 4 sec if not mounted
+[Install]
+WantedBy=multi-user.target
+
+$ sudo systemctl daemon-reload
+$ sudo systemctl start home-temp.mount
+$ sudo systemctl status home-temp.mount
+$ sudo systemctl enable home-temp.mount
+$ sudo systemctl is-enabled home-temp.mount
+enabled
 ```
 
 ### Virtual filesystems
 
-These directories are **memory based** filesystems, which are **not** stord on
-hard disk:  
+Usually **memory based** filesystems mounted on following list, which are 
+**not** stord on hard disk:  
 /dev/  
 /run/  
 /proc/  
 /sys/  
+
+A few memory-based filesystem examples are:  
+devpts  
+proc  
+sysfs  
+tmpfs  
+
+For example:
+
+``` bash
+cat /proc/cpuinfo
+```
 
 On new GNU/Linux systems, devices mounted automatically on 
 `/run/media/username/<DEVICE-LABEL>`, and on older systems mounted to `/media/`
@@ -707,6 +750,7 @@ or `/mnt/.`
 
 ``` bash
 swapon /dev/sda7    # enables swap usage
+swapoff /dev/sda7
 ```
 
 ### BTRFS
@@ -715,6 +759,7 @@ To make BTRFS we add two partitions with btrfs:
 
 ``` bash
 sudo mkfs.btrfs /dev/sdc1 /dev/sdc2 -f
+# created RAID 0 for data and RAID 1 for metadata because of two arguments
 mount -t btrfs /dev/sdc1 /mnt/cool-disk
 cd /mnt/cool-disk
 touch test-file 
@@ -722,7 +767,7 @@ btrfs filesystem show
 # btrfs is a tools with many features
 
 # subvolumes
-btrfs subvolume create new_sub
+btrfs subvolume create Mount_Point/Subvolume_Name
 sudo btrfs subvolume get-default new_sub/  # or
 sudo btrfs subvolume get-default /mnt/cool-disk
 # now we can mount subvolume separately
@@ -749,14 +794,14 @@ HFS+: Advanced HFS
 9660: iso standard for CD/DVD  
 Joliet: advanced of 9660 prepared by Microsoft  
 
-On linux systems, usually, we can mount CD/DVD from `/dev/cdrom` to a location.  
+On linux systems, usually, we can mount CD/DVD from `/dev/cdrom` to a `/mnt` or
+somewhere else.  
 
 ### Remote filesystems
 
 - AutoFS:  
-  Handles remote filesystems, whic can be used on `fstab` and its files stored at 
-  `/etc/auto.master` which called **Master Map**.
-
+  Handles remote filesystems, whic can be used on `fstab` and its files stored 
+  at `/etc/auto.master` which called **Master Map**.
 - NFS (Network FileSystem)
 - CIFS (Common Internet FileSystem)
 - SMB (Samba, windows file sharing on linux)
