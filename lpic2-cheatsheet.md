@@ -990,10 +990,9 @@ btrfsck             # older version of  the btrfs check
 #### Using SMART
 
 The **SMART** stands for Self-Monitoring Analysis and Reporting Technology. 
-SMART devices are usually HDD or SSD, but may be SCSI Tapes. The packae name is
-`smartmontools` on the Linux which may not be installed by default. The 
-`smartd` daemon enables monitoring on any attached SMART devices. Its config
-files found on `/etc/smartd.conf` or `/etc/smartmontools/smartd.conf` and its 
-log found at `/var/log/smartd.log`, `/var/log/messages`, or `/var/log/syslog` 
-depends on your distribution.
+SMART devices are usually HDD or SSD, but may be SCSI Tapes.  
+The packae name: `smartmontools` (may not be installed by default)  
+`smartd` daemon: enables monitoring on any attached SMART devices.  
+config files: `/etc/smartd.conf` or `/etc/smartmontools/smartd.conf`  
+log files: `/var/log/smartd.log`or `/var/log/messages` or `/var/log/syslog`  
 
