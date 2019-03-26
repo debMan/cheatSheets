@@ -480,9 +480,10 @@ otop
 iostat
 iotop
 lsof                            # can get a directory path as argument
-fuser                           
+fuser
 # fuser Show which processes use the named files, sockets, 
 # or filesystems which gets as argument
+udisksctl monitor               # monitor block devices
 ################
 w
 who
@@ -618,6 +619,7 @@ lsusb                           # main switches: -t, -v, -s, -D
 # udev rules files stored at /etc/udev/rules.d, /lib/udev/rules.d 
 # and config file /etc/udev/udev.conf
 udevadm monitor
+udisksctl monitor
 cat /proc/filesystems
 # in /proc: assigned interrupt requests ( /proc/interrupts ), 
 # I/O ports (/proc/ioports), direct memory access (DMA) channels (/proc/dma).
@@ -756,12 +758,16 @@ On new GNU/Linux systems, devices mounted automatically on
 or `/mnt/.`  
 
 ``` bash
-sswapon -s          # displays a summery
+sswapon -s              # displays a summery
 # also with:
 free -h
 # you can create a swap partition
 mkswap /dev/sdd1
-swapon /dev/sdd1    # enables swap usage
+swapon -p 0 /dev/sdd1   # enables swap usage with 0 priority
+swapon                  # show info 
+# NAME      TYPE       SIZE USED PRIO
+# /dev/sda7 partition 1000M   0B   -2
+# /dev/sdc3 partition  3.1G   0B    0
 swapoff /dev/sdd1
 ```
 You can also create a file using the `dd` command to make it the proper size 
@@ -860,13 +866,18 @@ cdrecord -tao speed=0 dev=/dev/cdrom myBoot.iso
 eject cdrom
 ```
 
-### Remote filesystems
+### Network-Based filesystems
 
 - AutoFS:  
-  Handles remote filesystems, whic can be used on `fstab` and its files stored 
+  Handles remote filesystems, it be used on `fstab` and its files stored 
   at `/etc/auto.master` which called **Master Map**.
-- NFS (Network FileSystem)
-- CIFS (Common Internet FileSystem)
+  By adding NFS to `fstab` may face problems. By using AutoFS this problems
+  will be solved. For example, NFS filesystems are mounted when they are 
+  accessed instead of at system boot time. Its package name is `autofs`.
+  Its configurations files stored at `/etc/default/autofs` or
+  `/etc/sysconfig/autofs`.
+- NFS (Network File System)
+- CIFS (Common Internet File System)
 - SMB (Samba, windows file sharing on linux)
 - NAS (Network Attach Storage)
 - SAN (Storage Attached Network):  
@@ -874,12 +885,20 @@ eject cdrom
 
 ### Encrypted filesystems
 
+- dm-crypt:  
+  Available with `cryptsetup` package. Its a little confusing. The dm-crypt 
+  encrypted filesystems use Device Mapper. It is **not** recommended.
+- eCryptfs:  
+  A newer encrypted filesystem type, eCryptfs, is actually a pseudo-filesystem 
+  in that it is layered on top of a current filesystem. Allow picking which 
+  cipher algorithm to use, such as AES, Blowfish, des3_ede, and so on. After
+  installing `ecryptfs-utils`, you can simply use:
 ``` bash
-dm-crypt
-cryptsetup
-ecryptfs
-ecryptfs-utils
 # with ecryptfs we can encrypt mounted filesystem again, like:
 mount -t ext4 /dev/sda1 /mnt
 mount -t ecryptfs  /mnt /mnt
+```
+  The encrypted files can be copied between various systems, because eCryptfs 
+  metadata is stored in each file’s header. It has options like key byte size, 
+  cipher choice, file name encryption, ...
 
