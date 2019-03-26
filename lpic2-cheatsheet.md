@@ -904,7 +904,9 @@ mount -t ecryptfs  /mnt /mnt
   can be written in `fstab`. You may not find documentation on your os, please
   see [linux.die.net/man/7/ecryptfs](http://linux.die.net/man/7/ecryptfs).
 
-### Adjusting a filesystem
+### Maintaining filesystems
+
+#### Adjusting a filesystem
 
 To adjust filesystems:
 
@@ -932,4 +934,57 @@ btrfs balance       # Reallocates and balances data across the filesystem.
 btrfs-convert       # Convert an ext family filesystem to btrfs and vice versa.
 btrfstune           # Tunes filesystem attributes and enables/disables extended features.
 btrfs property set  # Sets various filesystem properties, such as the label.
+
+# also use man -k btrfs to view more tools.
 ```
+
+#### Checking and repairing a filesystem
+
+Check/repair utilities on linux:
+
+``` bash
+# ext family (ext2, ext3, ext4)
+fsck.*          # Checks and repairs Linux filesystems. Replace the * with
+                # the filesystem type that you wish to check, like fsck.ext4.
+                # NOTE: fsck.xfs and fsck.btrfs utilities do nothing!!
+                # dun fsck itself uses fstab last column check numbers
+
+debugfs         # An interactive utility that can be used to extract data 
+                # in order to move it to a new location.
+
+dumpe2fs        # Displays filesystem information.
+tune2fs -l      # Displays filesystem attributes with the -l option.
+
+# xfs
+xfs_check       # Checks filesystem’s consistency but does no repairs. 
+                # Considered the “dry run” of an xfs_repair . No longer 
+                # included in many current distributions.
+
+xfsdump         # Creates a backup (dump) of the filesystem’s data and its 
+                # attributes, which can be directed to either storage media, 
+                # a file, or standard output.
+
+xfs_info        # Displays and checks filesystem information. Equivalent to 
+                # running xfs_grow -n .
+
+xfs_metadump    # Copies filesystem metadata to a file.
+xfs_repair      # Checks filesystem’s consistency and does any needed repairs. 
+                # If the xfs_check command is not on your system, use xfs_repair
+                # -n to perform a “dry run” instead.
+
+xfsrestore      # Restores filesystem’s data and its attributes from a backup 
+                # dump created by the xfsdump utility.
+
+# also use man -k xfs to view more tools.
+
+# btrfs
+btrfs check         # Checks and optionally repairs an unmounted filesystem.
+btrfs property get  # Gets various filesystem properties, such
+btrfs rescue        # Recovers a damaged filesystem.
+btrfs restore       # Restores files from a damaged filesystem. This is the
+                    # most powerful of the three repair utilities ( check , rescue , and restore ).
+btrfs scrub         # Reads all data from disk and checks for consistency.
+btrfsck             # older version of  the btrfs check
+```
+
+#### Using SMART
