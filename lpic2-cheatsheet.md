@@ -900,5 +900,36 @@ mount -t ecryptfs  /mnt /mnt
 ```
   The encrypted files can be copied between various systems, because eCryptfs 
   metadata is stored in each file’s header. It has options like key byte size, 
-  cipher choice, file name encryption, ...
+  cipher choice, file name encryption, ... usable with `-o` on mount. Also it
+  can be written in `fstab`. You may not find documentation on your os, please
+  see [linux.die.net/man/7/ecryptfs](http://linux.die.net/man/7/ecryptfs).
 
+### Adjusting a filesystem
+
+To adjust filesystems:
+
+``` bash
+# ext family (ext2, ext3, ext4)
+debugfs             # An interactive utility, used to modify metadata
+e2label             # Modifies a filesystem label
+resize2fs           # Enlarges or shrinks an unmounted filesystem
+tune2fs             # Tunes filesystem attributes, including UUIDs and labels
+# very versatile utility.
+# changing an unmounted dvice UUID:
+uuidgen | clip
+sudo tune2fs /dev/sdc1 \ 
+ -U b77a195a-e5a8–4810–932e-5d9adb97adc6
+
+# xfs
+xfs_admin           # Tunes filesystem attributes, including UUIDs and labels
+xfs_fsr             # Improves filesystem file layout
+xfs_growfs          # Expands filesystem size
+
+# btrfs
+btrfs balance       # Reallocates and balances data across the filesystem. 
+                    # (It often has the side benefit of reducing the filesystem 
+                    # reserved for metadata.)
+btrfs-convert       # Convert an ext family filesystem to btrfs and vice versa.
+btrfstune           # Tunes filesystem attributes and enables/disables extended features.
+btrfs property set  # Sets various filesystem properties, such as the label.
+```
