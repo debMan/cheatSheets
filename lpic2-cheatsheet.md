@@ -689,7 +689,9 @@ mount -a                        # mounts anything on fstab
 sync -f  # or 
 sync --file-system
 # Then:
-umount /dev/sdc1
+umount /dev/sdc1a
+# After all, you can eject
+eject /dev/sdc
 ```
 
 _**Note:**_ `systemd` can handle mounts, currently controls `fstab` and can
@@ -772,17 +774,38 @@ sudo btrfs subvolume get-default new_sub/  # or
 sudo btrfs subvolume get-default /mnt/cool-disk
 # now we can mount subvolume separately
 btrfs subvolume list /mnt/cool-disk
+btrfs subvolume list -t /mnt/cool-disk 
+# -t displays the information in table format
 # output: 
 # ID 259 gen 17 top level 5 path new_sub
+#
+# ID	gen	top level	path
+# --	---	---------	----
+# 259	17	5		new_sub
 sudo umount /dev/sdc1 
 sudo mount -o subvol=new_sub /dev/sdc1  /tmp/test
-# by default all subvolumes mounted automatically with mounting the whole disk
+# By default all subvolumes mounted automatically with mounting the parent
+# Also, subvolumes can be mounted separately
+# Too delete a subvolume:
+# also to mount a subvolume by default we can change default subvolume id to
+# the special subvolume:
+btrfs subvolume set-default 259 /mnt/cool-disk
+# next time, by mounting /dev/sdc1, the new_sub will be mounted
+
+# to remove the subvolume after it is mounted
+btrfs subvolume delete /mnt/cool-disk/new_sub
 
 # snapshots
 # change directory to root of BTRFS filesystem
 cd /mnt/cool-disk
 btrfs subvolume snapshot new_sub new_sub_snapshot
+```
 
+To get more information, please read:
+
+``` bash
+man btrfs-filesystem
+man mkfs.btrfs
 ```
 
 ### Optical filesystems
@@ -795,7 +818,18 @@ HFS+: Advanced HFS
 Joliet: advanced of 9660 prepared by Microsoft  
 
 On linux systems, usually, we can mount CD/DVD from `/dev/cdrom` to a `/mnt` or
-somewhere else.  
+somewhere else. Also, we can mount an `*.iso` file directly to a mount point.
+
+Also, to create ISO file, we can do like this:
+
+``` bash
+mkisofs -o my.iso Temp/
+genisoimage -o my.iso Temp/
+
+# This will create a bootable ISO file called myBoot.iso
+
+eject cdrom
+```
 
 ### Remote filesystems
 
