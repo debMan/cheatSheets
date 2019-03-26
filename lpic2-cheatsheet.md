@@ -690,8 +690,13 @@ sync -f  # or
 sync --file-system
 # Then:
 umount /dev/sdc1a
+
 # After all, you can eject
 eject /dev/sdc
+
+# Also you can power off devices like this:
+udisksctl power-off  --block-device /dev/sdb
+# udiskctl is a powerful tool
 ```
 
 _**Note:**_ `systemd` can handle mounts, currently controls `fstab` and can
@@ -751,9 +756,16 @@ On new GNU/Linux systems, devices mounted automatically on
 or `/mnt/.`  
 
 ``` bash
-swapon /dev/sda7    # enables swap usage
-swapoff /dev/sda7
+sswapon -s          # displays a summery
+# also with:
+free -h
+# you can create a swap partition
+mkswap /dev/sdd1
+swapon /dev/sdd1    # enables swap usage
+swapoff /dev/sdd1
 ```
+You can also create a file using the `dd` command to make it the proper size 
+and then turn it into a swap file to be used as swap space.
 
 ### BTRFS
 
@@ -826,8 +838,25 @@ Also, to create ISO file, we can do like this:
 mkisofs -o my.iso Temp/
 genisoimage -o my.iso Temp/
 
-# This will create a bootable ISO file called myBoot.iso
+ls
+# AUTORUN.INF    initrd.trk      memdisk      syslinux.cfg   
+# boot.cat       isolinux.bin    memtest.x86  trinity.ico
 
+# This will create a bootable ISO file called myBoot.iso
+mkisofs -b isolinux.bin -c boot.cat -no-emul-boot \
+ -boot-load-size 4 -boot-info-table -JR \
+ -o ../../myBoot.iso ../Temp
+
+# double-check that the ISO file is bootable
+file myBoot.iso
+# myBoot.iso: # ISO 9660 CD-ROM filesystem data
+# 'CDROM              ' (bootable)
+
+cdrecord -tao speed=0 dev=/dev/cdrom myBoot.iso 
+# -tao: Track At Once mode to write, speed=0: lowest speed
+# cdrecord is available by CDRTools package.
+
+# finaly
 eject cdrom
 ```
 
