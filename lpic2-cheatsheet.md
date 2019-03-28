@@ -908,12 +908,10 @@ mount -t ecryptfs  /mnt /mnt
 
 #### Adjusting a filesystem
 
-To adjust filesystems:
-
 ``` bash
 # ext family (ext2, ext3, ext4)
 debugfs             # An interactive utility, used to modify metadata
-e2label             # Modifies a filesystem label
+e2label             # Shows and Modifies a filesystem label
 resize2fs           # Enlarges or shrinks an unmounted filesystem
 tune2fs             # Tunes filesystem attributes, including UUIDs and labels
 # very versatile utility.
@@ -940,13 +938,11 @@ btrfs property set  # Sets various filesystem properties, such as the label.
 
 #### Checking and repairing a filesystem
 
-Check/repair utilities on linux:
-
 ``` bash
 # ext family (ext2, ext3, ext4)
 fsck.*          # Checks and repairs Linux filesystems. Replace the * with
-                # the filesystem type that you wish to check, like fsck.ext4.
-                # NOTE: fsck.xfs and fsck.btrfs utilities do nothing!!
+fsck -t ext4    # the filesystem type that you wish to check, like fsck.ext4.
+fsck            # NOTE: fsck.xfs and fsck.btrfs utilities do nothing!!
                 # dun fsck itself uses fstab last column check numbers
 
 debugfs         # An interactive utility that can be used to extract data 
@@ -991,8 +987,36 @@ btrfsck             # older version of  the btrfs check
 
 The **SMART** stands for Self-Monitoring Analysis and Reporting Technology. 
 SMART devices are usually HDD or SSD, but may be SCSI Tapes.  
-The packae name: `smartmontools` (may not be installed by default)  
+Packae name: `smartmontools` (may not be installed by default)  
 `smartd` daemon: enables monitoring on any attached SMART devices.  
 config files: `/etc/smartd.conf` or `/etc/smartmontools/smartd.conf`  
-log files: `/var/log/smartd.log`or `/var/log/messages` or `/var/log/syslog`  
+log files: `/var/log/smartd.log` or `/var/log/messages` or `/var/log/syslog`  
+`smartctl`: Its comman-line tool
 
+``` bash
+sudo smartctl -i /dev/sda1  # view an individual device’s information,
+# It may your device have SMART but not be supported by the smartctl command.
+# To see what device types are supported,
+smartctl -P showall | less 
+
+# The device does not have to be mounted on the system
+smartctl -s on /dev/sdb1       # enable SMART feature of device
+
+# conduct a number of tests on your hard drive with -t 
+smartctl -t [selftest, short, long] /dev/sdb1
+# No output will be shown when the test is complete. You can check this with:
+sudo smartctl -a /dev/sda6 | grep -A1 "Self-test execution"
+# -a option shows a great deal of information
+
+# drive’s summary health status:
+sudo smartctl -H /dev/sda6
+
+# view the device’s error logs
+smartctl -l error device
+```
+
+You can also visit the website 
+[smartmontools.org/wiki/Supported_USB-Devices](https://www.smartmontools.org/wiki/Supported_USB-Devices) 
+to see what USB devices are supported by the smartctl command.
+
+## Advanced Storage Devices
