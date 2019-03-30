@@ -880,7 +880,7 @@ eject cdrom
 - CIFS (Common Internet File System)
 - SMB (Samba, windows file sharing on linux)
 - NAS (Network Attach Storage)
-- SAN (Storage Attached Network):  
+- SAN (Storage Area Network):  
   Usually working with **ISCSI** protocol.
 
 ### Encrypted filesystems
@@ -932,7 +932,6 @@ btrfs balance       # Reallocates and balances data across the filesystem.
 btrfs-convert       # Convert an ext family filesystem to btrfs and vice versa.
 btrfstune           # Tunes filesystem attributes and enables/disables extended features.
 btrfs property set  # Sets various filesystem properties, such as the label.
-
 # also use man -k btrfs to view more tools.
 ```
 
@@ -1015,8 +1014,174 @@ sudo smartctl -H /dev/sda6
 smartctl -l error device
 ```
 
+Also, you can use `smartd`. You can set up scheduled device tests with the 
+`smartd` daemon. Its config available at `/etc/smartd.conf` or 
+`/etc/smartmontools/smartd.conf`  
+For example by adding following line to `smartd` config:  
+Runs a long test on all of your system’s SMART devices on Sundays from 1 a.m. to 2 a.m.  
+```
+DEVICESCAN -s L/../../7/01
+```
+
 You can also visit the website 
 [smartmontools.org/wiki/Supported_USB-Devices](https://www.smartmontools.org/wiki/Supported_USB-Devices) 
 to see what USB devices are supported by the smartctl command.
 
 ## Advanced Storage Devices
+
+### RAID
+
+**RAID** stands for Redundant Array of Independent Disks. Depending on the 
+chosen RAID structure, this logical drive can achieve improved access 
+performance, increased data protection, and reduced down time. RAID support
+added on kernel v2.6 and above.  
+
+RAID levels in brief:
+- RAID0: disk striping, speed up reads and writes, no fault tolerance, 2 disks
+- RAID1: disk mirroring, backed up data, high cost of disks, 2 disks
+- RAID2: a form of RAID0, specialized error checking (depreciated)
+- RAID3: a form of RAID0, uses parity disk, no regeneration for parity disk 
+    failure, 3 disks (depreciated)
+  RAID4: like RAID3, but faster access, because RAID 3 processes bytes of data,
+    while RAID 4 processes blocks of data (depreciated)
+- RAID5: disk striping with parity, parity data is not written to a single
+    disk, 3 disks
+- RAID6: disk striping with double parity, like RAID 5, except the same parity 
+    data chunk is written two times, each on a different disk, 4 disks
+- RAID10: RAID(1+0) Combination of RAID1 (mirroring) and RAID0 (striping), 4
+    disks
+
+More details available at 
+[borosan online book](https://borosan.gitbooks.io/lpic2-exam-guide/content/2041-configuring-raid.html).
+
+Practice with a single cool disk with multiple partitions:
+
+``` bash
+# Please make partitions as Linux RAID format (fd on fdisk and fd00 on gdisk)
+cat /proc/mdstata           # provides current system RAID status information.
+sudo modprobe raid6         # chek kernel raid module existence
+
+# mdadm tool:
+# mdadm [--mode] raid-device [options] component-devices
+# modes: 
+# -A --assemble: Assemble the components of a previously created array into an active array.
+# --auto-detect: it requests the Linux Kernel to activate any auto-detected arrays.
+# -B --build: Build  an array that doesn't have per-device metadata (superblocks).
+# -C --create: Create a new array with per-device metadata (superblocks).
+# -F --follow, --monitor: Monitor one or more md devices and act on any state changes. (not work for RAID0)
+# -G --grow: Grow (or shrink) an array, or otherwise reshape it in some way.
+# -I --incremental: Incremental assembly mode: Adds a single drive to designated RAID array, similar to assemble mode but for one drive at a time.
+# --manage: Manages RAID array members, such as adding a new spare drive to a RAID array.
+# --misc: everything else. (can be ignored, no need to write --misc)
+
+mdadm -C /dev/md0 -l 5 -n 3 /dev/sdb1 /dev/sdb2 /dev/sdb3
+mkfs.ext4  /dev/md0
+mdadm [--misc] -detail /dev/md0  # do not have to include --misc
+
+# to view the config
+sudo mdadm -v --detail  --scan /dev/md0
+# you can copy its output to the mdadm config file (not required)
+# mdadm config files stored at:
+# /etc/mdadm/mdadm.conf
+# /etc/mdadm/mdadm.conf.d/
+# /etc/mdadm.conf
+# /etc/mdadm.conf.d/
+# run man mdadm.conf to check
+sudo mdadm --verbose --detail --scan /dev/md0 >> /etc/mdadm/mdadm.conf
+# this is not neccesary
+
+# You can use -- help on each section:
+mdadm --monitor --helpa
+# mdadm --monitor options devices
+# options: 
+# --daemonise -f : Fork and continue in child, parent exits
+# more with --monitor --helpa
+# The mdadm monitor mode events:
+# DeviceDisappeared: An entire array that was created or assembled has left  array configuration status.
+# RebuildStarted: An array has started to rebuild.
+# RebuildNN: An array that is rebuilding is NN % done.
+# RebuildFinished: An array that is rebuilding is either completely done or was aborted.
+# Fail: An active array member has been designated faulty.
+# FailSpare: An array spare drive, which was currently being added into full array membership to replace a failed drive, has been designated faulty.
+# SpareActive: An array spare drive, which was currently being added into active array membership to replace a failed drive, has been successfully added as an active array member.
+# NewArray: A new array has been added in the /proc/mdstat file.
+# DegradedArray: A new array appears to have an array member missing.
+# MoveSpare: A spare drive has been moved from one array in the same spare group or domain to another array that needs a spare due to a failed drive.
+# SparesMissing: The configuration file indicates that an array should have n spare drives, but it is detected that fewer than n spare drives exist in the array.
+# TestMessage: At startup, an array is detected with the --test option used for monitor mode.
+
+# Adding spare disk to RAID array:
+# checking a drive for array membership
+mdadm --misc --examine /dev/sde1
+mdadm --misc --detail /dev/md0 | grep Spare
+mdadm --manage --add /dev/md0 /dev/sde1
+# don't forget to partition spare disk same as the others
+
+# Removing a RAID array
+mdadm --manage --stop /dev/md0
+mdadm --zero-superblock /dev/sdb1 /dev/sdb2 /dev/sdb3
+```
+
+### Adjusting storage devices
+
+Ypu should now about:  
+ATA/IDE: Advanced Technology Attachment, Integrated Drive Electronics, 133 MB/s  
+SATA: Serial ATA, allows Plug and Play, 6 GB/s  
+ATAPI: optical media and tape interface protocol, based on ATA  
+SCSI: Small Computer System Interface, 80 MB/s, older than SATA  
+iSCSI: internet SCSI, a SCSI storage server’s disk appears as a locally 
+  attached client-side disk  
+LUN: Logical Unit Number, storage indexing on target (remote) on iSCSI  
+SAS: Serial Attached SCSI, It uses a Synchronous Serial Port (SSP) controller 
+  that supports the Serial Peripheral Interface (SPI) protocol.  
+AHCI: Advanced Host Controller Interface, allows software communication with 
+  SATA devices. provides features like hot-plugging, TRIM, ... .  
+NVMe: Non-Volatile Memory Express, standard for SSDs attached via the PCI 
+  Express bus., up at `/dev/nvme*` like `/dev/nmve0n1p1` which means namespace
+  1 and partition 1, another example: `/dev/nvme1n3p2`  
+FC: Fiber Channel  
+ATAOverEthernet:  
+FiberChannelOverEthernet
+IP  
+DMA: direct memory access, write dirctly to RAM without CPU mediation  
+WBC: write-back caching,   
+
+iSCSI addresses can be:  
+- iQN: iSCSI Qualified Name: iqn.yyyy‐mm.com.xyz.aabbccddeeffgghh:
+    iqn.date.domain.device-identifier, Device identifier (can be a WWN, the 
+    system name, or any other vendorimplemented standard)
+- EUI: IEEE Naming convention: eui.64‐bit WWN: euiFC-WWN-of-the-host  
+
+``` bash
+lshw --class disk           # ciew disk connection types
+hdparm /dev/sda
+hdparm -I /dev/sda
+hdparm -B 125 /dev/sda 
+# Set the Advanced Power Management, valus <1-255>. While 1-127 permit spin-down, 
+# 128-254 no not allow spin-down and 255 disable feature completly
+hdparm -S 240 /dev/sda 
+# Set standby time.specifies how long to wait in idle (with no disk activity) 
+# before turning off the motor to save power. 0 can disbale feature,the values
+# from 1 to 240 specify multiples of 5 seconds and values from 241 to 251 specify multiples of 30 minutes.
+hdparm -W /dev/sda  
+hdparm -W 1 /dev/device             # turn on
+# Get/set the IDE/SATA drive´s write-caching feature.
+hdparm -d 1 /dev/sda 
+# set DMA (Direct Memory Access)on or off,values 0 or 1
+hdparm --security-help
+# view the various security options with hdparm
+hdparm -tT /dev/sda
+# test for both its device and cache reads: when device is inactive
+
+sdparm      
+# scsi version of hdparm. sdparm manupulate scsi specific attributes of hard drive.
+tune2fs 
+sysctl 
+# kernel configurations, deals with /proc directory
+# its config at /etc/sysctl.conf
+sysctl -a                            # shows all
+sysctl dev.cdrom.autoeject          # show special part
+sysctl -w dev.cdrom.autoeject=1     # set special part
+cat /proc/sys/dev/cdrom/autoeject   # shows that part
+# or you can set this file value withhout sysctl, manualy
+```
