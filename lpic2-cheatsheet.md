@@ -1136,6 +1136,8 @@ You should know about:
 - iSCSI:  
     internet SCSI, a SCSI storage server’s disk appears as a locally attached 
     client-side disk  
+    Learn more about iSCSI at SYBEX Exam 201 and Exam 202 study guide book
+    pages 237-244  
     iSCSI addresses can be:  
   * iQN: iSCSI Qualified Name: iqn.yyyy‐mm.com.xyz.aabbccddeeffgghh:
     iqn.date.domain.device-identifier, Device identifier (can be a WWN, the 
@@ -1153,6 +1155,7 @@ You should know about:
     Non-Volatile Memory Express, standard for SSDs attached via the PCI Express 
     bus., up at `/dev/nvme*` like `/dev/nmve0n1p1` which means namespace1 and 
     partition 1, another example: `/dev/nvme1n3p2`  
+    Its package name is `nvme-cli` and its comands like: `nvme help`
 - FC: Fiber Channel  
 - ATAOverEthernet:  
 - FiberChannelOverEthernet  
@@ -1193,4 +1196,31 @@ sysctl dev.cdrom.autoeject          # show special part
 sysctl -w dev.cdrom.autoeject=1     # set special part
 cat /proc/sys/dev/cdrom/autoeject   # shows that part
 # or you can set this file value withhout sysctl, manualy
+```
+
+### LVM
+
+Here we have: Physical Volume (PV), Volume Group (VG), Logical Volume (LV), 
+Physical Extent (PE), Logical Extent (LE).  
+
+``` bash
+lvm                     # main lvm interactive shell
+lvmconfig               # show and manipulate configuration information
+
+lvm> help
+
+lvmdiskscan
+pvcreate /dev/sdb1      # create a PV
+pvcreate /dev/sdb2
+pvcreate /dev/sdb3
+pvck                    # Check the consistency of physical volume
+pvscan                  # shows PVs
+pvs                     # shows PVs
+pvdisplay [/dev/sdb1]   # shows details for all PVs or special PV
+vgcreate vg00 /dev/sdb0 /dev/sdb1 /dev/sdb3 
+vgscan
+vgs
+vgdisplay
+lvcreate -L 5G vg00  
+
 ```
