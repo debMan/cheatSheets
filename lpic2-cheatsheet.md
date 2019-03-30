@@ -1124,33 +1124,42 @@ mdadm --zero-superblock /dev/sdb1 /dev/sdb2 /dev/sdb3
 
 ### Adjusting storage devices
 
-Ypu should now about:  
-ATA/IDE: Advanced Technology Attachment, Integrated Drive Electronics, 133 MB/s  
-SATA: Serial ATA, allows Plug and Play, 6 GB/s  
-ATAPI: optical media and tape interface protocol, based on ATA  
-SCSI: Small Computer System Interface, 80 MB/s, older than SATA  
-iSCSI: internet SCSI, a SCSI storage server’s disk appears as a locally 
-  attached client-side disk  
-LUN: Logical Unit Number, storage indexing on target (remote) on iSCSI  
-SAS: Serial Attached SCSI, It uses a Synchronous Serial Port (SSP) controller 
-  that supports the Serial Peripheral Interface (SPI) protocol.  
-AHCI: Advanced Host Controller Interface, allows software communication with 
-  SATA devices. provides features like hot-plugging, TRIM, ... .  
-NVMe: Non-Volatile Memory Express, standard for SSDs attached via the PCI 
-  Express bus., up at `/dev/nvme*` like `/dev/nmve0n1p1` which means namespace
-  1 and partition 1, another example: `/dev/nvme1n3p2`  
-FC: Fiber Channel  
-ATAOverEthernet:  
-FiberChannelOverEthernet
-IP  
-DMA: direct memory access, write dirctly to RAM without CPU mediation  
-WBC: write-back caching,   
-
-iSCSI addresses can be:  
-- iQN: iSCSI Qualified Name: iqn.yyyy‐mm.com.xyz.aabbccddeeffgghh:
+You should know about:  
+- ATA/IDE:  
+    Advanced Technology Attachment, Integrated Drive Electronics, 133 MB/s  
+- SATA:  
+    Serial ATA, allows Plug and Play, 6 GB/s  
+- ATAPI:  
+    optical media and tape interface protocol, based on ATA  
+- SCSI:  
+    Small Computer System Interface, 80 MB/s, older than SATA  
+- iSCSI:  
+    internet SCSI, a SCSI storage server’s disk appears as a locally attached 
+    client-side disk  
+    iSCSI addresses can be:  
+  * iQN: iSCSI Qualified Name: iqn.yyyy‐mm.com.xyz.aabbccddeeffgghh:
     iqn.date.domain.device-identifier, Device identifier (can be a WWN, the 
     system name, or any other vendorimplemented standard)
-- EUI: IEEE Naming convention: eui.64‐bit WWN: euiFC-WWN-of-the-host  
+  * EUI: IEEE Naming convention: eui.64‐bit WWN: euiFC-WWN-of-the-host  
+- LUN:  
+    Logical Unit Number, storage indexing on target (remote) on iSCSI  
+- SAS:  
+    Serial Attached SCSI, It uses a Synchronous Serial Port (SSP) controller 
+    that supports the Serial Peripheral Interface (SPI) protocol.  
+- AHCI:  
+    Advanced Host Controller Interface, allows software communication with SATA 
+    devices. provides features like hot-plugging, TRIM, ... .  
+- NVMe:  
+    Non-Volatile Memory Express, standard for SSDs attached via the PCI Express 
+    bus., up at `/dev/nvme*` like `/dev/nmve0n1p1` which means namespace1 and 
+    partition 1, another example: `/dev/nvme1n3p2`  
+- FC: Fiber Channel  
+- ATAOverEthernet:  
+- FiberChannelOverEthernet  
+- IP  
+- DMA:  
+    direct memory access, write dirctly to RAM without CPU mediation  
+- WBC: write-back caching,   
 
 ``` bash
 lshw --class disk           # ciew disk connection types
