@@ -1210,17 +1210,92 @@ lvmconfig               # show and manipulate configuration information
 lvm> help
 
 lvmdiskscan
-pvcreate /dev/sdb1      # create a PV
-pvcreate /dev/sdb2
-pvcreate /dev/sdb3
+pvcreate /dev/sdb[123]      # create 3 PVs
 pvck                    # Check the consistency of physical volume
 pvscan                  # shows PVs
 pvs                     # shows PVs
+# PREVENT allocation on a physical volume
+pvchange -x n /dev/sdk1
+# disallows the allocation of physical extents on /dev/sdk1.
 pvdisplay [/dev/sdb1]   # shows details for all PVs or special PV
+
 vgcreate vg00 /dev/sdb0 /dev/sdb1 /dev/sdb3 
+# use -s to specify the extent size
 vgscan
 vgs
 vgdisplay
-lvcreate -L 5G vg00  
+vgextend vg1 /dev/sdf1
+# adds the physical volume /dev/sdf1 to the volume group vg1
+vgreduce my_volume_group /dev/hda1
+# removes the physical volume /dev/hda1 from the volume group my_volume_group
+vgchange -l 128 /dev/vg00
+# changes the maximum number of logical volumes of volume group vg00 to 128.
+vgchange -a n my_volume_group
+# deactivates the volume group my_volume_group.
+vgremove some_vg
+# To remove a volume group that contains no logical volumes,
+vgsplit bigvg smallvg /dev/ram15
+# splits off the new volume group smallvg from the original volume group bigvg
+vgmerge -v databases my_vg
+# merges the inactive volume group my_vg into the active or inactive volume group databases giving verbose
+# Either of the following commands renames the existing volume group vg02 to my_volume_group
+vgrename /dev/vg02 /dev/my_volume_group
+vgrename vg02 my_volume_group
 
+lvscan
+lvs
+lvdisplay -v --maps /dev/vg00/lvol2
+# shows the attributes of lvol2 in vg00 and its snapshots and physical mapped places.
+lvcreate -L 10G vg1
+# creates a logical volume 10 gigabytes in size in the volume group vg1
+lvcreate -L1500 -n testlv testvg
+# creates a 1500 MB linear logical volume named testlv in the volume group testvg, creating the block device /dev/testvg/testlv
+lvcreate -L 50G -n gfslv vg0
+# creates a 50 gigabyte logical volume named gfslv from the free extents in volume group vg0.
+lvcreate -l 60%VG -n mylv testvg
+# creates a logical volume called mylv that uses 60% of the total space in volume group testvg.
+lvcreate -l 100%FREE -n yourlv testvg
+# creates a logical volume called yourlv that uses all of the unallocated space in the volume group testvg.
+lvcreate -L 1500 -ntestlv testvg /dev/sdg1
+# creates a logical volume named testlv in volume group testvg allocated from the physical volume /dev/sdg1
+lvcreate -l 100 -n testlv testvg /dev/sda1:0-24 /dev/sdb1:50-124
+# creates a linear logical volume out of extents 0 through 24 of physical volume /dev/sda1 and extents 50 through 124 of physical volume /dev/sdb1 in volume group testvg
+lvcreate -L 50G -i2 -I64 -n gfslv vg0
+# creates a striped logical volume across 2 physical volumes with a stripe of 64kB. The logical volume is 50 gigabytes in size, is named gfslv, and is carved out of volume group vg0
+lvcreate -l 100 -i2 -nstripelv testvg /dev/sda1:0-49 /dev/sdb1:50-99
+# creates a striped volume 100 extents in size that stripes across two physical volumes, is named stripelv and is in volume group testvg. The stripe will use sectors 0-49 of /dev/sda1 and sectors 50-99 of /dev/sdb1
+lvcreate -L 50G -m1 -n mirrorlv vg0
+# creates a mirrored logical volume with a single mirror. The volume is 50 gigabytes in size, is named mirrorlv, and is carved out of volume group vg0
+lvcreate -v -L100M -s -n backup /dev/vg0/lv0
+# create a snapshot named backup on lv0 with 100 MB size, because we need only changes, its snapshot
+
+lvchange -pr vg00/lvol1
+# changes the permission on volume lvol1 in volume group vg00 to be read-onlya
+# Either of the following commands renames logical volume lvold in volume group vg02 to lvnew
+lvrename /dev/vg02/lvold /dev/vg02/lvnew
+lvrename vg02 lvold lvnew
+
+lvremove /dev/testvg/testlv
+#removes the logical volume /dev/testvg/testlv. from the volume group testvg
+lvextend -L12G -v /dev/myvg/homevol
+# extends the logical volume /dev/myvg/homevol to 12 gigabytes
+lvextend -L+1G /dev/myvg/homevol
+# adds another gigabyte to the logical volume /dev/myvg/homevol
+lvextend -l +100%FREE /dev/myvg/testlv
+# extends the logical volume called testlv to fill all of the unallocated space in the volume group myvg
+
+# NOTE: after extending LV, you should extend filesystem too. 
+resize2fs /dev/vg0/lv0
 ```
+
+Also, the Device mapper is a generic interface to the linux kernel that can be 
+used by different storage. We can check it using:
+
+``` bash
+dmsetup info
+dmsetup info vg0-backup
+```
+
+More info available on [Red Hat Logical Volume Manager Administration Page](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html-single/logical_volume_mamanipulate configuration informationnager_administration/).
+
+> RAID can give us performance and reliability, LVM cause flexibility
