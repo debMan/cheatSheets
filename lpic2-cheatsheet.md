@@ -1319,10 +1319,12 @@ There are three different ways to configure this information in Linux systems:
 - Using command-line tools
 - using GUI
 
+### Configuration files
+
 The network configuration files are:  
 `/etc/network/interfaces` DEB family  
 `/etc/netplan/*.yaml` Ubuntu 18.04 and upper  
-`/etc/sysconfig/network-scripts` RHEL family  
+`/etc/sysconfig/network-scripts` RHEL family, created by NetworkManager service  
 `/etc/sysconfig/network` openSUSE family  
 
 Sample Debian network configuration settings:
@@ -1361,6 +1363,159 @@ IPV6INIT=yes
 IPV6ADDR=2003:aef0::23d1::0a10:00a1/64
 ```
 
+Or another example:
+
+```
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=dhcp
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=enp0s3
+UUID=c14649dc-a630-4223-9292-6b336facefa0
+DEVICE=enp0s3
+ONBOOT=no
+```
+
 And another file named `network`. Sample CentOS network file configuration:
 
+```
+NETWORKING=yes
+HOSTNAME=mysystem
+GATEWAY=192.168.1.254
+IPV6FORWARDING=yes
+IPV6_AUTOCONF=no
+IPV6_AUTOTUNNEL=no
+IPV6_DEFAULTGW=2003:aef0::23d1::0a10:0001
+IPV6_DEFAULTDEV=eth0
+```
+
+Other types of Linux systems, storing the hostname in the `/etc/hostname` or 
+`/etc/HOSTNAME`.
+
+Also you should know:  
+`/etc/hosts`: as a local DNS  
+`/etc/resolv.conf`: DNS configurations  
+`/etc/services`: services port mappings  
+A sample `resolv.conf`:
+
+```
+domain mydomain.com
+search mytest.com
+nameserver 192.168.1.1
+```
+
+### Command-line
+
+``` bash
+hostname        # shows current system hostname
+ifconfig        # sets the IP address and netmask values for a network interface
+# -a show all interfaces, 
+# -s a short listing, 
+# -v more information about errors.
+# interface     # Specify the interface name.
+# up|down       # control interface
+# [-]arp        # Enable or disable the Address Resolution Protocol (ARP)
+# [-]promisc    # Enable or disable promiscuous mode on the interface.
+# [-]allmulti   # Enable or disable the ability to receive multicast packets.
+# metric N      # Set the interface metric.
+# mtu N         # Set the maximum transmission unit (MTU) size.
+# netmask addr  # Set the network mask for the interface.
+# add|del addr  # Add/Remove an IPv6 address to the interface.
+# tunnel ::aa.bb.cc.dd      # Create an IPv6-in-IPv4 tunnel to the specified destination
+# irq addr      # Specify the IRQ interrupt for the interface.
+# io_addr addr  # Specify the IO address for the interface.
+# mem_start addr            # Specify the start address for the interface shared memory.
+# media type    # Specify the media type for the interface.
+# [-]broadcast addr         # Set the broadcast address for the interface.
+# [-]pointtopoint addr      # Create a point-to-point connection to a remote device.
+# hw class address          # Specify the hardware address for the interface.
+# multicast     # Allow multicast packets for the interface.
+# address       # Specify an IPv4 address for the interface.
+# txqueuelen len            # Specify the length of the transmit queue
+ifup            # quickly bring an interface that’s already configured up
+ifdown          # quickly bring an interface that’s already configured down
+ifconfig eth0 up 192.168.1.67 netmask 255.255.255.0
+# set the address and netmask values and then activate the eth0 interface,
+ifconfig eth0 hw ether AA:BB:CC:DD:EE:DD
+# change my MAC address
+ip              # new tool replaced ifconfig
+ip address show
+ip addr add|del 192.168.1/24 dev wlp3s0
+ip link set wlp3s0 up|down
+ip route add default via 192.168.1.1
+
+iwlist wlan0 scan           # scn nearby wifi networks
+iwconfig        # sets the SSID and encryption key for a wireless interface.
+iwconfig wlan0 essid "MyNetwork" key s:mypassword
+# assign the wireless SSID and encryption key values
+iw              # new tol replaced iwconfig
+
+route -n        # set and view the default router address., -n uses numeric
+# route [add] [del] target gw gateway
+route add default gw 192.168.1.1    # specify the default router for your network,
+ip route show   # new command
+netstat -nr     # shows routes
+
+dhclient -v     # request for IP from DHCP server, using dhcpd, -r removes current ip
+pump            # old dhcp client
+```
+
+### Troubleshooting
+
+Usually we read logs:  
+
+`tail -f var/log/syslog/messages`  
+`tail -f /var/log/syslog`  
+`dmesg`  
+
+hen we can use commands:
+
+``` bash
+arp -nv          # view ARP cache in numberic verbose
+# -a BSD style output format. -D Use the interface name instead of the hardware address
+ping DEST
+ping6 DEST
+netstat         # works like ss, with same switches
+ss              # view sockets
+# -l list applications listening which ports, -m memorey, -p -processes, 
+# -s -summary, -t TCP, -u UDP, -a all, -n numeric
+# ss-tulpen and netstat -tulpen
+traceroute DEST     
+traceroute6
+mtr             # real time traceroute
+nc DEST PORT    # a low level tool
+# -4 force ipv4, -b Allow broadcast packets, -p Specify the source port -u UDP
+# -l Listen as server
+lsof -i                 # open files related to network, -i6 for IPv6
+nmap 
+# nmap -v [scan type] [options] target
+nmap -v 192.168.1.1/24 -p 23 
+nmap -v google.com
+# more info at:
+# https://borosan.gitbooks.io/lpic2-exam-guide/content/2052-advanced-network-configuration-and-troubleshooting.html
+
+host www.linux.org      # find host information
+dig www.google.com      # ays all of the DNS data records associated with a specific host or network
+nslookup google.com     # find ip of google
+nslookup google.com 4.2.24  # find ip of google from 4.2.2.4
+
+tcpdump -i any port 1234 -w ~/log.pcap
+tcpdump -i wlp3s0 dst|src 192.168.1.10 port 22 
+# -i interface -w write to file -c Exit after receiving the specified number of packets.
+# -r reads from file, -A Display the packet contents in ASCII, -f Display IP addresses numerically
+# -H Detect 802.11s headers, -I Place the interface in monitor mode (only for wireless interfaces).
+# -n Don’t convert IP addresses to names, -v -vv -vvv verbose
+```
+
+Also we have `tcp-wrapper` command wich uses `/etc/inet.conf` file as
+configuration. Also two security files:
+`/etc/hosts.allow`  
+`/etc/hosts.deny`  
 
