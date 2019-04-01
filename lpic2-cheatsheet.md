@@ -1515,7 +1515,8 @@ tcpdump -i wlp3s0 dst|src 192.168.1.10 port 22
 ```
 
 Also we have `tcp-wrapper` command wich uses `/etc/inet.conf` file as
-configuration. Also two security files:
+configuration which mediate connections between apps and network interface. 
+Also two security files:
 `/etc/hosts.allow`  
 `/etc/hosts.deny`  
 
