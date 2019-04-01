@@ -1225,7 +1225,7 @@ dmsetup info vg0-backup
 dmsetup help
 ```
 
-More info available on [Red Hat Logical Volume Manager Administration Page](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html-single/logical_volume_mamanipulate configuration informationnager_administration/).
+More info available on [Red Hat Logical Volume Manager Administration Page](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html-single/logical_volume_manager_administration/index).
 
 ### Adjusting storage devices
 
