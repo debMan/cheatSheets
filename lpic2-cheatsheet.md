@@ -1029,6 +1029,8 @@ to see what USB devices are supported by the smartctl command.
 
 ## Advanced Storage Devices
 
+> RAID can give us performance and reliability, LVM cause flexibility
+
 ### RAID
 
 **RAID** stands for Redundant Array of Independent Disks. Depending on the 
@@ -1122,82 +1124,6 @@ mdadm --manage --stop /dev/md0
 mdadm --zero-superblock /dev/sdb1 /dev/sdb2 /dev/sdb3
 ```
 
-### Adjusting storage devices
-
-You should know about:  
-- ATA/IDE:  
-    Advanced Technology Attachment, Integrated Drive Electronics, 133 MB/s  
-- SATA:  
-    Serial ATA, allows Plug and Play, 6 GB/s  
-- ATAPI:  
-    optical media and tape interface protocol, based on ATA  
-- SCSI:  
-    Small Computer System Interface, 80 MB/s, older than SATA  
-- iSCSI:  
-    internet SCSI, a SCSI storage server’s disk appears as a locally attached 
-    client-side disk  
-    Learn more about iSCSI at SYBEX Exam 201 and Exam 202 study guide book
-    pages 237-244  
-    iSCSI addresses can be:  
-  * iQN: iSCSI Qualified Name: iqn.yyyy‐mm.com.xyz.aabbccddeeffgghh:
-    iqn.date.domain.device-identifier, Device identifier (can be a WWN, the 
-    system name, or any other vendorimplemented standard)
-  * EUI: IEEE Naming convention: eui.64‐bit WWN: euiFC-WWN-of-the-host  
-- LUN:  
-    Logical Unit Number, storage indexing on target (remote) on iSCSI  
-- SAS:  
-    Serial Attached SCSI, It uses a Synchronous Serial Port (SSP) controller 
-    that supports the Serial Peripheral Interface (SPI) protocol.  
-- AHCI:  
-    Advanced Host Controller Interface, allows software communication with SATA 
-    devices. provides features like hot-plugging, TRIM, ... .  
-- NVMe:  
-    Non-Volatile Memory Express, standard for SSDs attached via the PCI Express 
-    bus., up at `/dev/nvme*` like `/dev/nmve0n1p1` which means namespace1 and 
-    partition 1, another example: `/dev/nvme1n3p2`  
-    Its package name is `nvme-cli` and its comands like: `nvme help`
-- FC: Fiber Channel  
-- ATAOverEthernet:  
-- FiberChannelOverEthernet  
-- IP  
-- DMA:  
-    direct memory access, write dirctly to RAM without CPU mediation  
-- WBC: write-back caching,   
-
-``` bash
-lshw --class disk           # ciew disk connection types
-hdparm /dev/sda
-hdparm -I /dev/sda
-hdparm -B 125 /dev/sda 
-# Set the Advanced Power Management, valus <1-255>. While 1-127 permit spin-down, 
-# 128-254 no not allow spin-down and 255 disable feature completly
-hdparm -S 240 /dev/sda 
-# Set standby time.specifies how long to wait in idle (with no disk activity) 
-# before turning off the motor to save power. 0 can disbale feature,the values
-# from 1 to 240 specify multiples of 5 seconds and values from 241 to 251 specify multiples of 30 minutes.
-hdparm -W /dev/sda  
-hdparm -W 1 /dev/device             # turn on
-# Get/set the IDE/SATA drive´s write-caching feature.
-hdparm -d 1 /dev/sda 
-# set DMA (Direct Memory Access)on or off,values 0 or 1
-hdparm --security-help
-# view the various security options with hdparm
-hdparm -tT /dev/sda
-# test for both its device and cache reads: when device is inactive
-
-sdparm      
-# scsi version of hdparm. sdparm manupulate scsi specific attributes of hard drive.
-tune2fs 
-sysctl 
-# kernel configurations, deals with /proc directory
-# its config at /etc/sysctl.conf
-sysctl -a                            # shows all
-sysctl dev.cdrom.autoeject          # show special part
-sysctl -w dev.cdrom.autoeject=1     # set special part
-cat /proc/sys/dev/cdrom/autoeject   # shows that part
-# or you can set this file value withhout sysctl, manualy
-```
-
 ### LVM
 
 Here we have: Physical Volume (PV), Volume Group (VG), Logical Volume (LV), 
@@ -1205,7 +1131,9 @@ Physical Extent (PE), Logical Extent (LE).
 
 ``` bash
 lvm                     # main lvm interactive shell
-lvmconfig               # show and manipulate configuration information
+lvmconfig               
+# show and manipulate configuration information  or with following:
+lvm dumpconfig --type default
 
 lvm> help
 
@@ -1294,8 +1222,145 @@ used by different storage. We can check it using:
 ``` bash
 dmsetup info
 dmsetup info vg0-backup
+dmsetup help
 ```
 
 More info available on [Red Hat Logical Volume Manager Administration Page](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/5/html-single/logical_volume_mamanipulate configuration informationnager_administration/).
 
-> RAID can give us performance and reliability, LVM cause flexibility
+### Adjusting storage devices
+
+You should know about:  
+- ATA/IDE:  
+    Advanced Technology Attachment, Integrated Drive Electronics, 133 MB/s  
+- SATA:  
+    Serial ATA, allows Plug and Play, 6 GB/s  
+- ATAPI:  
+    optical media and tape interface protocol, based on ATA  
+- SCSI:  
+    Small Computer System Interface, 80 MB/s, older than SATA  
+- iSCSI:  
+    internet SCSI, a SCSI storage server’s disk appears as a locally attached 
+    client-side disk  
+    Learn more about iSCSI at SYBEX Exam 201 and Exam 202 study guide book
+    pages 237-244  
+    iSCSI addresses can be:  
+  * iQN: iSCSI Qualified Name: iqn.yyyy‐mm.com.xyz.aabbccddeeffgghh:
+    iqn.date.domain.device-identifier, Device identifier (can be a WWN, the 
+    system name, or any other vendorimplemented standard)
+  * EUI: IEEE Naming convention: eui.64‐bit WWN: euiFC-WWN-of-the-host  
+- LUN:  
+    Logical Unit Number, storage indexing on target (remote) on iSCSI  
+- SAS:  
+    Serial Attached SCSI, It uses a Synchronous Serial Port (SSP) controller 
+    that supports the Serial Peripheral Interface (SPI) protocol.  
+- AHCI:  
+    Advanced Host Controller Interface, allows software communication with SATA 
+    devices. provides features like hot-plugging, TRIM, ... .  
+- NVMe:  
+    Non-Volatile Memory Express, standard for SSDs attached via the PCI Express 
+    bus., up at `/dev/nvme*` like `/dev/nmve0n1p1` which means namespace1 and 
+    partition 1, another example: `/dev/nvme1n3p2`  
+    Its package name is `nvme-cli` and its comands like: `nvme help`
+- FC: Fiber Channel  
+- ATAOverEthernet:  
+- FiberChannelOverEthernet  
+- IP  
+- DMA:  
+    direct memory access, write dirctly to RAM without CPU mediation  
+- WBC: write-back caching,   
+
+``` bash
+lshw --class disk           # ciew disk connection types
+hdparm /dev/sda
+hdparm -I /dev/sda
+hdparm -B 125 /dev/sda 
+# Set the Advanced Power Management, valus <1-255>. While 1-127 permit spin-down, 
+# 128-254 no not allow spin-down and 255 disable feature completly
+hdparm -S 240 /dev/sda 
+# Set standby time.specifies how long to wait in idle (with no disk activity) 
+# before turning off the motor to save power. 0 can disbale feature,the values
+# from 1 to 240 specify multiples of 5 seconds and values from 241 to 251 specify multiples of 30 minutes.
+hdparm -W /dev/sda  
+hdparm -W 1 /dev/device             # turn on
+# Get/set the IDE/SATA drive´s write-caching feature.
+hdparm -d 1 /dev/sda 
+# set DMA (Direct Memory Access)on or off,values 0 or 1
+hdparm --security-help
+# view the various security options with hdparm
+hdparm -tT /dev/sda
+# test for both its device and cache reads: when device is inactive
+
+sdparm      
+# scsi version of hdparm. sdparm manupulate scsi specific attributes of hard drive.
+tune2fs 
+sysctl 
+# kernel configurations, deals with /proc directory
+# its config at /etc/sysctl.conf
+sysctl -a                            # shows all
+sysctl dev.cdrom.autoeject          # show special part
+sysctl -w dev.cdrom.autoeject=1     # set special part
+cat /proc/sys/dev/cdrom/autoeject   # shows that part
+# or you can set this file value withhout sysctl, manualy
+```
+
+## Network
+
+To learn network basics, please read SYBEX Exam 201 and Exam 202 study guide book.
+
+we need to configure five main pieces of information in our Linux system to interact on a network:
+- The host address
+- The network address
+- The default router (sometimes called the gateway)
+- The system hostname
+- A DNS server address for resolving hostnames
+
+There are three different ways to configure this information in Linux systems:
+- editing network configuration files permanently
+- Using command-line tools
+- using GUI
+
+The network configuration files are:  
+`/etc/network/interfaces` DEB family  
+`/etc/netplan/*.yaml` Ubuntu 18.04 and upper  
+`/etc/sysconfig/network-scripts` RHEL family  
+`/etc/sysconfig/network` openSUSE family  
+
+Sample Debian network configuration settings:
+
+```
+auto eth0
+iface eth0 inet static
+address 192.168.1.77
+netmask 255.255.255.0
+gateway 192.168.1.254
+iface eth0 inet6 static
+address 2003:aef0::23d1::0a10:00a1
+netmask 64
+gateway 2003:aef0::23d1::0a10:0001
+
+auto eth1
+iface eth1 inet dhcp
+iface eth1 inet6 dhcp
+# If you just want to assign an IPv6 link local address and not retrieve an 
+# IPv6 address from a DHCP server, replace the inet6 line with this:
+# iface eth1 inet6 auto
+```
+
+Sample CentOS `ifcfg-eth0` file configuration settings:
+
+```
+DEVICE="eth0"
+NM_CONTROLLED="no"
+ONBOOT=yes
+TYPE=Ethernet
+BOOTPROTO=static
+NAME="System eth0"
+IPADDR=192.168.1.77
+NETMASK=255.255.255.0
+IPV6INIT=yes
+IPV6ADDR=2003:aef0::23d1::0a10:00a1/64
+```
+
+And another file named `network`. Sample CentOS network file configuration:
+
+
