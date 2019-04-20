@@ -15,6 +15,9 @@ start new with session name:
 
 attach:
 
+    tmux detach
+or
+
     tmux a  #  (or at, or attach)
 
 attach to named:
@@ -24,6 +27,11 @@ attach to named:
 list sessions:
 
     tmux ls
+
+Detach from session
+
+    tmux detach
+
 
 <a name="killSessions"></a>kill session:
 
@@ -40,6 +48,9 @@ In tmux, hit the prefix `ctrl+b` (my modified prefix is ctrl+a) and then:
     :new<CR>  new session
     s  list sessions
     $  name session
+    (  switch to the previous session
+    )  switch to the next session
+    d  detach from session
 
 ## <a name="WindowsTabs"></a>Windows (tabs)
 
@@ -47,25 +58,27 @@ In tmux, hit the prefix `ctrl+b` (my modified prefix is ctrl+a) and then:
     w  list windows
     n  next window
     p  previous window
+    #  switch to a window using it’s index number (0-9)
     f  find window
     ,  name window
     &  kill window
 
 ## <a name="PanesSplits"></a>Panes (splits) 
 
-    %  vertical split
-    "  horizontal split
+    %           vertical split
+    "           horizontal split
     
-    o  swap panes
-    q  show pane numbers
-    x  kill pane
-    +  break pane into window (e.g. to select text by mouse to copy)
-    -  restore pane from window
-    ⍽  space - toggle between layouts
-    <prefix> q (Show pane numbers, when the numbers show up type the key to goto that pane)
-    <prefix> { (Move the current pane left)
-    <prefix> } (Move the current pane right)
-    <prefix> z toggle pane zoom
+    o           swap panes
+    q           show pane numbers
+    x           kill pane
+    z           zoom panel
+    arrow keys  navigate pannels
+    +           break pane into window (e.g. to select text by mouse to copy)
+    -           restore pane from window
+    ⍽ space -   toggle between layouts
+    <prefix> q  (Show pane numbers, when the numbers show up type the key to goto that pane)
+    <prefix> {  (Move the current pane left)
+    <prefix> }  (Move the current pane right)
 
 ## <a name="syncPanes"></a>Sync Panes 
 
@@ -187,8 +200,10 @@ on the same line, and "F" to jump backwards on the line.
 
 
 ## More info:
+
 * [MohamedAlaa cheatsheet](https://gist.github.com/MohamedAlaa/2961058)
 * And [here](https://hackernoon.com/a-gentle-introduction-to-tmux-8d784c404340)
 * [tmux: Productive Mouse-Free Development](http://pragprog.com/book/bhtmux/tmux)
 * [How to reorder windows](http://superuser.com/questions/343572/tmux-how-do-i-reorder-my-windows)
+* [Linode](https://www.linode.com/docs/networking/ssh/persistent-terminal-sessions-with-tmux/)
 
