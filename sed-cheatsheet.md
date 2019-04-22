@@ -138,4 +138,6 @@ sed scripts have only comment on first line like:
 
 ## More info:
 
-For more info about sed [click here](http://www.grymoire.com/Unix/Sed.html)
+For more info about sed [click here](http://www.grymoire.com/Unix/Sed.html)  
+And another from [linode](https://www.linode.com/docs/tools-reference/tools/manipulate-text-from-the-command-line-with-sed/)
+
