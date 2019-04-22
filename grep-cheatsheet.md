@@ -48,4 +48,6 @@ egrep "^(s[0-9]{2}|xff)[0-9]{4}$"   # matches with s###### or xff#### (# means a
 
 ## More info:
 
-For more info about regex [click here](https://www.computerhope.com/unix/regex-quickref.htm)
+For more info about regex [click here](https://www.computerhope.com/unix/regex-quickref.htm).  
+And another for regex is [](http://www.grymoire.com/Unix/Regular.html)
+
