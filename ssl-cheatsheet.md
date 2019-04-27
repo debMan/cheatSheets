@@ -5,6 +5,33 @@ This is my personal **SSL** command cheatsheet.
 
 ## Basics:
 
+### Create self-signed certificate
+
+``` bash
+# create a new key
+openssl genrsa  -out private.key 2048
+# add -des3 or -aes256 to lock key with passphrase
+
+# Generate a CSR from an Existing Private Key
+openssl req -new -key privkey.pem -out signreq.csr
+
+# To avoid the interactive prompt and fill out the information in the command, you can add this
+openssl req -new -key privkey.pem -out signreq.csr \ 
+    -subj "/C=US/ST=NRW/L=Earth/O=CompanyName/OU=IT/CN=www.example.com/emailAddress=email@example.com"
+
+# Sign the certificate signing request
+openssl x509 -req -days 365 -in signreq.csr -signkey privkey.pem -out certificate.pem
+
+# Single command to generate a key and certificate
+openssl req -new -sha256 -subj "/C=IR/CN=*.carrene.com" -key carrene.com.key -out carrene.com.csr
+openssl req -newkey rsa:2048 -nodes -keyout privkey.pem -x509 -days 36500 -out certificate.pem
+openssl req -newkey rsa:2048 -nodes -keyout privkey.pem -x509 -days 36500 -out certificate.pem \ 
+    -subj "/C=US/ST=NRW/L=Earth/O=CompanyName/OU=IT/CN=www.example.com/emailAddress=email@example.com"
+
+```
+
+### More infor
+
 ``` bash
 # debug mode
 openssl s_client -connect host:443 -state -debug
@@ -17,12 +44,6 @@ openssl s_client -connect host:443 -cert cert_and_key.pem \
 
 # fetch SSL chain of a server
 openssl s_client -connect digikala.com:443 -showcerts
-
-# Create a new CSR
-openssl req -new -sha256 -subj "/C=IR/CN=*.carrene.com" -key carrene.com.key -out carrene.com.csr
-
-# Generate a CSR from an Existing Private Key
-openssl req -key carrene.com.key -new -out carrene.com.csr
 
 # Extract information from the CSR
 openssl req -in carrene.com.csr -text -noout
@@ -69,7 +90,6 @@ openssl rsa -in [keyfile-encrypted.key] -out [keyfile-encrypted-pem.key] -outfor
 openssl pkcs12 –export –out sslcert.pfx –inkey key.pem –in sslcert.pem
 # you can also include chain certificate by passing –chain as below
 openssl pkcs12 –export –out sslcert.pfx –inkey key.pem –in sslcert.pem -chain cacert.pem
-
 ```
 
 Also to using a strong DH group for key-exchange:
