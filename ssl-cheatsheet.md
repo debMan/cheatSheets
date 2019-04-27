@@ -30,7 +30,7 @@ openssl req -newkey rsa:2048 -nodes -keyout privkey.pem -x509 -days 36500 -out c
 
 ```
 
-### More infor
+### More commands
 
 ``` bash
 # debug mode
