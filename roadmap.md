@@ -1,6 +1,6 @@
 # Personal Developement List
 
-Here I've listed my personal roadmap issues
+Here I've listed my personal roadmap issues:
 
 * 10 finger typing
 * OS and its concepts (proccesses, threads, concurrency, I/O, ...
@@ -8,6 +8,8 @@ Here I've listed my personal roadmap issues
 * network, firewall, clustering, load balancing, caching server, dns, ftp,
     streaming, mail, proxies, mirroring
 * database administration (backup, tuning, load balance), redis
+
+And after that: 
 
 * C and python
 * travis, jenkins
