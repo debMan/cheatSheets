@@ -13,6 +13,6 @@ Here I've listed my personal roadmap issues
 * C and python
 * travis, jenkins
 * AWS, Google cloud, 
-* Deep Learning & Machine Learning
+* Network, Deep Learning & Machine Learning, statistics
 * Docker, Ansible, 
 
