@@ -11,4 +11,5 @@ This is a cheatsheet about DNS.
 
 * [introDNS](https://intodns.com/)
 * [whats my DNS](www.whatsmydns.net)
+* [mxtoolbox.com](https://mxtoolbox.com/SuperTool.aspx)
 
