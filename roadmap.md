@@ -1,4 +1,4 @@
-# Personal Developement List
+# Personal Developement Roadmap
 
 Here I've listed my personal roadmap issues:
 
