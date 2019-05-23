@@ -27,7 +27,7 @@ In RHEL family, we will have `/var/log/boot.log` and in Debian family,
    which is very small and then boot loader finds kernel and run it.
 2. UEFI:  
    Computers which based on UEFI (Unified Extensible Firmware Interface) has an
-   ESP (EFI System Partition). Windows used this abiity very well, but in linux
+   ESP (EFI System Partition). Windows used this ability very well, but in linux
    still prefared to using boot loader. Usually thr ESP has FAT partition type
    and mounted at `/boot/efi`. EFI has a mini boot loader which named **Boot
    Manager** and in linux the `efibootmgr` could manage EFI menues. Linux
@@ -409,7 +409,7 @@ Some backup tools:
 `mt`: work with tape  
 `rsync`: very useful  
 `dd`  
-`cpiio`  
+`cpio`  
 
 Some commands
 
@@ -758,7 +758,7 @@ On new GNU/Linux systems, devices mounted automatically on
 or `/mnt/.`  
 
 ``` bash
-sswapon -s              # displays a summery
+swapon -s              # displays a summery
 # also with:
 free -h
 # you can create a swap partition
