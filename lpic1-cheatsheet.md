@@ -102,12 +102,26 @@ find . -iname foo\* 				# find NOT case sensative starting with foo files
 find . -type d,l,f  				# find directorys , links and files
 find . -size +1k    				# size of result is > 1kB
 find . -exec CMD {} \; 				# execute a CMD on each result
+# The commands run with the -exec are executed in the root directory of the 
+# find process. Use -execdir to execute the specified command in the directory 
+# where the match resides
 find . -type f -inum 123456			# find files with Inode number
+find . -type f -perm 0777 -print    # all the files whose permissions are 777
+find / -type f ! -perm 777          # Find all the files without permission 777
+# -perm x777: x=
+# 1: Sticky Bit, 2: SGID, /u=s: SUID, /g=s: SGID, /u=r: Read Only files, 
+# /a=x: all Executable files
 # other switches:
 #	-atime, -ctime, -mtime # acces , change , modif fime bye day
 #	-amin,	-cmin,	-mmin  # acces , change , modif fime bye minute
+#   -cmin -60: in last hour
+find / -mtime +50 –mtime -100       # modified in 50-100 last days
+#   -maxdepth: directory depth, -not: return results do not matched
 # find . -amine -4  				# files has acces time less than 4 minutes
 # find . -regex                     # find with regex pattern
+# find /tmp -type d -empty          # 
+find / -user root -name tecmint.txt # file owned by root
+find / -size +50M -size -100M       # Size between 50MB – 100MB
 ```
 
 ## partitioning
@@ -207,7 +221,7 @@ chmod [ugo][+-=][rwx] filename
 
 ``` bash
 # applies to folders only
-# it can prevent delete, rename or movev files in folder by useres with same group access
+# it can prevent delete, rename or move files in folder by useres with same group access
 # /tmp is an example with 777 access and stickybit only
 # 4 numbers on Access: 
 #			1 	# --t = SUID +  SGID + stickyBit
@@ -227,7 +241,7 @@ chmod +t file 						# adds stickyBit to file
 
 ``` bash
 # applies to executable files
-# if it SUID set, file will execute by its owner although run by any user
+# if it SUID set, file will execute by its owner's permitions although run by any user
 # /usr/bin/passwd is an example with (4755/-rwsr-xr-x) access
 # 4 numbers on Access: 
 #			4 	# s-- = SUID +  SGID + stickyBit
