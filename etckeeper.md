@@ -76,6 +76,62 @@ etckeeper pre-commit
 git commit -am "some changes"
 ```
 
+Also, `.gitignore` file like
+
+```
+# new and old versions of conffiles, stored by dpkg
+*.dpkg-*
+# new and old versions of conffiles, stored by ucf
+*.ucf-*
+
+# old versions of files
+*.old
+
+# mount(8) records system state here, no need to store these
+blkid.tab
+blkid.tab.old
+
+# some other files in /etc that typically do not need to be tracked
+nologin
+ld.so.cache
+prelink.cache
+mtab
+mtab.fuselock
+.pwd.lock
+*.LOCK
+network/run
+adjtime
+lvm/cache
+lvm/archive
+X11/xdm/authdir/authfiles/*
+ntp.conf.dhcp
+.initctl
+webmin/fsdump/*.status
+webmin/webmin/oscache
+apparmor.d/cache/*
+service/*/supervise/*
+service/*/log/supervise/*
+sv/*/supervise/*
+sv/*/log/supervise/*
+*.elc
+*.pyc
+*.pyo
+init.d/.depend.*
+openvpn/openvpn-status.log
+cups/subscriptions.conf
+cups/subscriptions.conf.O
+fake-hwclock.data
+check_mk/logwatch.state
+
+# editor temp files
+*~
+.*.sw?
+.sw?
+\#*\#
+DEADJOE
+
+```
+
 ## Source
 
 You can clone `etckeeper`
@@ -84,4 +140,5 @@ You can clone `etckeeper`
 cd ~/workspace
 git clone git://git.joeyh.name/etckeeper.git
 ```
+
 
