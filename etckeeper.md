@@ -78,5 +78,10 @@ git commit -am "some changes"
 
 ## Source
 
-You can clone `etckeeper` from [git://git.joeyh.name/etckeeper.git](git://git.joeyh.name/etckeeper.git)
+You can clone `etckeeper`
+
+``` bash
+cd ~/workspace
+git clone git://git.joeyh.name/etckeeper.git
+```
 
