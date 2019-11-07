@@ -13,4 +13,4 @@ This is my personal GNU/Linux **Secure Shell** cheatsheet.
 * [SSH Port Forwarding Example](https://www.ssh.com/ssh/tunneling/example)
 * [sshd_config - SSH Server Configuration](https://www.ssh.com/ssh/sshd_config/)
 * [ssh config](https://www.ssh.com/ssh/config/)
-
+* [2FA for openssh-server](https://www.howtogeek.com/121650/how-to-secure-ssh-with-google-authenticators-two-factor-authentication/)
