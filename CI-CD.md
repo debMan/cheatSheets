@@ -34,7 +34,7 @@
   than the build) performed as frequently as its duration permits.
 
 ### To achieve these objectives, continuous integration relies on the 
-    following principles
+following principles
 
 #### Maintain a code repository
 
