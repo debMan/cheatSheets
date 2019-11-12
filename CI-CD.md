@@ -1,7 +1,7 @@
 # Ci/CD
 
 
-## Notes:
+## CI
 * Later elaborations of the concept introduced build servers, which 
   automatically ran the unit tests periodically or even after every commit and
   reported the results to the developers. The use of build servers (not 
@@ -33,7 +33,7 @@
   build, and more extensive functional testing (which takes longer to perform 
   than the build) performed as frequently as its duration permits.
 
-## To achieve these objectives, continuous integration relies on the following principles
+## principles which CI relies on
 
 ### Maintain a code repository
 
