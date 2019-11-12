@@ -121,3 +121,8 @@ code branch if it is to pass through all phases of the pipeline.
 | Visual CD pipeline skeleton | Give a team a visual CD pipeline skeleton that has the full CD pipeline view but with empty stages for those they cannot implement yet. This helps to build up a CD mindset and maintain the momentum for CD adoption. The pipeline skeleton is especially useful when the team's migration to CD requires a large effort and mindset changes over a long period of time. |
 | Expert drop | Assign a CD expert to join tough projects as a senior member of the development team. Having the expert on the team helps to build the motivation and momentum to move to CD from inside the team. It also helps to maintain momentum when the migration requires a large effort and a long period of time. |
 
+### List of build automation software
+
+* Refer to the [Wikipedia](https://en.wikipedia.org/wiki/List_of_build_automation_software) 
+article.
+
