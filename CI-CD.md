@@ -33,16 +33,15 @@
   build, and more extensive functional testing (which takes longer to perform 
   than the build) performed as frequently as its duration permits.
 
-### To achieve these objectives, continuous integration relies on the 
-following principles
+## To achieve these objectives, continuous integration relies on the following principles
 
-#### Maintain a code repository
+### Maintain a code repository
 
 All artifacts required to build the project should be placed in the repository.
 The mainline (or trunk) should be the place for the working version of the 
 software.
 
-#### Automate the build
+### Automate the build
 
 A single command should have the capability of building the system. Automation
 of the build should include automating the integration, which often includes 
@@ -50,30 +49,30 @@ deployment into a production-like environment. In many cases, the build script
 not only compiles binaries, but also generates documentation, website pages, 
 statistics and distribution media (such as Debian DEB, Red Hat RPM)
 
-#### Make the build self-testing
+### Make the build self-testing
 
 Once the code is built, all tests should run to confirm that it behaves as the
 developers expect it to behave.
 
-#### Everyone commits to the baseline every day
+### Everyone commits to the baseline every day
 
 Ccommiting as soon as possible, at least once per day reduces conflicting hell.
 Committing all changes at least once a day (once per feature built) is 
 generally considered part of the definition of Continuous Integration. In 
 addition performing a nightly build is generally recommended.
 
-#### Every commit (to baseline) should be built
+### Every commit (to baseline) should be built
 
-#### Keep the build fast
+### Keep the build fast
 
-#### Test in a clone of the production environment
+### Test in a clone of the production environment
 
 Building a replica of a production environment is cost prohibitive. Instead, 
 the test environment, or a separate pre-production environment ("staging") 
 should be built to be a scalable version of the production environment to 
 alleviate costs while maintaining technology stack composition and nuances.
 
-#### Make it easy to get the latest deliverables
+### Make it easy to get the latest deliverables
 
 Making builds readily available to stakeholders and testers can reduce the 
 amount of rework necessary when rebuilding a feature that doesn't meet 
@@ -81,15 +80,15 @@ requirements. Additionally, early testing reduces the chances that defects
 survive until deployment. Finding errors earlier can reduce the amount of work
 necessary to resolve them.
 
-#### Everyone can see the results of the latest build
+### Everyone can see the results of the latest build
 
-#### Automate deployment
+### Automate deployment
 
-### CI benefits and costs
+## CI benefits and costs
 
 * [View on Wikipedia](https://en.wikipedia.org/wiki/Continuous_integration#Costs_and_benefits)
 
-### CD
+## CD
 
 ![Principles](https://upload.wikimedia.org/wikipedia/commons/c/c3/Continuous_Delivery_process_diagram.svg)
 
@@ -102,8 +101,8 @@ marked as releasable.
 > customers at any point. 
 
 Other useful techniques for developing code in isolation such as code branching
-are not obsolete in a CD world, but must be adapted to fit the principles of CD
-- for example, running multiple long-lived code branches can prove impractical,
+are not obsolete in a CD world, but must be adapted to fit the principles of CD - 
+for example, running multiple long-lived code branches can prove impractical,
 as a releasable artifact must be built early in the CD process from a single 
 code branch if it is to pass through all phases of the pipeline.
 
