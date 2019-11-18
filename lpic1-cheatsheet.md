@@ -624,7 +624,7 @@ ifup eth0           # up a network interface with default config in /etc/network
 # up CMD              # run CMD when this interface get UP
 # down CMD            # run CMD when this interface come DOWN
 # or we can use DHCP
-i# face eth0 inet dhcp 
+# face eth0 inet dhcp 
 
 # RedHat network script
 # permanent ip configs stored on /etc/sysconfig/network-scripts/ folder
