@@ -8,19 +8,27 @@ This is my personal **Docker**  cheatsheet.
 This is best practice to install stable release, not edge version.
 _**NOTE:**_ Do not use default `apt` or `yum` repos. They have out-of-date
 version.
+
 ``` bash
 curl -sSL https://get.docker.com/ | sh
+# to run docker command without sudo prefix:
+sudo usermod -aG docker $(whoami)
 ```
 
 Also, install [`docker-compose`](https://github.com/docker/compose/releases) 
 and [`docker-machine`](https://github.com/docker/machine/releases) from github 
 releases page.
 
-## Basic commands:
+## Overview
 
 The **new docker** usage is something like this:
+
 ```
+docker version
+docker info
+
 docker [OPTIONS] MANAGEMENT_COMMANDS SUB_COMMAND 
+docker COMMAND --help
 
 which:
 Options:
@@ -57,6 +65,7 @@ Management Commands:
 ```
 
 and the **old** usage is like: 
+
 ```
 docker [OPTION] COMMAND
 
@@ -103,10 +112,65 @@ which:
   wait        Block until one or more containers stop, then print their exit codes
 ```
 
-Also, we can get help in any stage with:
+## Basic commands
+
+``` bash
+# Anywhere, we can use container name instead of container ID to select a container.
+docker container run -d --rm --name nginx -p 8080:80 -v /var/ww/html:/usr/share/nginx/html nginx:latest
+docker container run -it --name ubuntu --net host ubuntu:bionic [OPTIONAL_CMD]
+docker container run -d --name db -e MYSQL_RANDOM_ROOT_PASSWORD=true mysql 
+# OPTIONAL_CMD can be used to replace image's default startup command with CMD 
+# -d, --detach: as a daemon, -it: interactive TTY after start into container, 
+# --rm: removes container after stop, -v: mount local_path:container_path
+# -p, --publish: expose local:container ports, --name: name container
+# -e, --env: pass enviroment variable to the container, 
+# --net host: skip virtual networks and use host IP, you can change host with
+# special network which is available with `docker network ls`
+docker container exec -it ID     # run additional command in an existing cnt.
+docker container start -ai ID    # attach STDOUT/STDERR and forward signals 
+docker container attach ID      
+docker container logs ID         # logs of a container
+docker container top ID          # process list in a container
+docker container inspect         # details of a container
+docker container stats           # stats for all or a single container
+docker container ls -a           # -a includes stopped ones. 
+docker container stop ID         # accepts multiple IDs
+docker container rm ID           # acepts multiple IDs 
+docker container rm $(docker container ls -qa) # -q: just print ID
+docker container port  ID        # check ports for a container
 ```
-docker COMMAND --help
+
+## Networking
+
+* Each container connected to a private virtual network `bridge`
+* Each virtual network routes through NAT firewall on host IP
+* All containers on a virtual network can talk to each other without `-p`
+* Best practice is to create a new virtual network for each app:
+  - network `my_web_app` for mysql and php/apache containers
+  - network `my_api` for mongo and nodejs containers
+* Multiple containers can be attached to a same network.
+* More new virtual networks can be created.
+
+``` bash
+docker network ls
+# the default network structure for clean instal is:
+# NETWORK ID          NAME                DRIVER              SCOPE
+# 4be045378e0f        bridge              bridge              local
+# cf2891e38604        host                host                local
+# 6c99c404fe98        none                null                local
+docker network inspect ID 
+docker network --driver bridge create my_network
+# REMEMBER: on docker run use  --net=host to skip virtual network & use host IP
+docker network connect NETWORK CONTAINER
+docker network disconnect NETWORK CONTAINER
+
 ```
+#### More info about network
+
+* [docker network docs](https://docs.docker.com/network/)
+* [Docker network driver plugins](https://docs.docker.com/v17.09/engine/extend/plugins_network/)
+* [Work with network commands](https://docs.docker.com/v17.09/engine/userguide/networking/work-with-networks/)
+* [Understanding Docker Networking Drivers and their use cases](https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/)
 
 ## Dockerfile
 
