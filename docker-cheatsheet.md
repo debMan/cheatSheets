@@ -95,8 +95,33 @@ Also, we can get help in any stage with:
 docker COMMAND --help
 ```
 
+## Dockerfile
+
+This is an example of a `Dockerfile`:
+
+``` Dockerfile
+FROM ubuntu:bionic
+MAINTAINER idebman <idebman@gmail.com>
+
+RUN apt-get update -y && apt-get upgrade -y \ 
+&& apt-get install -y git apache2 locales libass-dev libpq-dev postgresql \
+build-essential redis-server redis-tools python3-pip \
+&& pip3 install -U pip virtualenv && rm -rf /var/lib/apt/lists/* \
+&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+ENV HOSTNAME example.com
+EXPOSE 80
+CMD /usr/sbin/apache2ctl -D FOREFROUND
+```
+
+Then, to build this docker image:
+``` bash
+docker image build  -t idebman/reApache  .
+# the dot ( . ) referes to the Dockerfile location.
+```
 ## Next steps
 
+* Dockerfile
 * volumes
 * ports
 * network
