@@ -345,6 +345,7 @@ ps aux 									# BSD switches, shows another list of details
 # proccess states: S, R, T, Z,
 pstree									# shows ps tree
 pgrep -a PS_NAME						# finds proccess PID
+pidof                 
 kill -SIG PID							# send signal SIG to ps
 pkill PS_NAME                           # kill prossess name
 # any signals could bee handled bye programm , but SIGKILL ( -9 ) could not be hanled

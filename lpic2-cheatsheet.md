@@ -1520,3 +1520,8 @@ Also two security files:
 `/etc/hosts.allow`  
 `/etc/hosts.deny`  
 
+## DNS
+
+Domain Name Service
+Using `bind` for DNS on linux
+
