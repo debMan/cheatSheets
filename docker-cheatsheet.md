@@ -119,6 +119,7 @@ which:
 docker container run -d --rm --name nginx -p 8080:80 -v /var/ww/html:/usr/share/nginx/html nginx:latest
 docker container run -it --name ubuntu --net host ubuntu:bionic [OPTIONAL_CMD]
 docker container run -d --name db -e MYSQL_RANDOM_ROOT_PASSWORD=true mysql 
+docker container run -d --network-alias db --net my_bridge mysql
 # OPTIONAL_CMD can be used to replace image's default startup command with CMD 
 # -d, --detach: as a daemon, -it: interactive TTY after start into container, 
 # --rm: removes container after stop, -v: mount local_path:container_path
@@ -126,7 +127,10 @@ docker container run -d --name db -e MYSQL_RANDOM_ROOT_PASSWORD=true mysql
 # -e, --env: pass enviroment variable to the container, 
 # --net host: skip virtual networks and use host IP, you can change host with
 # special network which is available with `docker network ls`
-docker container exec -it ID     # run additional command in an existing cnt.
+# --network-alias, --net-alias: adds an alias to be resolved in same network.
+# mulitple containers can be assigned as same alias for load balancing purposes
+
+docker container exec -it ID CMD # run additional command in an existing cnt.
 docker container start -ai ID    # attach STDOUT/STDERR and forward signals 
 docker container attach ID      
 docker container logs ID         # logs of a container
@@ -150,7 +154,9 @@ docker container port  ID        # check ports for a container
   - network `my_api` for mongo and nodejs containers
 * Multiple containers can be attached to a same network.
 * More new virtual networks can be created.
-
+* Docker uses the container names as their host name for containers talking to
+  each other on new bridge networks which created. (NOT default bridge). It can
+  be reached with `--link` on default network when using `docker run` but hard.
 ``` bash
 docker network ls
 # the default network structure for clean instal is:
@@ -160,10 +166,11 @@ docker network ls
 # 6c99c404fe98        none                null                local
 docker network inspect ID 
 docker network --driver bridge create my_network
+# RECOMENDED: because DNS resolution achieved on new bridge network.
 # REMEMBER: on docker run use  --net=host to skip virtual network & use host IP
 docker network connect NETWORK CONTAINER
 docker network disconnect NETWORK CONTAINER
-
+# RECOMENDED: use a --network-alias for DNS resolution
 ```
 #### More info about network
 
@@ -174,7 +181,16 @@ docker network disconnect NETWORK CONTAINER
 
 ## Dockerfile
 
-This is an example of a `Dockerfile`:
+A good article about image is [Docker Image Specification](https://github.com/moby/moby/blob/master/image/spec/v1.md).  
+Another article about [Storage drivers](https://docs.docker.com/storage/storagedriver/).  
+
+``` bash
+docker image ls 
+docker image history nginx
+docker image inspect nginx
+```
+
+This is an example of a `Dockerfile` content:
 
 ``` Dockerfile
 FROM ubuntu:bionic
@@ -192,10 +208,12 @@ CMD /usr/sbin/apache2ctl -D FOREFROUND
 ```
 
 Then, to build this docker image:
+
 ``` bash
-docker image build  -t idebman/reApache  .
+docker image build -t idebman/reApache  .
 # the dot ( . ) referes to the Dockerfile location.
 ```
+
 ## Next steps
 
 * Dockerfile
