@@ -3,6 +3,19 @@
 _**Note:**_ This document is not completed.  
 This is my personal **Docker**  cheatsheet.
 
+## Best way to setup
+
+This is best practice to install stable release, not edge version.
+_**NOTE:**_ Do not use default `apt` or `yum` repos. They have out-of-date
+version.
+``` bash
+curl -sSL https://get.docker.com/ | sh
+```
+
+Also, install [`docker-compose`](https://github.com/docker/compose/releases) 
+and [`docker-machine`](https://github.com/docker/machine/releases) from github 
+releases page.
+
 ## Basic commands:
 
 The **new docker** usage is something like this:
