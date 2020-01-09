@@ -95,10 +95,13 @@ Also, we can get help in any stage with:
 docker COMMAND --help
 ```
 
-## Container managements
+## Next steps
 
-## More info:
-
-For more info about regex [click here](https://www.computerhope.com/unix/regex-quickref.htm).  
-And another for regex is [](http://www.grymoire.com/Unix/Regular.html)
+* volumes
+* ports
+* network
+* build, tag, push
+* swarm
+* docker-compose
+* docker-machine
 
