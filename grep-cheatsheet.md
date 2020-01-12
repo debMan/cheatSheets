@@ -49,5 +49,7 @@ egrep "^(s[0-9]{2}|xff)[0-9]{4}$"   # matches with s###### or xff#### (# means a
 ## More info:
 
 For more info about regex [click here](https://www.computerhope.com/unix/regex-quickref.htm).  
-And another for regex is [](http://www.grymoire.com/Unix/Regular.html)
+And another for regex is [here](http://www.grymoire.com/Unix/Regular.html).  
+Also, see [Bash Scripting: Learn to use REGEX (Basics)](https://linuxtechlab.com/bash-scripting-learn-use-regex-basics/)
+and [Bash Scripting: Learn to use REGEX (Part 2- Intermediate)](https://linuxtechlab.com/bash-scripting-use-regex-intermediate/).
 
