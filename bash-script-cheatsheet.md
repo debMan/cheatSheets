@@ -20,6 +20,34 @@ This is my personal **bash scripts** cheatsheet.
 * Use shebang at the first line like this:  
   `#!/bin/bash`
 * The `#` at beggining of line indicates a comment.
+* Use strict mode: 
+``` bash
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+```
+* Use default value for positional args.
+``` bash
+set -u
+name=${1:-}
+if [[ -z "$name" ]]; then
+    echo "usage: $0 NAME"
+    exit 1
+fi
+echo "Hello, $name"
+```
+alsom you can use this method for bypasiing undefined vatiables which you know
+should be exist. like:
+``` bash
+name=${someVar:-}
+# or
+name=""
+```
+* Commands you expect to have nonzero exit status.
+``` bash
+count=$(grep -c some-string some-file || true)
+```
+
 ## Basic commands
 
 Change directory:
@@ -85,7 +113,7 @@ fi
 ```
 
 ## More info:
-
-You can check [here]() for more info about bash scripting.
-And a [document](.
+* [Rico's cheatsheets](https://devhints.io/bash).  
+* [this](http://redsymbol.net/articles/unofficial-bash-strict-mode/#sourcing-nonconforming-document)
+* [Bash Reference Manual](http://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Parameter-Expansion)
 
