@@ -179,16 +179,26 @@ docker network disconnect NETWORK CONTAINER
 * [Work with network commands](https://docs.docker.com/v17.09/engine/userguide/networking/work-with-networks/)
 * [Understanding Docker Networking Drivers and their use cases](https://www.docker.com/blog/understanding-docker-networking-drivers-use-cases/)
 
-## Dockerfile
+## Images
 
 A good article about image is [Docker Image Specification](https://github.com/moby/moby/blob/master/image/spec/v1.md).  
 Another article about [Storage drivers](https://docs.docker.com/storage/storagedriver/).  
+
+Multi tags can be assigned to the same image ID which means no overhead added
+to tags. 
 
 ``` bash
 docker image ls 
 docker image history nginx
 docker image inspect nginx
+docker image tage ANY_IMAGE[:ANY_TAG] USERNAME/MY_MAGE[:MY_TAG]
+docker login
+# it stores credentionals at ~/.docker/config.json
+docker image push USERNAME/my-nginx[:test_tag] 
+docker logout
 ```
+
+## Dockerfile
 
 This is an example of a `Dockerfile` content:
 
@@ -213,6 +223,9 @@ Then, to build this docker image:
 docker image build -t idebman/reApache  .
 # the dot ( . ) referes to the Dockerfile location.
 ```
+
+You can open [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+for more info.
 
 ## Next steps
 
