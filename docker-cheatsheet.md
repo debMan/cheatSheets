@@ -311,6 +311,16 @@ docker image build -f Dockerfile -t idebman/reApache .
 You can open [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
 for more info.
 
+## Docker system
+
+``` bash
+docker system df        # disk usage of docker system
+docker system prune     # clears the systems
+# or clean special parts
+docker image prune
+docker container prune
+```
+
 ## Next steps
 
 * Dockerfile
