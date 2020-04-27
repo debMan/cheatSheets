@@ -75,7 +75,6 @@ used in inside the replacement field.
   - `sed '3 s/old/new/g' <old_file >new_file'`  
   - `sed '3,10 s/old/new/g' <old_file >new_file'`  
   - `sed '3,$ s/old/new/g' <old_file >new_file'`: From line 3 to last line.
-  - `sed '3,10 s/old/new/g' <old_file >new_file'`  
 * To delete the first number on all lines that start with a `#`:
     `sed '/^#/ s/[0-9][0-9]*//'`
 * If the expression starts with a backslash, the next character is the

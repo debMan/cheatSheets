@@ -3,6 +3,9 @@
 _**Note:**_ This document is not completed.  
 This is my personal **Docker**  cheatsheet.
 
+Before starting, please check the 
+[Docker overview](https://docs.docker.com/get-started/overview/).
+
 ## Best way to setup
 
 This is best practice to install stable release, not edge version.
@@ -123,7 +126,7 @@ docker container run -d --network-alias db --net my_bridge mysql
 # OPTIONAL_CMD can be used to replace image's default startup command with CMD 
 # -d, --detach: as a daemon, -it: interactive TTY after start into container, 
 # --rm: removes container after stop, -v: mount local_path:container_path
-# -p, --publish: expose local:container ports, --name: name container
+# -p, --publish: expose host:container ports, --name: name container
 # -e, --env: pass enviroment variable to the container, 
 # --net host: skip virtual networks and use host IP, you can change host with
 # special network which is available with `docker network ls`
