@@ -301,7 +301,16 @@ COPY index.html index.html
 
 # I don't have to specify EXPOSE or CMD because they're in my FROM
 ```
+### Some best practices
 
+- [7 best practices for building containers](https://cloudplatform.googleblog.com/2018/07/7-best-practices-for-building-containers.html)
+- [Docker for Python Developers](https://mherman.org/presentations/dockercon-2018/#1)
+- [Best practices for writing Dockerfiles - Docker docs](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+- [Docker development best practices - Docker docs](https://docs.docker.com/develop/dev-best-practices/)
+- [Manage sensitive data with Docker secrets - Docker docs](https://docs.docker.com/engine/swarm/secrets/)
+- [6 Dockerfile Tips from the Official Images](https://blog.container-solutions.com/6-dockerfile-tips-official-images)
+-
+ 
 ### Build the Dockerfile
 
 Then, to build this docker image:
