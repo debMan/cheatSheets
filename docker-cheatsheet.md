@@ -309,7 +309,7 @@ COPY index.html index.html
 - [Docker development best practices - Docker docs](https://docs.docker.com/develop/dev-best-practices/)
 - [Manage sensitive data with Docker secrets - Docker docs](https://docs.docker.com/engine/swarm/secrets/)
 - [6 Dockerfile Tips from the Official Images](https://blog.container-solutions.com/6-dockerfile-tips-official-images)
--
+- [Docker Reference Architecture: Design Considerations and Best Practices to Modernize Traditional Apps](https://success.docker.com/article/mta-best-practices)
  
 ### Build the Dockerfile
 
