@@ -117,4 +117,5 @@ fi
 * [this](http://redsymbol.net/articles/unofficial-bash-strict-mode/#sourcing-nonconforming-document)
 * [Bash Reference Manual](http://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Parameter-Expansion)
 * [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash)
+* [Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
 
