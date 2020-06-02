@@ -26,15 +26,28 @@ This is my personal **bash scripts** cheatsheet.
 set -euo pipefail
 IFS=$'\n\t'
 ```
-* Use default value for positional args.
+* Use default value
+
 ``` bash
-set -u
-name=${1:-}
-if [[ -z "$name" ]]; then
-    echo "usage: $0 NAME"
-    exit 1
-fi
-echo "Hello, $name"
+echo "$\{var}"
+echo "Substitute the value of var."
+
+
+echo "$\{var:-word}"
+echo "If var is null or unset, word is substituted for var. The value of var does not change."
+
+
+echo "$\{var:=word}"
+echo "If var is null or unset, var is set to the value of word."
+
+
+echo "$\{var:?message}"
+echo "If var is null or unset, message is printed to standard error. This checks that variables are set correctly."
+
+
+echo "$\{var:+word}"
+echo "If var is set, word is substituted for var. The value of var does not change."
+
 ```
 alsom you can use this method for bypasiing undefined vatiables which you know
 should be exist. like:
