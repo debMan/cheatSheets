@@ -26,7 +26,9 @@ This is my personal **bash scripts** cheatsheet.
 set -euo pipefail
 IFS=$'\n\t'
 ```
-* Use default value
+* Variables substitute
+
+![table of substitute: types](https://i.stack.imgur.com/T2Fp8.png)
 
 ``` bash
 echo "$\{var}"
