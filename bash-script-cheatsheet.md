@@ -133,4 +133,6 @@ fi
 * [Bash Reference Manual](http://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Parameter-Expansion)
 * [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash)
 * [Shell Style Guide](https://google.github.io/styleguide/shellguide.html)
-
+* [Bash Hakcers wiki](https://wiki.bash-hackers.org/start)
+* [Parameter expansion - Bash Hackers Wiki](https://wiki.bash-hackers.org/syntax/pe#simple_usage)
+* [Positional Parameters](http://linuxcommand.org/lc3_wss0120.php)
