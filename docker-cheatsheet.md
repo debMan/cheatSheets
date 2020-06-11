@@ -119,7 +119,9 @@ which:
 
 ``` bash
 # Anywhere, we can use container name instead of container ID to select a container.
-docker container run -d --rm --name nginx -p 8080:80 -v /var/ww/html:/usr/share/nginx/html nginx:latest
+docker container run -d --rm --name nginx \
+  -p 8080:80 -v /var/ww/html:/usr/share/nginx/html \
+  nginx:latest
 docker container run -it --name ubuntu --net host ubuntu:bionic [OPTIONAL_CMD]
 docker container run -d --name db -e MYSQL_RANDOM_ROOT_PASSWORD=true mysql 
 docker container run -d --network-alias db --net my_bridge mysql
@@ -335,12 +337,7 @@ docker container prune
 
 ## Next steps
 
-* Dockerfile
-* volumes
-* ports
-* network
-* build, tag, push
-* swarm
 * docker-compose
+* swarm
 * docker-machine
 
