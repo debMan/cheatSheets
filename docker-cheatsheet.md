@@ -139,6 +139,7 @@ docker container exec -it ID CMD # run additional command in an existing cnt.
 docker container start -ai ID    # attach STDOUT/STDERR and forward signals 
 docker container attach ID      
 docker container logs ID         # logs of a container
+# use -f to follow logs as the container runs
 docker container top ID          # process list in a container
 docker container inspect         # details of a container
 docker container stats           # stats for all or a single container
@@ -224,6 +225,34 @@ ENV LANG en_US.utf8
 ENV HOSTNAME example.com
 EXPOSE 80
 CMD /usr/sbin/apache2ctl -D FOREFROUND
+```
+
+Or my prefared workspace is:
+
+``` Dockerfile
+FROM ubuntu:bionic
+MAINTAINER carrene <info@carrene.com>
+COPY .ssh /root/.ssh
+# place .ssh contains private and public key for default carrene user
+# and known-hosts with git server host keys beside Dockerfile in the same dir
+# to be copied inside docker image
+ENV TZ=Asia/Tehran DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -y \
+  && ln -sf /usr/share/zoneinfo/$TZ /etc/localtime \
+  && apt-get install -y apt-utils locales tzdata \
+  && locale-gen en_US.UTF-8 \
+  && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 LANGUAGE=en_US.UTF-8 \
+  && apt-get install -y apt-utils libass-dev libpq-dev postgresql \
+  build-essential curl redis-server redis-tools python3-pip python3-dev git \
+  && pip3 install -U pip setuptools wheel virtualenv \
+  && apt-get autoremove -y && apt-get upgrade -y && chmod 755 /root/.ssh \
+  && chmod 644 /root/.ssh/* && chmod 600 /root/.ssh/id_rsa \ 
+  && rm -rf /var/lib/apt/lists/* && service postgresql start \
+  && su postgres -c \
+  "psql -U postgres -c \"ALTER USER postgres PASSWORD 'postgres';\"" \
+  && echo "listen_addresses='*'" >> /etc/postgresql/10/main/postgresql.conf \
+  && echo "bind 127.0.0.1" >> /etc/redis/redis.conf
+CMD service postgresql start && service redis-server start && /bin/bash
 ```
 
 Default `nginx`'s Dockerfile:
@@ -325,6 +354,37 @@ docker image build -f Dockerfile -t idebman/reApache .
 You can open [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
 for more info.
 
+## Persistent data
+
+We have several options: 
+- Volumes
+- binding
+- `tmpfs`
+
+``` bash
+docker volume prune 
+docker container run --rm --name psql postgres
+# creates default volume in host machine at /var/lib/docker/volumes/<VOLUME_ID>
+# also, this volume will be deleted if --rm used, and not deleted if --rm NOT used
+# volumes can be specified in Dockerfile
+docker container run --rm --name psql -v my-named-volume:/var/lib/postgresql/data postgres
+# creates named volume, more user-friendly method to use volumes.
+# named volumes does not delete automatically even --rm used.
+docker container run --rm --name psql -v /path/to/my/data/on/host:/var/lib/postgresql/data postgres
+# creates binding between host and container. mapping of the host
+# files/directories into a container. binds start with slash on the left side
+# the two locations point to the same files/directories
+# bindings can not be specified in Dockerfile, only defined at runtime
+# always the host files win and the host files will be used.
+
+docker container inspect CONTAINER_ID/NAME   
+# can find mapped mount point ofvolumes to host
+docker volume ls
+docker volume inspect VOLUME_ID/NAME
+docker container inspect CONTAINERID?NAME # Under Mount section find volumes
+docker volume rm VOLUME_ID/NAME
+docker volume create VOLUME_NAME
+```
 ## Docker system
 
 ``` bash
