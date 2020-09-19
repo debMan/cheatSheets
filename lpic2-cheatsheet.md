@@ -1044,7 +1044,7 @@ RAID levels in brief:
 - RAID2: a form of RAID0, specialized error checking (depreciated)
 - RAID3: a form of RAID0, uses parity disk, no regeneration for parity disk 
     failure, 3 disks (depreciated)
-  RAID4: like RAID3, but faster access, because RAID 3 processes bytes of data,
+- RAID4: like RAID3, but faster access, because RAID 3 processes bytes of data,
     while RAID 4 processes blocks of data (depreciated)
 - RAID5: disk striping with parity, parity data is not written to a single
     disk, 3 disks
