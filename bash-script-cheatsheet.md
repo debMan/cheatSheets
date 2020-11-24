@@ -51,7 +51,7 @@ echo "$\{var:+word}"
 echo "If var is set, word is substituted for var. The value of var does not change."
 
 ```
-alsom you can use this method for bypasiing undefined vatiables which you know
+also you can use this method for bypasiing undefined vatiables which you know
 should be exist. like:
 ``` bash
 name=${someVar:-}
@@ -136,3 +136,4 @@ fi
 * [Bash Hakcers wiki](https://wiki.bash-hackers.org/start)
 * [Parameter expansion - Bash Hackers Wiki](https://wiki.bash-hackers.org/syntax/pe#simple_usage)
 * [Positional Parameters](http://linuxcommand.org/lc3_wss0120.php)
+* [Bash arrays](https://linuxconfig.org/how-to-use-arrays-in-bash-script)

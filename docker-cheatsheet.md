@@ -18,9 +18,19 @@ curl -sSL https://get.docker.com/ | sh
 sudo usermod -aG docker $(whoami)
 ```
 
-Also, install [`docker-compose`](https://github.com/docker/compose/releases) 
-and [`docker-machine`](https://github.com/docker/machine/releases) from github 
-releases page.
+Also, install [`docker-compose`](https://github.com/docker/compose/releases).
+
+``` bash
+sudo curl -L \
+"https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname-s)-$(uname -m)" \
+-o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+# Install command completion
+sudo curl -L \
+"https://raw.githubusercontent.com/docker/compose/1.27.4/contrib/completion/bash/docker-compose" \
+-o /etc/bash_completion.d/docker-compose
+```
 
 ## Overview
 
