@@ -395,6 +395,7 @@ docker container inspect CONTAINERID?NAME # Under Mount section find volumes
 docker volume rm VOLUME_ID/NAME
 docker volume create VOLUME_NAME
 ```
+
 ## Docker system
 
 ``` bash
@@ -411,3 +412,6 @@ docker container prune
 * swarm
 * docker-machine
 
+## More info:
+
+- https://vsupalov.com/articles/
